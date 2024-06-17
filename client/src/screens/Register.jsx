@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import Auth from "../assets/Auth.png";
 import Logo from "../assets/Logo.png";
-import { Link } from "react-router-dom";
-import GoogleButton from "react-google-button";
+import { Link,useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
 import PerformRequest from "../utilities/PerformRequest.js";
+import GoogleButton from 'react-google-button';
+import { login } from "../redux/auth.js";
 
 export default function Register() {
   const [signUpData, setSignUpData] = useState({
@@ -15,6 +18,8 @@ export default function Register() {
   });
   const { OriginalRequest } = PerformRequest();
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [imageSrc, setImageSrc] = useState(
     "https://res.cloudinary.com/djzdhtdpj/image/upload/v1704269768/tempAvatar_juqb4s.jpg"
   );
@@ -41,6 +46,21 @@ export default function Register() {
       console.log(error);
     } finally {
       setLoading(false);
+    }
+  };
+  const postGoogleAuth = async (token) => {
+    try {
+      //a reusable fetch function, the body is optional,
+      //other parameters are uri, navigate hook, and the method of the reques
+      const data = await OriginalRequest("auth/googlelogin", "POST", {
+        token: token,
+      });
+      if (data) {
+        dispatch(login(data.data));
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error.message);
     }
   };
 
@@ -128,7 +148,17 @@ export default function Register() {
                   <span className="text-secondary">or</span>
                 </div>
                 <div>
-                  <GoogleBtn />
+                  <GoogleButton
+                  onSuccess={(credentialResponse) => {
+                    // console.log(credentialResponse?.credential);
+                    postGoogleAuth(credentialResponse?.credential);
+                  }}
+                  onError={() => {
+                    toast.error("Something went wrong");
+                  }}
+                  text="Login with google"
+                  size={"large"}
+                  width={"395px"} />
                 </div>
               </Form>
             </div>
