@@ -5,6 +5,8 @@ import FindJob from "../screens/FindJob";
 import Pricing from "../screens/Pricing";
 import Support from "../screens/Support";
 import Register from "../screens/Register";
+import ConfirmSignUp from "../screens/ConfirmSignUp";
+
 
 export default function MyRoutes() {
   return (
@@ -15,6 +17,7 @@ export default function MyRoutes() {
         <Route path="/find/job" element={<FindJob />} />
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/support" element={<Support />} />
+        <Route path="/confirmSignUp/:token" element={<ConfirmSignUp />} />
       </Routes>
     </BrowserRouter>
   );

@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
+import "dotenv/config.js";
 import { AuthenticateRepository } from "../repository/index.js";
 const verifyToken = (req, res, next) => {
   try {

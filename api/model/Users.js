@@ -6,12 +6,17 @@ const usersSchema = new Schema(
     email: {
       type: String,
       required: true,
+      unique: true,
     },
     phone: {
         type: Number,
     },
     loacation: {
         type: String,
+    },
+    verify: {
+      type: Schema.Types.Boolean,
+      default: false,
     },
     password:{
         type:String,

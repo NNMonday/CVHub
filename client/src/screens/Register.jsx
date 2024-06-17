@@ -1,22 +1,61 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import Auth from "../assets/Auth.png";
 import Logo from "../assets/Logo.png";
 import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import GoogleButton from "react-google-button";
+import PerformRequest from "../utilities/PerformRequest.js";
 
 export default function Register() {
+  const [signUpData, setSignUpData] = useState({
+    fullname: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const { OriginalRequest } = PerformRequest();
+  const [loading, setLoading] = useState(false);
+  const [imageSrc, setImageSrc] = useState(
+    "https://res.cloudinary.com/djzdhtdpj/image/upload/v1704269768/tempAvatar_juqb4s.jpg"
+  );
+
+  const handleDataChange = (e) => {
+    setSignUpData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const updateSignupData = { ...signUpData };
+    updateSignupData.profilePicture = imageSrc;
+    try {
+      setLoading(true);
+      const data = await OriginalRequest(
+        `auth/signup`,
+        "POST",
+        updateSignupData
+      );
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <Container fluid className="p-0">
       <Row>
         <Col sm={6}>
           <div className="px-5 mx-5 pt-5 position-relative h-100 w-100">
             <img src={Logo} className="position-absolute" alt="logo" />
-
             <div className="h-100 w-100 d-flex align-items-center">
-              <Form className="w-100">
+              <Form
+                className="w-100"
+                encType="multipart/form-data"
+                onSubmit={handleSubmit}
+              >
                 <Form.Group className="d-flex justify-content-between">
                   <div className="d-flex flex-column">
                     <span className="h2">Create account</span>
@@ -36,25 +75,54 @@ export default function Register() {
                 </Form.Group>
                 <Form.Group>
                   <Form.Label></Form.Label>
-                  <Form.Control placeholder="Full Name" type="text" />
+                  <Form.Control
+                    placeholder="Full Name"
+                    type="text"
+                    name="fullname"
+                    onChange={(e) => {
+                    handleDataChange(e);
+                  }}
+                  />
                 </Form.Group>
                 <Form.Group>
                   <Form.Label></Form.Label>
-                  <Form.Control placeholder="Email address" type="text" />
+                  <Form.Control
+                    placeholder="Email address"
+                    type="text"
+                    name="email"
+                    onChange={(e) => {
+                    handleDataChange(e);
+                  }}
+                  />
                 </Form.Group>
                 <Form.Group>
                   <Form.Label></Form.Label>
-                  <Form.Control placeholder="Password" type="password" />
+                  <Form.Control
+                    placeholder="Password"
+                    type="password"
+                    name="password"
+                    onChange={(e) => {
+                    handleDataChange(e);
+                  }}
+                  />
                 </Form.Group>
                 <Form.Group>
                   <Form.Label></Form.Label>
                   <Form.Control
                     placeholder="Confirm Password"
                     type="password"
+                    name="confirmPassword"
+                    onChange={(e) => {
+                    handleDataChange(e);
+                  }}
                   />
                 </Form.Group>
-                <Button className="w-100 mt-3" size="lg">
-                  Create Account <FontAwesomeIcon icon={faArrowRight} />
+                <Button
+                  className={`${loading ? "" : "bg-light10"} w-100 mt-3`}
+                  type="submit"
+                  disabled={loading}
+                >
+                  {loading ? "Please wait ..." : "Create Account"}
                 </Button>
                 <div className="my-3 w-100 align-items-center text-center">
                   <span className="text-secondary">or</span>
