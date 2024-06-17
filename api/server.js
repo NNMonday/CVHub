@@ -9,7 +9,6 @@ import path from "path";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 
-
 const app = express();
 dotenv.config();
 const corsOptions = {
@@ -23,27 +22,18 @@ app.use(cookieParser());
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
 
-// Define endpoint to fetch playlists
-// app.get("/api/playlists", async (req, res) => {
-//   try {
-//     const playlists = await Playlist.find(); // Retrieve all playlists from the database
-//     res.json(playlists); // Send the playlists as a JSON response
-//   } catch (error) {
-//     console.error("Error fetching playlists:", error);
-//     res.status(500).json({ message: "Server Error" });
-//   }
-// });
-
 // Serve static files
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-app.use("/upload/image", express.static(path.join(__dirname, "upload", "image")));
+app.use(
+  "/upload/image",
+  express.static(path.join(__dirname, "upload", "image"))
+);
 
-app.get("/hello", (req, res)=>{
-  return res.status(200).json("hello")
-})
-
+app.get("/hello", (req, res) => {
+  return res.status(200).json("hello");
+});
 
 const port = process.env.PORT || 9999;
 const MONGODB_URI = process.env.MONGODB_URI;
