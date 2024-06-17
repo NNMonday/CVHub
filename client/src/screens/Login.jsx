@@ -5,7 +5,6 @@ import Logo from "../assets/Logo.png";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import GoogleButton from "react-google-button";
 
 export default function Login() {
   return (
@@ -17,26 +16,19 @@ export default function Login() {
 
             <div className="h-100 w-100 d-flex align-items-center">
               <Form className="w-100">
-                <Form.Group className="d-flex justify-content-between">
+                <Form.Group>
                   <div className="d-flex flex-column">
-                    <span className="h2">Create account</span>
+                    <span className="h2">Sign in</span>
                     <span>
-                      Already have account?
-                      <Link className="text-decoration-none" to={"/login"}>
-                        Log In
+                      Don't have account?
+                      <Link
+                        className="text-decoration-none ms-1"
+                        to={"/register"}
+                      >
+                        Create Account
                       </Link>
                     </span>
                   </div>
-                  <div>
-                    <Form.Select>
-                      <option value="">Job Seeker</option>
-                      <option value="">Company</option>
-                    </Form.Select>
-                  </div>
-                </Form.Group>
-                <Form.Group>
-                  <Form.Label></Form.Label>
-                  <Form.Control placeholder="Full Name" type="text" />
                 </Form.Group>
                 <Form.Group>
                   <Form.Label></Form.Label>
@@ -46,22 +38,18 @@ export default function Login() {
                   <Form.Label></Form.Label>
                   <Form.Control placeholder="Password" type="password" />
                 </Form.Group>
-                <Form.Group>
-                  <Form.Label></Form.Label>
-                  <Form.Control
-                    placeholder="Confirm Password"
-                    type="password"
-                  />
-                </Form.Group>
+                <div className="mt-2" style={{ textAlign: "right" }}>
+                  <Link to={"/forgot"} className="text-decoration-none">
+                    Forgot password
+                  </Link>
+                </div>
                 <Button className="w-100 mt-3" size="lg">
-                  Create Account <FontAwesomeIcon icon={faArrowRight} />
+                  Sign In <FontAwesomeIcon icon={faArrowRight} />
                 </Button>
-                <div className="my-3 w-100 align-items-center text-center">
+                <div className="my-2 w-100 align-items-center text-center">
                   <span className="text-secondary">or</span>
                 </div>
-                <div>
-                  <GoogleButton type="light" className="google-btn" />
-                </div>
+                <div></div>
               </Form>
             </div>
           </div>

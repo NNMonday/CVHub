@@ -5,6 +5,7 @@ import FindJob from "../screens/FindJob";
 import Pricing from "../screens/Pricing";
 import Support from "../screens/Support";
 import Register from "../screens/Register";
+import Login from "../screens/Login";
 
 export default function MyRoutes() {
   return (
@@ -12,6 +13,7 @@ export default function MyRoutes() {
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/find/job" element={<FindJob />} />
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/support" element={<Support />} />
