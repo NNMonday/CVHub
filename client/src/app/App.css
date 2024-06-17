@@ -1,0 +1,19 @@
+:root {
+  --primary: #0d6efd;
+}
+
+.navlink-default {
+  text-decoration: none;
+  padding: 10px 0;
+  margin: 0 10px;
+  display: inline-block;
+}
+
+.navlink-active {
+  border-bottom: 2px solid var(--primary);
+  font-weight: bold;
+}
+
+.google-btn {
+  width: 100% !important;
+}
