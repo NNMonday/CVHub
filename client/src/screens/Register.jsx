@@ -5,7 +5,7 @@ import Logo from "../assets/Logo.png";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import GoogleButton from "react-google-button";
+import GoogleBtn from "../components/GoogleBtn";
 
 export default function Register() {
   return (
@@ -22,7 +22,7 @@ export default function Register() {
                     <span className="h2">Create account</span>
                     <span>
                       Already have account?
-                      <Link className="text-decoration-none" to={"/login"}>
+                      <Link className="text-decoration-none ms-1" to={"/login"}>
                         Log In
                       </Link>
                     </span>
@@ -56,11 +56,11 @@ export default function Register() {
                 <Button className="w-100 mt-3" size="lg">
                   Create Account <FontAwesomeIcon icon={faArrowRight} />
                 </Button>
-                <div className="my-3 w-100 align-items-center text-center">
+                <div className="my-2 w-100 align-items-center text-center">
                   <span className="text-secondary">or</span>
                 </div>
                 <div>
-                  <GoogleButton type="light" className="google-btn" />
+                  <GoogleBtn />
                 </div>
               </Form>
             </div>
