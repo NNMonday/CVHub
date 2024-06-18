@@ -16,6 +16,8 @@ export default function Register() {
     password: "",
     confirmPassword: "",
   });
+  const [showMessage, setShowMessage] = useState(false);
+  
   const { OriginalRequest } = PerformRequest();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -33,6 +35,15 @@ export default function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!signUpData.fullname || !signUpData.email || !signUpData.password || !signUpData.confirmPassword) {
+      toast.error('Please fill in all fields.');
+      return;
+    }
+
+    if (signUpData.password !== signUpData.confirmPassword) {
+      toast.error('Passwords do not match.');
+      return;
+    }
     const updateSignupData = { ...signUpData };
     updateSignupData.profilePicture = imageSrc;
     try {
@@ -42,6 +53,8 @@ export default function Register() {
         "POST",
         updateSignupData
       );
+      console.log('Signup response:', data); // Handle success as needed
+      setShowMessage(true); 
     } catch (error) {
       console.log(error);
     } finally {
@@ -99,6 +112,8 @@ export default function Register() {
                     placeholder="Full Name"
                     type="text"
                     name="fullname"
+                    required
+                    value={signUpData.fullname}
                     onChange={(e) => {
                     handleDataChange(e);
                   }}
@@ -110,8 +125,11 @@ export default function Register() {
                     placeholder="Email address"
                     type="text"
                     name="email"
+                    required
+                    value={signUpData.email}
                     onChange={(e) => {
                     handleDataChange(e);
+
                   }}
                   />
                 </Form.Group>
@@ -121,6 +139,10 @@ export default function Register() {
                     placeholder="Password"
                     type="password"
                     name="password"
+                    value={signUpData.password}
+                    minLength={6} // Example: Minimum length requirement
+                    required
+                    maxLength={20}
                     onChange={(e) => {
                     handleDataChange(e);
                   }}
@@ -132,8 +154,12 @@ export default function Register() {
                     placeholder="Confirm Password"
                     type="password"
                     name="confirmPassword"
+                    value={signUpData.confirmPassword}
+                    minLength={6} // Example: Minimum length requirement
+                    required
                     onChange={(e) => {
                     handleDataChange(e);
+
                   }}
                   />
                 </Form.Group>
@@ -160,7 +186,15 @@ export default function Register() {
                   size={"large"}
                   width={"395px"} />
                 </div>
+                <div>
+                {showMessage && (
+                <div className="alert alert-success mt-3" role="alert">
+                  Verification email sent successfully. Please check your email to verify.
+                </div>
+              )}
+                </div>
               </Form>
+              
             </div>
           </div>
         </Col>
