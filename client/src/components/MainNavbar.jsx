@@ -36,14 +36,14 @@ export default function MainNavbar() {
           <FontAwesomeIcon icon={faPhoneVolume} />
           +84-202-555-0178
         </span>
-        <span className="ms-3">
+        <div className="ms-3 d-inline-block">
           <label htmlFor="language">
             <img src={English} width={25} alt="english" />
           </label>
           <select className="border-0 bg-transparent" id="language">
             <option>English</option>
           </select>
-        </span>
+        </div>
       </nav>
     </Container>
   );

@@ -6,6 +6,7 @@ import Pricing from "../screens/Pricing";
 import Support from "../screens/Support";
 import Register from "../screens/Register";
 import Login from "../screens/Login";
+import Setting from "../screens/account/Setting";
 
 export default function MyRoutes() {
   return (
@@ -17,6 +18,10 @@ export default function MyRoutes() {
         <Route path="/find/job" element={<FindJob />} />
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/support" element={<Support />} />
+        <Route
+          path="/account/setting/personal"
+          element={<Setting type={"personal"} />}
+        />
       </Routes>
     </BrowserRouter>
   );
