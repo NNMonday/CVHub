@@ -6,8 +6,8 @@ import { Link,useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import PerformRequest from "../utilities/PerformRequest.js";
-import GoogleButton from 'react-google-button';
 import { login } from "../redux/auth.js";
+import { GoogleLogin } from "@react-oauth/google";
 
 export default function Register() {
   const [signUpData, setSignUpData] = useState({
@@ -148,7 +148,7 @@ export default function Register() {
                   <span className="text-secondary">or</span>
                 </div>
                 <div>
-                  <GoogleButton
+                  <GoogleLogin
                   onSuccess={(credentialResponse) => {
                     // console.log(credentialResponse?.credential);
                     postGoogleAuth(credentialResponse?.credential);
