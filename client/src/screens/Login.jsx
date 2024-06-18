@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import PerformRequest from "../utilities/PerformRequest.js";
 import { login } from "../redux/auth.js";
+import toast from "react-hot-toast";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -27,10 +28,14 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!loginData.email || !loginData.password ) {
+      toast.error('Please fill in all fields.');
+      return;
+    }
     try {
       const data = await OriginalRequest("auth/login", "POST", loginData);
       if (data) {
-        dispatch(login(data)); // Assuming `login` action creator accepts the response data
+        dispatch(login(data)); 
         navigate("/");
       }
     } catch (error) {
