@@ -8,7 +8,15 @@ const getAllRoles = async () => {
   }
 };
 
-
+export const findRoleById = async (roleId) => {
+  try {
+    const role = await Role.findById(roleId);
+    return role;
+  } catch (error) {
+    console.error("Error finding role by ID:", error);
+    throw error;
+  }
+};
 export default {
-    getAllRoles
+    getAllRoles,findRoleById
   };
