@@ -15,7 +15,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 
 export default function Register() {
   const [signUpData, setSignUpData] = useState({
-    fullname: "",
+
     email: "",
     password: "",
     confirmPassword: "",
@@ -58,7 +58,7 @@ export default function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!signUpData.fullname || !signUpData.email || !signUpData.password || !signUpData.confirmPassword) {
+    if (!signUpData.email || !signUpData.password || !signUpData.confirmPassword) {
       toast.error('Please fill in all fields.');
       return;
     }
@@ -136,7 +136,7 @@ export default function Register() {
                   </div>
 
                 </Form.Group>
-                <Form.Group>
+                {/* <Form.Group>
                   <Form.Label></Form.Label>
                   <Form.Control
                     placeholder="Full Name"
@@ -148,7 +148,7 @@ export default function Register() {
                       handleDataChange(e);
                     }}
                   />
-                </Form.Group>
+                </Form.Group> */}
                 <Form.Group>
                   <Form.Label></Form.Label>
                   <Form.Control
