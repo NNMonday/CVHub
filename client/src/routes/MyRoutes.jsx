@@ -8,14 +8,8 @@ import Register from "../screens/Register";
 
 import ConfirmSignUp from "../screens/ConfirmSignUp";
 import Login from "../screens/Login";
-<<<<<<< HEAD
 import Setting from "../screens/account/Setting";
-=======
 import ForgotPassword from "../screens/ForgotPassword";
-
-
->>>>>>> thang
-
 
 export default function MyRoutes() {
   return (
