@@ -1,10 +1,17 @@
-import React, { useState } from "react";
+
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import Auth from "../assets/Auth.png";
 import Logo from "../assets/Logo.png";
-import { Link } from "react-router-dom";
-import GoogleButton from "react-google-button";
+import { Link, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
 import PerformRequest from "../utilities/PerformRequest.js";
+import { login } from "../redux/auth.js";
+import { GoogleLogin } from "@react-oauth/google";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+
 
 export default function Register() {
   const [signUpData, setSignUpData] = useState({
@@ -12,13 +19,36 @@ export default function Register() {
     email: "",
     password: "",
     confirmPassword: "",
+    role_id: "",
   });
+  const [showMessage, setShowMessage] = useState(false);
+  const [roles, setRoles] = useState([]);
   const { OriginalRequest } = PerformRequest();
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [imageSrc, setImageSrc] = useState(
     "https://res.cloudinary.com/djzdhtdpj/image/upload/v1704269768/tempAvatar_juqb4s.jpg"
   );
 
+  const fetchRoles = async () => {
+    try {
+      const data = await OriginalRequest(
+        'roles/getAllRoles',
+        'GET'
+      );
+      if (data) {
+        console.log('Roles fetched:', data.data);
+        setRoles(data.data);
+      }
+    } catch (error) {
+      console.error('Failed to fetch roles:', error);
+    }
+  };
+  useEffect(() => {
+    fetchRoles();
+  }, []);
+  
   const handleDataChange = (e) => {
     setSignUpData((prev) => ({
       ...prev,
@@ -28,6 +58,15 @@ export default function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!signUpData.fullname || !signUpData.email || !signUpData.password || !signUpData.confirmPassword) {
+      toast.error('Please fill in all fields.');
+      return;
+    }
+
+    if (signUpData.password !== signUpData.confirmPassword) {
+      toast.error('Passwords do not match.');
+      return;
+    }
     const updateSignupData = { ...signUpData };
     updateSignupData.profilePicture = imageSrc;
     try {
@@ -37,10 +76,27 @@ export default function Register() {
         "POST",
         updateSignupData
       );
+      console.log('Signup response:', data); // Handle success as needed
+      setShowMessage(true);
     } catch (error) {
       console.log(error);
     } finally {
       setLoading(false);
+    }
+  };
+  const postGoogleAuth = async (token) => {
+    try {
+      //a reusable fetch function, the body is optional,
+      //other parameters are uri, navigate hook, and the method of the reques
+      const data = await OriginalRequest("auth/googlelogin", "POST", {
+        token: token,
+      });
+      if (data) {
+        dispatch(login(data.data));
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error.message);
     }
   };
 
@@ -67,11 +123,16 @@ export default function Register() {
                     </span>
                   </div>
                   <div>
-                    <Form.Select>
-                      <option value="">Job Seeker</option>
-                      <option value="">Company</option>
+                    <Form.Select name="role_id" onChange={handleDataChange}>
+                      <option value="">Select Role</option>
+                      {roles.map((role) => (
+                        <option key={role._id} value={role._id}>
+                          {role.role_name}
+                        </option>
+                      ))}
                     </Form.Select>
                   </div>
+
                 </Form.Group>
                 <Form.Group>
                   <Form.Label></Form.Label>
@@ -79,9 +140,11 @@ export default function Register() {
                     placeholder="Full Name"
                     type="text"
                     name="fullname"
+                    required
+                    value={signUpData.fullname}
                     onChange={(e) => {
-                    handleDataChange(e);
-                  }}
+                      handleDataChange(e);
+                    }}
                   />
                 </Form.Group>
                 <Form.Group>
@@ -90,9 +153,12 @@ export default function Register() {
                     placeholder="Email address"
                     type="text"
                     name="email"
+                    required
+                    value={signUpData.email}
                     onChange={(e) => {
-                    handleDataChange(e);
-                  }}
+                      handleDataChange(e);
+
+                    }}
                   />
                 </Form.Group>
                 <Form.Group>
@@ -101,9 +167,13 @@ export default function Register() {
                     placeholder="Password"
                     type="password"
                     name="password"
+                    value={signUpData.password}
+                    minLength={6} // Example: Minimum length requirement
+                    required
+                    maxLength={20}
                     onChange={(e) => {
-                    handleDataChange(e);
-                  }}
+                      handleDataChange(e);
+                    }}
                   />
                 </Form.Group>
                 <Form.Group>
@@ -112,9 +182,13 @@ export default function Register() {
                     placeholder="Confirm Password"
                     type="password"
                     name="confirmPassword"
+                    value={signUpData.confirmPassword}
+                    minLength={6} // Example: Minimum length requirement
+                    required
                     onChange={(e) => {
-                    handleDataChange(e);
-                  }}
+                      handleDataChange(e);
+
+                    }}
                   />
                 </Form.Group>
                 <Button
@@ -128,9 +202,27 @@ export default function Register() {
                   <span className="text-secondary">or</span>
                 </div>
                 <div>
-                  <GoogleBtn />
+                  <GoogleLogin
+                    onSuccess={(credentialResponse) => {
+                      // console.log(credentialResponse?.credential);
+                      postGoogleAuth(credentialResponse?.credential);
+                    }}
+                    onError={() => {
+                      toast.error("Something went wrong");
+                    }}
+                    text="Login with google"
+                    size={"large"}
+                    width={"395px"} />
+                </div>
+                <div>
+                  {showMessage && (
+                    <div className="alert alert-success mt-3" role="alert">
+                      Verification email sent successfully. Please check your email to verify.
+                    </div>
+                  )}
                 </div>
               </Form>
+
             </div>
           </div>
         </Col>
