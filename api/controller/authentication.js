@@ -36,8 +36,8 @@ const authenticate = async (req, res) => {
 
 const signUp = async (req, res) => {
   try {
+    console.log(req.body);
     const {
-      fullname,
       email,
       password,
       confirmPassword,
@@ -67,7 +67,6 @@ const signUp = async (req, res) => {
     const salt = bcrypt.genSaltSync(parseInt(process.env.SALT_ROUND));
     const hashedPassword = bcrypt.hashSync(password, salt);
     const newUser = await AuthenticateRepository.addUser({
-      // fullname,
       email,
       hashedPassword,
       loacation,

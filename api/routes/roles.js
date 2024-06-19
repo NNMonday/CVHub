@@ -3,6 +3,6 @@ import roleController from '../controller/roles.js';
 
 const roleRouter = express.Router();
 
-roleRouter.get('/', roleController.getAllRoles);
+roleRouter.get('/getAllRoles', roleController.getAllRoles);
 
 export default roleRouter;
