@@ -7,6 +7,7 @@ import Support from "../screens/Support";
 import Register from "../screens/Register";
 import ConfirmSignUp from "../screens/ConfirmSignUp";
 import Login from "../screens/Login";
+import Setting from "../screens/account/Setting";
 
 
 export default function MyRoutes() {
@@ -20,6 +21,10 @@ export default function MyRoutes() {
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/support" element={<Support />} />
         <Route path="/confirmSignUp/:token" element={<ConfirmSignUp />} />
+        <Route
+          path="/account/setting/personal"
+          element={<Setting type={"personal"} />}
+        />
       </Routes>
     </BrowserRouter>
   );
