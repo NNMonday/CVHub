@@ -8,8 +8,8 @@ import { useDispatch, useSelector } from "react-redux";
 import PerformRequest from "../utilities/PerformRequest.js";
 import { login } from "../redux/auth.js";
 import { GoogleLogin } from "@react-oauth/google";
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect, useCallback } from 'react';
+
 
 
 
@@ -23,33 +23,33 @@ export default function Register() {
   });
   const [showMessage, setShowMessage] = useState(false);
   const [roles, setRoles] = useState([]);
-  const { OriginalRequest } = PerformRequest();
+  const  OriginalRequest = useCallback(PerformRequest().OriginalRequest,[]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [imageSrc, setImageSrc] = useState(
     "https://res.cloudinary.com/djzdhtdpj/image/upload/v1704269768/tempAvatar_juqb4s.jpg"
   );
-
-  const fetchRoles = async () => {
-    try {
-      const data = await OriginalRequest(
-        'roles/getAllRoles',
-        'GET'
-      );
-      if (data) {
-        console.log('Roles fetched:', data.data);
-        setRoles(data.data);
-      }
-    } catch (error) {
-      console.error('Failed to fetch roles:', error);
-    }
-  };
   useEffect(() => {
+    const fetchRoles = async () => {
+      try {
+        const data = await OriginalRequest(
+          'roles/getAllRoles',
+          'GET'
+        );
+        if (data) {
+          console.log('Roles fetched:', data);
+          setRoles(data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch roles:', error);
+      }
+    };
     fetchRoles();
-  }, []);
-  
+  }, [OriginalRequest]);
+
   const handleDataChange = (e) => {
+    console.log(e.target.value);
     setSignUpData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
@@ -76,7 +76,7 @@ export default function Register() {
         "POST",
         updateSignupData
       );
-      console.log('Signup response:', data); // Handle success as needed
+      console.log('Signup response:', data); 
       setShowMessage(true);
     } catch (error) {
       console.log(error);
@@ -123,7 +123,9 @@ export default function Register() {
                     </span>
                   </div>
                   <div>
-                    <Form.Select name="role_id" onChange={handleDataChange}>
+                    <Form.Select name="role_id" onChange={(e) => {
+                      handleDataChange(e);
+                    }}>
                       <option value="">Select Role</option>
                       {roles.map((role) => (
                         <option key={role._id} value={role._id}>
