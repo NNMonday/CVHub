@@ -9,7 +9,7 @@ const authenticate = async () => {
   }
 };
 
-const addUser = async ({ email, hashedPassword, location, avatar }) => {
+const addUser = async ({ email, hashedPassword, location, avatar,role_id }) => {
   try {
     const existingUser = await Users.findOne({ email: email }).exec();
     if (existingUser) {
@@ -20,6 +20,7 @@ const addUser = async ({ email, hashedPassword, location, avatar }) => {
       password: hashedPassword,
       location: location,
       avatar: avatar,
+      role_id : role_id,
     });
     return result._doc;
   } catch (error) {

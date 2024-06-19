@@ -37,11 +37,13 @@ const authenticate = async (req, res) => {
 const signUp = async (req, res) => {
   try {
     const {
+      fullname,
       email,
       password,
       confirmPassword,
       loacation,
       avatar,
+      role_id
     } = req.body;
     if (
       email.length == 0 ||
@@ -65,10 +67,12 @@ const signUp = async (req, res) => {
     const salt = bcrypt.genSaltSync(parseInt(process.env.SALT_ROUND));
     const hashedPassword = bcrypt.hashSync(password, salt);
     const newUser = await AuthenticateRepository.addUser({
+      // fullname,
       email,
       hashedPassword,
       loacation,
       avatar,
+      role_id,
     });
     await sendConfirmEmail(email, newUser._id);
     return res.status(201).json({

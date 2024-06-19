@@ -10,6 +10,7 @@ import path from "path";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { AuthenticationRouter } from "./routes/index.js";
+import { RolesRouter } from "./routes/index.js";
 
 dotenv.config();
 
@@ -37,6 +38,7 @@ app.get("/hello", (req, res) => {
 });
 
 app.use("/api/auth", AuthenticationRouter);
+app.use("/api/roles", RolesRouter);
 
 const port = process.env.PORT || 9999;
 const MONGODB_URI = process.env.MONGODB_URI;

@@ -5,6 +5,7 @@ import FindJob from "../screens/FindJob";
 import Pricing from "../screens/Pricing";
 import Support from "../screens/Support";
 import Register from "../screens/Register";
+
 import ConfirmSignUp from "../screens/ConfirmSignUp";
 import Login from "../screens/Login";
 import ForgotPassword from "../screens/ForgotPassword";

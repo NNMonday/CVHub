@@ -1,13 +1,17 @@
-import React, { useState } from "react";
+
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import Auth from "../assets/Auth.png";
 import Logo from "../assets/Logo.png";
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import PerformRequest from "../utilities/PerformRequest.js";
 import { login } from "../redux/auth.js";
 import { GoogleLogin } from "@react-oauth/google";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+
 
 export default function Register() {
   const [signUpData, setSignUpData] = useState({
@@ -15,9 +19,10 @@ export default function Register() {
     email: "",
     password: "",
     confirmPassword: "",
+    role_id: "",
   });
   const [showMessage, setShowMessage] = useState(false);
-  
+  const [roles, setRoles] = useState([]);
   const { OriginalRequest } = PerformRequest();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -26,6 +31,24 @@ export default function Register() {
     "https://res.cloudinary.com/djzdhtdpj/image/upload/v1704269768/tempAvatar_juqb4s.jpg"
   );
 
+  const fetchRoles = async () => {
+    try {
+      const data = await OriginalRequest(
+        'roles/getAllRoles',
+        'GET'
+      );
+      if (data) {
+        console.log('Roles fetched:', data.data);
+        setRoles(data.data);
+      }
+    } catch (error) {
+      console.error('Failed to fetch roles:', error);
+    }
+  };
+  useEffect(() => {
+    fetchRoles();
+  }, []);
+  
   const handleDataChange = (e) => {
     setSignUpData((prev) => ({
       ...prev,
@@ -54,7 +77,7 @@ export default function Register() {
         updateSignupData
       );
       console.log('Signup response:', data); // Handle success as needed
-      setShowMessage(true); 
+      setShowMessage(true);
     } catch (error) {
       console.log(error);
     } finally {
@@ -100,11 +123,16 @@ export default function Register() {
                     </span>
                   </div>
                   <div>
-                    <Form.Select>
-                      <option value="">Job Seeker</option>
-                      <option value="">Company</option>
+                    <Form.Select name="role_id" onChange={handleDataChange}>
+                      <option value="">Select Role</option>
+                      {roles.map((role) => (
+                        <option key={role._id} value={role._id}>
+                          {role.role_name}
+                        </option>
+                      ))}
                     </Form.Select>
                   </div>
+
                 </Form.Group>
                 <Form.Group>
                   <Form.Label></Form.Label>
@@ -115,8 +143,8 @@ export default function Register() {
                     required
                     value={signUpData.fullname}
                     onChange={(e) => {
-                    handleDataChange(e);
-                  }}
+                      handleDataChange(e);
+                    }}
                   />
                 </Form.Group>
                 <Form.Group>
@@ -128,9 +156,9 @@ export default function Register() {
                     required
                     value={signUpData.email}
                     onChange={(e) => {
-                    handleDataChange(e);
+                      handleDataChange(e);
 
-                  }}
+                    }}
                   />
                 </Form.Group>
                 <Form.Group>
@@ -144,8 +172,8 @@ export default function Register() {
                     required
                     maxLength={20}
                     onChange={(e) => {
-                    handleDataChange(e);
-                  }}
+                      handleDataChange(e);
+                    }}
                   />
                 </Form.Group>
                 <Form.Group>
@@ -158,9 +186,9 @@ export default function Register() {
                     minLength={6} // Example: Minimum length requirement
                     required
                     onChange={(e) => {
-                    handleDataChange(e);
+                      handleDataChange(e);
 
-                  }}
+                    }}
                   />
                 </Form.Group>
                 <Button
@@ -175,26 +203,26 @@ export default function Register() {
                 </div>
                 <div>
                   <GoogleLogin
-                  onSuccess={(credentialResponse) => {
-                    // console.log(credentialResponse?.credential);
-                    postGoogleAuth(credentialResponse?.credential);
-                  }}
-                  onError={() => {
-                    toast.error("Something went wrong");
-                  }}
-                  text="Login with google"
-                  size={"large"}
-                  width={"395px"} />
+                    onSuccess={(credentialResponse) => {
+                      // console.log(credentialResponse?.credential);
+                      postGoogleAuth(credentialResponse?.credential);
+                    }}
+                    onError={() => {
+                      toast.error("Something went wrong");
+                    }}
+                    text="Login with google"
+                    size={"large"}
+                    width={"395px"} />
                 </div>
                 <div>
-                {showMessage && (
-                <div className="alert alert-success mt-3" role="alert">
-                  Verification email sent successfully. Please check your email to verify.
-                </div>
-              )}
+                  {showMessage && (
+                    <div className="alert alert-success mt-3" role="alert">
+                      Verification email sent successfully. Please check your email to verify.
+                    </div>
+                  )}
                 </div>
               </Form>
-              
+
             </div>
           </div>
         </Col>
