@@ -10,12 +10,10 @@ const jobsSchema = new Schema(
     salary: {
         type: String,
     },
-    loacation: {
-        type: String,
-    },
     quantity: {
         type: Number,
     },
+    location_id:{ type: Schema.Types.ObjectId, ref: "Locations" },
     workstatus_id:{ type: Schema.Types.ObjectId, ref: "WorkStatus" },
     required_experience:{
         type:Number,

@@ -1,6 +1,15 @@
 import AuthenticationRouter from "./authentication.js";
 import RolesRouter from "./roles.js";
+import LocationRouter from "./locations.js";
+import JobsRouter from "./jobs.js";
+import CompanyRouter from "./company.js";
+import WorkStatusRouter from "./workstatus.js";
 export {
   AuthenticationRouter,
   RolesRouter,
+  LocationRouter,
+  JobsRouter,
+  CompanyRouter,
+  WorkStatusRouter
+
 };

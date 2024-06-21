@@ -10,6 +10,7 @@ import ConfirmSignUp from "../screens/ConfirmSignUp";
 import Login from "../screens/Login";
 import Setting from "../screens/account/Setting";
 import ForgotPassword from "../screens/ForgotPassword";
+import JobListView from "../screens/JobListView";
 
 
 
@@ -25,6 +26,7 @@ export default function MyRoutes() {
         <Route path="/find/job" element={<FindJob />} />
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/support" element={<Support />} />
+        <Route path="/viewAllJob" element={<JobListView />} />
         <Route path="/confirmSignUp/:token" element={<ConfirmSignUp />} />
         <Route
           path="/account/setting/personal"

@@ -11,14 +11,78 @@ import {
   faMagnifyingGlass,
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
-
 import { faBookmark } from "@fortawesome/free-regular-svg-icons";
-
 import logoPlaceholder from "../assets/logoPlaceholder.png";
 import { Link } from "react-router-dom";
 import { getDistanceFromToday } from "../utilities/ReuseFns";
+import PerformRequest from "../utilities/PerformRequest.js";
+import { useEffect, useState, useCallback } from "react";
+
 
 export default function Homepage() {
+  const  OriginalRequest = useCallback(PerformRequest().OriginalRequest,[]);
+
+
+  const [companies, setCompanies] = useState([]);
+  useEffect(() => {
+    const fetchCompanies = async () => {
+      try {
+        const data = await OriginalRequest(
+          'company/getAllCompanies',
+          'GET'
+        );
+        if (data) {
+          console.log('Company fetched:', data);
+          setCompanies(data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch company:', error);
+      }
+    };
+    fetchCompanies();
+  }, [OriginalRequest]);
+
+  const [jobs, setJobs] = useState([]);
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        const data = await OriginalRequest(
+          'jobs/getAllJobs',
+          'GET'
+        );
+        if (data) {
+          console.log('jobs fetched:', data);
+          setJobs(data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch jobs:', error);
+      }
+    };
+    fetchJobs();
+  }, [OriginalRequest]);
+
+
+  const [jobSekkers, setJobSekkers] = useState([]);
+  useEffect(() => {
+    const fetchJobSekkers = async () => {
+      try {
+        const data = await OriginalRequest(
+          'jobSekker/getAllJobs',
+          'GET'
+        );
+        if (data) {
+          console.log('jobs fetched:', data);
+          setJobSekkers(data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch jobs:', error);
+      }
+    };
+    fetchJobSekkers();
+  }, [OriginalRequest]);
+
+
+
   const data = {
     figures: [
       {
@@ -231,7 +295,7 @@ export default function Homepage() {
   return (
     <MainLayout>
       <Banner />
-
+      
       <Container fluid style={{ padding: "70px 200px" }}>
         <Row>
           <Col className="d-flex justify-content-between align-items-center mb-3">
@@ -250,6 +314,9 @@ export default function Homepage() {
         </Row>
       </Container>
       <hr />
+
+
+      {/* //jobs here */}
       <Container fluid style={{ padding: "70px 200px" }}>
         <Row>
           <Col className="d-flex justify-content-between align-items-center mb-4">

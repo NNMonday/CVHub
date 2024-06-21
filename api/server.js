@@ -9,8 +9,12 @@ import "./utils/google-oauth2.js";
 import path from "path";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
-import { AuthenticationRouter } from "./routes/index.js";
+import { AuthenticationRouter, WorkStatusRouter } from "./routes/index.js";
 import { RolesRouter } from "./routes/index.js";
+import { LocationRouter } from "./routes/index.js";
+import { JobsRouter } from "./routes/index.js";
+import { CompanyRouter } from "./routes/index.js";
+
 
 dotenv.config();
 
@@ -39,6 +43,14 @@ app.get("/hello", (req, res) => {
 
 app.use("/api/auth", AuthenticationRouter);
 app.use("/api/roles", RolesRouter);
+app.use("/api/location", LocationRouter);
+app.use("/api/jobs", JobsRouter);
+app.use("/api/company", CompanyRouter);
+app.use("/api/workstatus", WorkStatusRouter);
+
+
+
+
 
 const port = process.env.PORT || 9999;
 const MONGODB_URI = process.env.MONGODB_URI;

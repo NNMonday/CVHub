@@ -15,7 +15,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 
 export default function Register() {
   const [signUpData, setSignUpData] = useState({
-
     email: "",
     password: "",
     confirmPassword: "",
