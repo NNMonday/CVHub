@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import User from './RegisteredUser.js'
+
 
 const jobsSchema = new Schema(
   {
@@ -33,7 +33,7 @@ const jobsSchema = new Schema(
         type: String,
     },
     fields_id: { type: Schema.Types.ObjectId, ref: "Fields" },
-    required_skills_id: { type: Schema.Types.ObjectId, ref: "Skills" },
+    required_skills_id: [{ type: Schema.Types.ObjectId, ref: "Skills" }],
     user_id: { type: Schema.Types.ObjectId, ref: "Users" },
   },
   { timestamps: true, collection: "jobs" }

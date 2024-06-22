@@ -21,6 +21,7 @@ const jobsSeekersSchema = new Schema(
         type: Boolean,
     },
     savedJobs: { type: Schema.Types.ObjectId, ref: "Jobs" },
+    applyJobs: [{ type: Schema.Types.ObjectId, ref: "Jobs" }],
     followingCompany:{ type: Schema.Types.ObjectId, ref: "Company" },
     user_Id: { type: Schema.Types.ObjectId, ref: "Users" },
   },

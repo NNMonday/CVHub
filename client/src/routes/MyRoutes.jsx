@@ -5,8 +5,11 @@ import FindJob from "../screens/FindJob";
 import Pricing from "../screens/Pricing";
 import Support from "../screens/Support";
 import Register from "../screens/Register";
+
+import ConfirmSignUp from "../screens/ConfirmSignUp";
 import Login from "../screens/Login";
 import Setting from "../screens/account/Setting";
+import ForgotPassword from "../screens/ForgotPassword";
 
 export default function MyRoutes() {
   return (
@@ -15,9 +18,11 @@ export default function MyRoutes() {
         <Route path="/" element={<Homepage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/find/job" element={<FindJob />} />
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/support" element={<Support />} />
+        <Route path="/confirmSignUp/:token" element={<ConfirmSignUp />} />
         <Route
           path="/account/setting/personal"
           element={<Setting type={"personal"} />}
