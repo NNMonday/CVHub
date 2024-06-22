@@ -4,12 +4,14 @@ import LocationRouter from "./locations.js";
 import JobsRouter from "./jobs.js";
 import CompanyRouter from "./company.js";
 import WorkStatusRouter from "./workstatus.js";
+import FieldsRouter from "./fields.js";
 export {
   AuthenticationRouter,
   RolesRouter,
   LocationRouter,
   JobsRouter,
   CompanyRouter,
-  WorkStatusRouter
+  WorkStatusRouter,
+  FieldsRouter
 
 };

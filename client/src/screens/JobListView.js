@@ -45,8 +45,11 @@ export default function JobListView() {
         fetchWorkSTT();
     }, [OriginalRequest]);
 
-    const Job = ({ name, work_status, location, salary, deadline }) => (
-        <Col sm={12} className="d-flex p-4 border align-items-center mb-3 job-container" style={{ borderRadius: "10px" }}>
+    const Job = (props) => {
+        const { name, workstatus_id, location, salary, deadline } = props;
+        const workType = workstatus_id?.workStatus_name || "Unknown"
+        return(
+            <Col sm={12} className="d-flex p-4 border align-items-center mb-3 job-container" style={{ borderRadius: "10px" }}>
             <div className="d-flex flex-grow-1">
                 <div style={{ width: "7%", borderRadius: "6px" }} className="overflow-hidden">
                     <img src={logoPlaceholder} alt="logoPlaceholder" className="w-100 h-100" />
@@ -55,7 +58,7 @@ export default function JobListView() {
                     <div>
                         <Link className="text-decoration-none fw-bolder fs-5 job-name">{name}</Link>
                         <span className="text-primary fw-bold bg-primary-subtle py-1 px-2 ms-3" style={{ borderRadius: "15px" }}>
-                            {work_status}
+                            {workType}
                         </span>
                     </div>
                     <div className="text-secondary">
@@ -75,6 +78,8 @@ export default function JobListView() {
             </div>
         </Col>
     );
+    }
+        
     const JobSearch = () => (
         <div className="d-flex flex-column bg-gray w-100 p-3" style={{ backgroundColor: "#CCCCCC", borderRadius: "10px", boxShadow: "0 0 10px rgba(0,0,0,0.1)" }}>
             {/* Top row */}

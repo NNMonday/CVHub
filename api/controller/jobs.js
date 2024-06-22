@@ -32,10 +32,27 @@ import jobsRepository from '../repository/jobs.js';
       return res.status(500).json({ error: error.message });
     }
   };
-  
 
+  const getJobCountByFieldId = async (req, res) => {
+    try {
+      const jobCounts = await jobsRepository.getJobCountByFieldId();
   
+      return res.status(200).json({ data:jobCounts });
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
+  };
+  const getWorkStatusByJobId = async (req, res) => {
+    try {
+      const jobWorkStatus = await jobsRepository.getWorkStatusByJobId();
+  
+      return res.status(200).json({ data:jobWorkStatus });
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
+  };
 
 export default{
     getAllJobs,getJobById,searchJobsByNameAndLocation
-}
+    ,getJobCountByFieldId,getWorkStatusByJobId
+  }

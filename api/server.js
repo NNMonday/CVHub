@@ -9,11 +9,12 @@ import "./utils/google-oauth2.js";
 import path from "path";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
-import { AuthenticationRouter, WorkStatusRouter } from "./routes/index.js";
+import { AuthenticationRouter, FieldsRouter, WorkStatusRouter } from "./routes/index.js";
 import { RolesRouter } from "./routes/index.js";
 import { LocationRouter } from "./routes/index.js";
 import { JobsRouter } from "./routes/index.js";
 import { CompanyRouter } from "./routes/index.js";
+
 
 
 dotenv.config();
@@ -47,6 +48,7 @@ app.use("/api/location", LocationRouter);
 app.use("/api/jobs", JobsRouter);
 app.use("/api/company", CompanyRouter);
 app.use("/api/workstatus", WorkStatusRouter);
+app.use("/api/fields", FieldsRouter);
 
 
 

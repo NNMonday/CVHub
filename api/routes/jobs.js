@@ -12,4 +12,9 @@ jobRouter.get("/getAllJobs", jobController.getAllJobs);
 jobRouter.get("/getJobById/:jobId", jobController.getJobById);
 
 jobRouter.get("/search", jobController.searchJobsByNameAndLocation);
+jobRouter.get('/field', jobController.getJobCountByFieldId);
+
+jobRouter.get('/getWorkStatusByJobId', jobController.getWorkStatusByJobId);
+
+
 export default jobRouter;

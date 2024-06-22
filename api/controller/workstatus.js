@@ -23,16 +23,8 @@ const getWorkStatusById = async (req, res) => {
     }
   };
 
-  const getWorkStatusByJobId = async (req, res) => {
-    try {
-      const jobsId = req.params.id;
-      const workStatus = await workStatusRepository.getWorkStatusByJobId(jobsId);
-      res.status(200).json({ data: workStatus });
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
-  };
+
 
 export default {
-  getAllWorkStatus,getWorkStatusById,getWorkStatusByJobId
+  getAllWorkStatus,getWorkStatusById
 };

@@ -1,11 +1,16 @@
-// repositories/jobsRepository.js
+import mongoose from "mongoose";
 
 import Jobs from "../model/Job.js";
+import fields from "./fields.js";
 
 // Get all jobs
 const getAllJobs = async () => {
   try {
-    const jobs = await Jobs.find();
+    const jobs = await Jobs.find().populate({
+      path: 'workstatus_id',
+      model: 'workStatus',  // Match the model name you used for WorkStatusSchema
+      select: 'workStatus_name',  // Specify the field you want to populate
+    });
     return jobs;
   } catch (error) {
     throw new Error(`Failed to fetch jobs: ${error.message}`);
@@ -65,8 +70,81 @@ const searchJobsByNameAndLocation = async (name, locationName) => {
     throw new Error(error.message);
   }
 };
+const getJobCountByFieldId = async () => {
+  try {
+    const jobCounts = await Jobs.aggregate([  
+      {
+        $lookup: {
+          from: "fields",
+          localField: "fields_id",
+          foreignField: "_id",
+          as: "field"
+        }
+      },
+      {
+        $unwind: "$field" // Giải nén mảng workStatus
+      },
+      {
+        $group: {
+          _id: "$fields_id",
+          fields_name: { $first: "$field.name" },
+          job_count: { $sum: 1 }
+        }
+      },
+      {
+        $project: {
+          _id: 1,
+          fields_name: 1,
+          job_count: 1
+        }
+      }
+    ]);
+
+    return jobCounts;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+
+const getWorkStatusByJobId = async (jobsId) => {
+  try {
+    const jobWorkStatus = await Jobs.aggregate([  
+      {
+        $lookup: {
+          from: "workStatus",
+          localField: "workstatus_id",
+          foreignField: "_id",
+          as: "workStatus"
+        }
+      },
+      {
+        $unwind: "$workStatus" // Giải nén mảng workStatus
+      },
+      {
+        $group: {
+          _id: "$workstatus_id",
+          workStatus_name: { $first: "$workStatus.workStatus_name" },
+        }
+      },
+      {
+        $project: {
+          _id: 1,
+          workStatus_name: 1,
+        }
+      }
+    ]);
+
+    return jobWorkStatus;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
 export default {
   getAllJobs,
   getJobById,
-  searchJobsByNameAndLocation
+  searchJobsByNameAndLocation,
+  getJobCountByFieldId,
+  getWorkStatusByJobId
 };

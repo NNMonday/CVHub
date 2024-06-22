@@ -4,11 +4,13 @@ import LocationController from "./locations.js";
 import JobsController from "./jobs.js";
 import CompanyController from "./company.js";
 import WorkStatusController from "./workstatus.js";
+import FieldsController from "./fields.js";
 export {
   AuthenticationController,
   RolesController,
   LocationController,
   JobsController,
   CompanyController,
-  WorkStatusController
+  WorkStatusController,
+  FieldsController
 };

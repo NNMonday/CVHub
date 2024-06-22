@@ -9,6 +9,7 @@ const getAllLocations = async (req, res) => {
   }
 };
 
+
 export default {
     getAllLocations,
   
