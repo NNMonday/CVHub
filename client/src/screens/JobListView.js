@@ -11,10 +11,31 @@ import PerformRequest from "../utilities/PerformRequest.js";
 import { faSearch, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 
 
+
 export default function JobListView() {
     const OriginalRequest = useCallback(PerformRequest().OriginalRequest, []);
     const [jobs, setJobs] = useState([]);
     const [workStatuses, setWorkStatuses] = useState([]);
+
+    const [sortOrder, setSortOrder] = useState('earliest');
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(12); 
+    const handleItemsPerPageChange = (perPage) => {
+        setItemsPerPage(perPage);
+        setCurrentPage(1); 
+    };
+
+    const handleSortJobs = (order) => {
+        let sortedJobs = [...jobs];
+        if (order === 'latest') {
+            sortedJobs.sort((a, b) => new Date(b.deadline) - new Date(a.deadline));
+        } else if (order === 'earliest') {
+            sortedJobs.sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
+        }
+        setJobs(sortedJobs);
+        setSortOrder(order);
+    };
+
 
     useEffect(() => {
         const fetchJobs = async () => {
@@ -30,56 +51,51 @@ export default function JobListView() {
         };
         fetchJobs();
     }, [OriginalRequest]);
-    useEffect(() => {
-        const fetchWorkSTT = async () => {
-            try {
-                const data = await OriginalRequest('workstatus/getWorkStatusById', 'GET');
-                if (data) {
-                    console.log('UworkSTT fetched:', data);
-                    setWorkStatuses(data);
-                }
-            } catch (error) {
-                console.error('Failed to fetch jobs:', error);
-            }
-        };
-        fetchWorkSTT();
-    }, [OriginalRequest]);
+    
+    const totalPages = Math.ceil(jobs.length / itemsPerPage);
+    const pageNumbers = [];
+
+    for (let i = 1; i <= totalPages; i++) {
+        pageNumbers.push(i);
+    }
 
     const Job = (props) => {
         const { name, workstatus_id, location, salary, deadline } = props;
         const workType = workstatus_id?.workStatus_name || "Unknown"
-        return(
+        return (
             <Col sm={12} className="d-flex p-4 border align-items-center mb-3 job-container" style={{ borderRadius: "10px" }}>
-            <div className="d-flex flex-grow-1">
-                <div style={{ width: "7%", borderRadius: "6px" }} className="overflow-hidden">
-                    <img src={logoPlaceholder} alt="logoPlaceholder" className="w-100 h-100" />
-                </div>
-                <div className="ms-3 d-flex flex-column justify-content-between">
-                    <div>
-                        <Link className="text-decoration-none fw-bolder fs-5 job-name">{name}</Link>
-                        <span className="text-primary fw-bold bg-primary-subtle py-1 px-2 ms-3" style={{ borderRadius: "15px" }}>
-                            {workType}
-                        </span>
+                <div className="d-flex flex-grow-1">
+                    <div style={{ width: "7%", borderRadius: "6px" }} className="overflow-hidden">
+                        <img src={logoPlaceholder} alt="logoPlaceholder" className="w-100 h-100" />
                     </div>
-                    <div className="text-secondary">
-                        <span><FontAwesomeIcon className="me-1" icon={faLocationDot} /> {location}</span>
-                        <span><FontAwesomeIcon className="me-1 ms-3" icon={faDollarSign} /> {salary}</span>
-                        <span><FontAwesomeIcon className="me-1 ms-3" icon={faCalendar} /> {getDistanceFromToday(deadline)} Days Remaining</span>
+                    <div className="ms-3 d-flex flex-column justify-content-between">
+                        <div>
+                            <Link className="text-decoration-none fw-bolder fs-5 job-name">{name}</Link>
+                            <span className="text-primary fw-bold bg-primary-subtle py-1 px-2 ms-3" style={{ borderRadius: "15px" }}>
+                                {workType}
+                            </span>
+                        </div>
+                        <div className="text-secondary">
+                            <span><FontAwesomeIcon className="me-1" icon={faLocationDot} /> {location}</span>
+                            <span><FontAwesomeIcon className="me-1 ms-3" icon={faDollarSign} /> {salary}</span>
+                            <span><FontAwesomeIcon className="me-1 ms-3" icon={faCalendar} /> {getDistanceFromToday(deadline)} Days Remaining</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className="d-flex">
-                <div className="py-2 px-3 me-2 save-container" style={{ borderRadius: "6px" }}>
-                    <FontAwesomeIcon icon={faBookmark} />
+                <div className="d-flex">
+                    <div className="py-2 px-3 me-2 save-container" style={{ borderRadius: "6px" }}>
+                        <FontAwesomeIcon icon={faBookmark} />
+                    </div>
+                    <div className="d-flex align-items-center py-1 px-3 apply-container" style={{ backgroundColor: "#E7F0FA", borderRadius: "6px" }}>
+                        <span className="fw-bold">Apply Now <FontAwesomeIcon className="ms-2" icon={faArrowRight} /></span>
+                    </div>
                 </div>
-                <div className="d-flex align-items-center py-1 px-3 apply-container" style={{ backgroundColor: "#E7F0FA", borderRadius: "6px" }}>
-                    <span className="fw-bold">Apply Now <FontAwesomeIcon className="ms-2" icon={faArrowRight} /></span>
-                </div>
-            </div>
-        </Col>
-    );
+            </Col>
+        );
     }
-        
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentJobs = jobs.slice(indexOfFirstItem, indexOfLastItem);
     const JobSearch = () => (
         <div className="d-flex flex-column bg-gray w-100 p-3" style={{ backgroundColor: "#CCCCCC", borderRadius: "10px", boxShadow: "0 0 10px rgba(0,0,0,0.1)" }}>
             {/* Top row */}
@@ -166,12 +182,11 @@ export default function JobListView() {
             <div className="me-3">
                 <Dropdown>
                     <Dropdown.Toggle variant="light" id="dropdown-latest">
-                        Latest
+                        {sortOrder === 'latest' ? 'Latest' : 'Earliest'}
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                        <Dropdown.Item href="#">Latest 1</Dropdown.Item>
-                        <Dropdown.Item href="#">Latest 2</Dropdown.Item>
-                        <Dropdown.Item href="#">Latest 3</Dropdown.Item>
+                        <Dropdown.Item onClick={() => handleSortJobs('latest')}>Latest</Dropdown.Item>
+                        <Dropdown.Item onClick={() => handleSortJobs('earliest')}>Earliest</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
             </div>
@@ -180,24 +195,30 @@ export default function JobListView() {
             <div className="me-3">
                 <Dropdown>
                     <Dropdown.Toggle variant="light" id="dropdown-perpage">
-                        12 per page
+                        {itemsPerPage} per page
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                        <Dropdown.Item href="#">6</Dropdown.Item>
-                        <Dropdown.Item href="#">12</Dropdown.Item>
-                        <Dropdown.Item href="#">24</Dropdown.Item>
+                        <Dropdown.Item onClick={() => handleItemsPerPageChange(6)}>6</Dropdown.Item>
+                        <Dropdown.Item onClick={() => handleItemsPerPageChange(12)}>12</Dropdown.Item>
+                        <Dropdown.Item onClick={() => handleItemsPerPageChange(24)}>24</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
             </div>
 
             {/* Sort icon button */}
             <div className="ms-auto">
-                <Button variant="light">
-                    <FontAwesomeIcon icon={faSort} />
-                </Button>
-                <Button variant="light">
-                    <FontAwesomeIcon icon={faVirus} />
-                </Button>
+                <Row className="ms-auto">
+                    <Col xs="auto">
+                        <Button variant="light">
+                            <FontAwesomeIcon icon={faSort} />
+                        </Button>
+                    </Col>
+                    <Col xs="auto">
+                        <Button variant="light">
+                            <FontAwesomeIcon icon={faVirus} />
+                        </Button>
+                    </Col>
+                </Row>
             </div>
         </div>
     );
@@ -209,16 +230,22 @@ export default function JobListView() {
                 <JobSearch />
                 <FilterBar />
                 <Row>
-                    <Col className="d-flex justify-content-between align-items-center mb-4">
-                        <h3>Job Listings</h3>
-                        <Button variant="primary">Advanced Filter</Button>
-                    </Col>
-                </Row>
-                <Row>
-                    {jobs.map((j, i) => (
+                    {currentJobs.map((j, i) => (
                         <Job key={i} {...j} />
                     ))}
                 </Row>
+                <div className="mt-3 d-flex justify-content-center">
+                    {pageNumbers.map((number) => (
+                        <Button
+                            key={number}
+                            variant={number === currentPage ? "primary" : "light"}
+                            onClick={() => setCurrentPage(number)}
+                            className="me-1"
+                        >
+                            {number}
+                        </Button>
+                    ))}
+                </div>
             </Container>
         </MainLayout>
     );

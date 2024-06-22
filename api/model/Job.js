@@ -33,6 +33,7 @@ const jobsSchema = new Schema(
     fields_id: { type: Schema.Types.ObjectId, ref: "Fields" },
     required_skills_id: { type: Schema.Types.ObjectId, ref: "Skills" },
     user_id: { type: Schema.Types.ObjectId, ref: "Users" },
+    
   },
   { timestamps: true, collection: "jobs" }
 );

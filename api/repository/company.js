@@ -13,7 +13,30 @@ const getAllCompanies = async () => {
   };
 
 
+  const searchCompaniesByName = async (name) => {
+    try {
+      const foundCompanies = await Company.aggregate([
+        {
+          $match: {
+            company_name: { $regex: name, $options: 'i' } // Tìm kiếm tên công ty (không phân biệt chữ hoa thường)
+          }
+        },
+        {
+          $project: {
+            _id: 1,
+            company_name: 1,
+            industry: 1
+          }
+        }
+      ]);
+  
+      return foundCompanies;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  };
+
 export default {
     getAllCompanies,
-
+    searchCompaniesByName
 };

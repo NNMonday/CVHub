@@ -8,4 +8,6 @@ const companyRouter = express.Router();
 // GET all jobs
 companyRouter.get('/getAllCompanies', companyController.getAllCompanies);
 
+companyRouter.get("/search", companyController.searchCompaniesByName);
+
 export default companyRouter;

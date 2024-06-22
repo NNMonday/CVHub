@@ -8,14 +8,14 @@ const getAllJobs = async () => {
   try {
     const jobs = await Jobs.find().populate({
       path: 'workstatus_id',
-      model: 'workStatus',  // Match the model name you used for WorkStatusSchema
-      select: 'workStatus_name',  // Specify the field you want to populate
+      model: 'workStatus',  
+      select: 'workStatus_name',  
     });
     return jobs;
   } catch (error) {
     throw new Error(`Failed to fetch jobs: ${error.message}`);
   }
-};
+};// đoạn này k
 
 // Get job by ID
 const getJobById = async (id) => {
@@ -32,7 +32,7 @@ const searchJobsByNameAndLocation = async (name, locationName) => {
     const foundJobs = await Jobs.aggregate([
       {
         $match: {
-          name: { $regex: name, $options: 'i' } // Tìm kiếm theo tên job, không phân biệt hoa thường
+          name: { $regex: name, $options: 'i' } 
         }
       },
       {
@@ -46,12 +46,12 @@ const searchJobsByNameAndLocation = async (name, locationName) => {
       {
         $unwind: {
           path: '$location',
-          preserveNullAndEmptyArrays: true // Giữ lại các job không có location_id tương ứng
+          preserveNullAndEmptyArrays: true 
         }
       },
       {
         $match: {
-          'location.location_name': locationName // Lọc theo location_name
+          'location.location_name': locationName 
         }
       },
       {
@@ -60,7 +60,7 @@ const searchJobsByNameAndLocation = async (name, locationName) => {
           name: 1,
           salary: 1,
           deadline: 1,
-          location: '$location.location_name' // Trường location sẽ là location_name từ collection locations
+          location: '$location.location_name' 
         }
       }
     ]);

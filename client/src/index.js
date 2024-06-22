@@ -8,6 +8,8 @@ import { PersistGate } from "redux-persist/integration/react";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import reportWebVitals from './reportWebVitals';
 import { StyledEngineProvider } from '@mui/material/styles';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 

@@ -7,6 +7,8 @@ import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLocation } from "react-router-dom";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import ProfileMenu from "../components/ProfileMenu.js";
+
 import {
   Divider,
   ListItemIcon,
@@ -19,6 +21,7 @@ import { IoLogOut } from "react-icons/io5";
 import { useEffect, useState, useCallback } from "react";
 import Logout from "../utilities/LogOut.js";
 import PerformRequest from "../utilities/PerformRequest.js";
+import Footer from "../components/Footer.jsx";
 
 
 
@@ -100,62 +103,22 @@ export default function MainLayout({ children }) {
       </div>
 
       <div className="d-flex align-items-center">
-        {isLoggedIn ? (
-          <div className="d-flex align-items-center ml-5">
-            <img
-              src={profile_picture}
-              className="w-10 h-10 object-center object-cover rounded-full border-orange-200 dark:bg-dark10 shadow-lg border-2"
-              style={{ width: '40px', height: '40px' }}
-              onClick={(e) => {
-                openMenu(e);
-              }}
-            />
-            <Menu
-              className="mt-3"
-              open={openProfileMenu}
-              anchorEl={anchorProfile}
-              onClose={closeMenu}
-              MenuListProps={{
-                "aria-labelledby": "basic-button",
-              }}
-              autoFocus={false}
-            >
-              <MenuItem>
-                <Link to={"/profile"} className="flex items-center">
-                  <ListItemIcon>
-                    <FaCircleUser />
-                  </ListItemIcon>
-                  <ListItemText>Your profile</ListItemText>
-                </Link>
-              </MenuItem>
-              <Divider />
-
-              <MenuItem
-                onClick={(e) => {
-                  performLogOut(e);
-                }}
-              >
-                <ListItemIcon>
-                  <IoLogOut />
-                </ListItemIcon>
-                <ListItemText>Logout</ListItemText>
-              </MenuItem>
-            </Menu>
-          </div>
-        ) : (
-          <div className="d-flex align-items-center ml-5">
-            <Link to={"/login"} className="mr-2">
-              <button className="btn btn-primary bg-transparent text-primary">
-                Login
-              </button>
-            </Link>
-            <Link to={"/register"} className="btn btn-primary ms-2">
-              Sign Up
-            </Link>
-          </div>
-        )}
-        <Link className="btn btn-primary ms-2">Post a Job</Link>
-      </div>
+      {isLoggedIn ? (
+        <ProfileMenu profile_picture performLogOut={performLogOut} />
+      ) : (
+        <div className="d-flex align-items-center ml-5">
+          <Link to="/login" className="mr-2">
+            <button className="btn btn-primary bg-transparent text-primary">
+              Login
+            </button>
+          </Link>
+          <Link to="/register" className="btn btn-primary ms-2">
+            Sign Up
+          </Link>
+        </div>
+      )}
+      <Link className="btn btn-primary ms-2">Post a Job</Link>
+    </div>
 
     </Container>
   );
@@ -165,6 +128,7 @@ export default function MainLayout({ children }) {
       <MainNavbar />
       <Header />
       {children}
+      <Footer />
     </>
   );
 }

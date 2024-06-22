@@ -15,6 +15,7 @@ import JobListView from "../screens/JobListView";
 
 
 
+
 export default function MyRoutes() {
   return (
     <BrowserRouter>
@@ -28,6 +29,7 @@ export default function MyRoutes() {
         <Route path="/support" element={<Support />} />
         <Route path="/viewAllJob" element={<JobListView />} />
         <Route path="/confirmSignUp/:token" element={<ConfirmSignUp />} />
+        {/* <Route path="/jobdetai" element={<JobDetailScreen />} /> */}
         <Route
           path="/account/setting/personal"
           element={<Setting type={"personal"} />}

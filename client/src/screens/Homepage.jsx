@@ -3,6 +3,8 @@ import MainLayout from "../layouts/MainLayout";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import Illustration from "../assets/Illustration.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import {
   faArrowRight,
   faCalendar,
@@ -22,26 +24,35 @@ import { useEffect, useState, useCallback } from "react";
 
 export default function Homepage() {
   const OriginalRequest = useCallback(PerformRequest().OriginalRequest, []);
+  const [jobsList, setJobList] = useState([]);
+  const searchValue = useSelector((state) => state.search.searchKey); 
 
+  const fetchJobs = async (jobTitle, location) => {
+    try {
+      const searchJobValue = await OriginalRequest(
+        `jobs/search?name=${jobTitle}&locationName=${location}`,
+        'GET'
+      );
+      if (searchJobValue) {
+        setJobList(searchJobValue.data);
+      }
+    } catch (error) {
+      console.error('Failed to fetch jobs:', error);
+    }
+  };
 
-  // const [companies, setCompanies] = useState([]);
-  // useEffect(() => {
-  //   const fetchCompanies = async () => {
-  //     try {
-  //       const data = await OriginalRequest(
-  //         'company/getAllCompanies',
-  //         'GET'
-  //       );
-  //       if (data) {
-  //         console.log('Company fetched:', data);
-  //         setCompanies(data);
-  //       }
-  //     } catch (error) {
-  //       console.error('Failed to fetch company:', error);
-  //     }
-  //   };
-  //   fetchCompanies();
-  // }, [OriginalRequest]);
+  useEffect(() => {
+    if (searchValue.jobTitle || searchValue.location) {
+      fetchJobs(searchValue.jobTitle, searchValue.location);
+    }
+  }, [searchValue.jobTitle, searchValue.location]);
+
+  const handleInputChange = (field, value) => { 
+  };
+
+  const handleSearch = () => { 
+    fetchJobs(searchValue.jobTitle, searchValue.location);
+  };
 
 
   const [jobs, setJobs] = useState([]);
@@ -64,24 +75,7 @@ export default function Homepage() {
     fetchJobs();
   }, [OriginalRequest]);
 
-  // const [jobSekkers, setJobSekkers] = useState([]);
-  // useEffect(() => {
-  //   const fetchJobSekkers = async () => {
-  //     try {
-  //       const data = await OriginalRequest(
-  //         'jobSekker/getAllJobs',
-  //         'GET'
-  //       );
-  //       if (data) {
-  //         console.log('jobs fetched:', data);
-  //         setJobSekkers(data);
-  //       }
-  //     } catch (error) {
-  //       console.error('Failed to fetch jobs:', error);
-  //     }
-  //   };
-  //   fetchJobSekkers();
-  // }, [OriginalRequest]);
+
 
   const [jobFie, setJobFie] = useState([]);
   useEffect(() => {
@@ -95,41 +89,15 @@ export default function Homepage() {
           setJobFie(data);
         } else {
           console.error('Data fetched is not an array:', data);
-          setJobFie([]); 
+          setJobFie([]);
         }
       } catch (error) {
         console.error('Failed to fetch jobs:', error);
-        setJobFie([]); 
+        setJobFie([]);
       }
     };
     fetchJobByFieldId();
   }, []);
-
-
-  // const [jobWor, setJobWor] = useState([]);
-  // useEffect(() => {
-  //   const fetchWorkStatusByJobId = async () => {
-  //     try {
-  //       const response = await OriginalRequest('jobs/getWorkStatusByJobId', 'GET');
-  //       const data = response.data;
-
-  //       if (Array.isArray(data)) {
-  //         console.log('Jobs fetched:', data);
-  //         setJobWor(data);
-  //       } else {
-  //         console.error('Data fetched is not an array:', data);
-  //         setJobWor([]); 
-  //       }
-  //     } catch (error) {
-  //       console.error('Failed to fetch jobs:', error);
-  //       setJobWor([]); 
-  //     }
-  //   };
-  //   fetchWorkStatusByJobId();
-  // }, []);
-
-
-
 
 
   const data = {
@@ -212,7 +180,7 @@ export default function Homepage() {
                 className="text-primary fw-bold bg-primary-subtle py-1 px-2 ms-3"
                 style={{ borderRadius: '15px' }}
               >
-                  {workType}
+                {workType}
               </span>
             </div>
             <div className="text-secondary">
@@ -264,31 +232,29 @@ export default function Homepage() {
             Aliquam vitae turpis in diam convallis finibus in at risus. Nullam
             in scelerisque leo, eget sollicitudin velit bestibulum.
           </p>
-          <div
-            className="d-flex bg-white w-100 align-items-center p-3"
-            style={{ borderColor: "#E4E5E8", borderRadius: "10px" }}
-          >
-            <div className="d-flex align-items-center" style={{ width: "40%" }}>
+          <div className="d-flex bg-white w-100 align-items-center p-3" style={{ borderColor: '#E4E5E8', borderRadius: '10px' }}>
+            <div className="d-flex align-items-center" style={{ width: '40%' }}>
               <FontAwesomeIcon icon={faMagnifyingGlass} className="me-3" />
               <input
                 type="text"
                 placeholder="Job title"
                 className="border-0 h-100 custom-input"
+                value={searchValue.jobTitle}
+                onChange={(e) => handleInputChange('jobTitle', e.target.value)} // Sử dụng handleInputChange để xử lý sự kiện onChange
               />
             </div>
-            <div
-              className="border border-1 mx-3"
-              style={{ height: "20px" }}
-            ></div>
+            <div className="border border-1 mx-3" style={{ height: '20px' }}></div>
             <div className="d-flex align-items-center w-25">
               <FontAwesomeIcon icon={faLocationDot} className="me-3" />
               <input
                 type="text"
                 placeholder="Your location"
                 className="border-0 h-100 custom-input"
+                value={searchValue.location}
+                onChange={(e) => handleInputChange('location', e.target.value)} // Sử dụng handleInputChange để xử lý sự kiện onChange
               />
             </div>
-            <Button variant="primary" className="ms-auto">
+            <Button variant="primary" className="ms-auto" onClick={handleSearch}>
               Find job
             </Button>
           </div>
@@ -342,8 +308,8 @@ export default function Homepage() {
           </Col>
         </Row>
         <Row>
-          {jobs.slice(0, 5).map((j,i) => (
-            <Job key={i} {...j}/>
+          {jobs.slice(0, 5).map((j, i) => (
+            <Job key={i} {...j} />
           ))}
         </Row>
       </Container>
