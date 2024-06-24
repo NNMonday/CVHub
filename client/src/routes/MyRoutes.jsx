@@ -42,7 +42,7 @@ export default function MyRoutes() {
         <Route path="/account/setup/contact" element={<Contact />} />
         <Route path="/account/setup/finish" element={<Finish />} />
   
-        <Route path="/account/overview" element={<JobPortal />} />
+        <Route  path="/account/dashboard/overview" element={<JobPortal />} />
       </Routes>
     </BrowserRouter>
   );

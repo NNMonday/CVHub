@@ -10,7 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 export default function DashboardLayout({ children }) {
-  return (
+  return (  
     <MainLayout>
       <Container
         className="border"
@@ -26,7 +26,7 @@ export default function DashboardLayout({ children }) {
             <p style={{ fontSize: "smaller" }}>CANDIDATE DASHBOARD</p>
             <NavLink
               className="dashboard-navlink-default d-block px-3 py-2"
-              to={"/account/overview"}
+              to={"/account/dashboard/overview"}
             >
               <FontAwesomeIcon icon={faLayerGroup} className="me-2" /> Overview
             </NavLink>

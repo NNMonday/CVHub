@@ -45,7 +45,7 @@ const ProfileMenu = ({  performLogOut }) => {
           <ListItemIcon>
             <FaUserCircle />
           </ListItemIcon>
-          <Link to="/profile" className="text-gray-700">Your profile</Link>
+          <Link to="/account/dashboard/overview" className="text-gray-700">Your profile</Link>
         </MenuItem>
         <Divider />
         <MenuItem onClick={() => { handleClose(); performLogOut(); }} className="flex items-center">

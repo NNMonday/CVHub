@@ -5,6 +5,7 @@ import JobsRouter from "./jobs.js";
 import CompanyRouter from "./company.js";
 import WorkStatusRouter from "./workstatus.js";
 import FieldsRouter from "./fields.js";
+import JobSekkerRouter from "./jobsekker.js";
 export {
   AuthenticationRouter,
   RolesRouter,
@@ -12,6 +13,7 @@ export {
   JobsRouter,
   CompanyRouter,
   WorkStatusRouter,
-  FieldsRouter
+  FieldsRouter,
+  JobSekkerRouter
 
 };

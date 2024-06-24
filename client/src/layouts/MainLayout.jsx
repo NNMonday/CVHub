@@ -107,11 +107,11 @@ export default function MainLayout({ children }) {
         <ProfileMenu profile_picture performLogOut={performLogOut} />
       ) : (
         <div className="d-flex align-items-center ml-5">
-          <Link to="/login" className="mr-2">
+          {/* <Link to="/login" className="mr-2">
             <button className="btn btn-primary bg-transparent text-primary">
               Login
             </button>
-          </Link>
+          </Link> */}
           <Link to="/register" className="btn btn-primary ms-2">
             Sign Up
           </Link>
