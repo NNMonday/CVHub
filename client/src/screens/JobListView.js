@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import MainLayout from "../layouts/MainLayout";
 import { Button, Col, Container, Row, Form, Dropdown, DropdownButton } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight, faCalendar, faDollarSign, faLocationDot, faMagnifyingGlass, faUsers, faSort, faAddressBook, faVectorSquare, faVirus } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight, faCalendar, faDollarSign, faLocationDot, faThLarge, faUsers, faSort, faAddressBook, faVectorSquare, faVirus } from "@fortawesome/free-solid-svg-icons";
 import { faBookmark } from "@fortawesome/free-regular-svg-icons";
 import logoPlaceholder from "../assets/logoPlaceholder.png";
 import { Link } from "react-router-dom";
@@ -210,7 +210,8 @@ export default function JobListView() {
                 <Row className="ms-auto">
                     <Col xs="auto">
                         <Button variant="light">
-                            <FontAwesomeIcon icon={faSort} />
+                        <FontAwesomeIcon icon={faThLarge} />
+
                         </Button>
                     </Col>
                     <Col xs="auto">
