@@ -187,6 +187,8 @@ export default function Homepage() {
               <span>
                 <FontAwesomeIcon className="me-1" icon={faLocationDot} /> {location}
               </span>
+
+              {/* hahahaha */}
               <span>
                 <FontAwesomeIcon className="me-1 ms-3" icon={faDollarSign} /> {salary}
               </span>
