@@ -16,6 +16,7 @@ import Social from "../screens/account/setup/Social";
 import Contact from "../screens/account/setup/Contact";
 import Finish from "../screens/account/setup/Finish";
 import JobListView from "../screens/JobListView";
+import JobPortal from "../screens/account/dashboard/Overview";
 
 export default function MyRoutes() {
   return (
@@ -40,6 +41,8 @@ export default function MyRoutes() {
         <Route path="/account/setup/social" element={<Social />} />
         <Route path="/account/setup/contact" element={<Contact />} />
         <Route path="/account/setup/finish" element={<Finish />} />
+  
+        <Route path="/account/overview" element={<JobPortal />} />
       </Routes>
     </BrowserRouter>
   );

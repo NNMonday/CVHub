@@ -85,3 +85,15 @@
 .add-cv {
   border: 1px dashed #767f8c;
 }
+
+.bg-blue {
+  background-color: #add8e6; /* Màu xanh dương nhạt */
+}
+
+.bg-yellow {
+  background-color: #ffffe0; /* Màu vàng nhạt */
+}
+
+.bg-green {
+  background-color: #98fb98; /* Màu xanh lá nhạt */
+}

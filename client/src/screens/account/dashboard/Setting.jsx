@@ -59,6 +59,7 @@ export default function Setting({ type }) {
             </NavLink>
           </Col>
           <Col sm={9} className="pt-5 ps-4 setting">
+          
             <h3>Setting</h3>
             <div className="mt-3" style={{ borderBottom: "1px solid #767f8c" }}>
               <NavLink
