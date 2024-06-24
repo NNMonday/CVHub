@@ -13,9 +13,6 @@ import ForgotPassword from "../screens/ForgotPassword";
 import JobListView from "../screens/JobListView";
 
 
-
-
-
 export default function MyRoutes() {
   return (
     <BrowserRouter>
