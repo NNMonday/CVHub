@@ -8,8 +8,13 @@ import Register from "../screens/Register";
 
 import ConfirmSignUp from "../screens/ConfirmSignUp";
 import Login from "../screens/Login";
-import Setting from "../screens/account/Setting";
+import Setting from "../screens/account/dashboard/Setting";
 import ForgotPassword from "../screens/ForgotPassword";
+import PersonalInfo from "../screens/account/setup/PersonalInfo";
+import ProfileInfo from "../screens/account/setup/ProfileInfo";
+import Social from "../screens/account/setup/Social";
+import Contact from "../screens/account/setup/Contact";
+import Finish from "../screens/account/setup/Finish";
 
 export default function MyRoutes() {
   return (
@@ -27,6 +32,11 @@ export default function MyRoutes() {
           path="/account/setting/personal"
           element={<Setting type={"personal"} />}
         />
+        <Route path="/account/setup/personal" element={<PersonalInfo />} />
+        <Route path="/account/setup/profile" element={<ProfileInfo />} />
+        <Route path="/account/setup/social" element={<Social />} />
+        <Route path="/account/setup/contact" element={<Contact />} />
+        <Route path="/account/setup/finish" element={<Finish />} />
       </Routes>
     </BrowserRouter>
   );

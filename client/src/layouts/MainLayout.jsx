@@ -24,7 +24,7 @@ export default function MainLayout({ children }) {
             <option value="">Hanoi</option>
           </select>
           <div className="border border-1 mx-2" style={{ height: "60%" }}></div>
-          <div className="d-inline-block py-2 px-3">
+          <div className="d-inline-block py-2 px-3 flex-grow-1">
             <FontAwesomeIcon icon={faMagnifyingGlass} className="me-3" />
             <input
               type="text"
