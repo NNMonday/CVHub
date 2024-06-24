@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import SERVER_URL from "../config.js";
 import toast from "react-hot-toast";
@@ -19,12 +19,12 @@ export default function ConfirmSignUp() {
 
             if (!response.ok) {
               const errorData = await response.json();
-            //   navigate("/login")
+              //   navigate("/login")
               throw new Error(errorData.error);
             }
 
             const data = await response.json();
-            navigate("/login")
+            navigate("/login");
             return data;
           })(),
           {
@@ -33,7 +33,6 @@ export default function ConfirmSignUp() {
             error: (err) => `${err.toString()}`,
           },
           {
-            
             success: {
               duration: 5000,
             },
@@ -48,9 +47,13 @@ export default function ConfirmSignUp() {
     } else {
       hasMounted.current = true;
     }
-  }, [token]);
+  }, [token, navigate]);
 
-  return (<div className="w-full h-screen bg-primaryBg flex items-center justify-center">
-    <h1 className="text-textSecondary text-center text-4xl">Verify your account</h1>
-  </div>);
+  return (
+    <div className="w-full h-screen bg-primaryBg flex items-center justify-center">
+      <h1 className="text-textSecondary text-center text-4xl">
+        Verify your account
+      </h1>
+    </div>
+  );
 }

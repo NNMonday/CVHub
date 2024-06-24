@@ -1,5 +1,5 @@
 import React from "react";
-import MainLayout from "../../layouts/MainLayout";
+import MainLayout from "../../../layouts/MainLayout";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import {
@@ -14,7 +14,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faCircleUser } from "@fortawesome/free-regular-svg-icons";
-import Dropzone from "../../assets/Dropzone.png";
+import Dropzone from "../../../assets/Dropzone.png";
 
 export default function Setting({ type }) {
   return (
