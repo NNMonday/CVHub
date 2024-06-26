@@ -7,7 +7,7 @@ import PerformRequest from "../utilities/PerformRequest.js";
 import { login } from "../redux/auth.js";
 import { GoogleLogin } from "@react-oauth/google";
 import React, { useState, useEffect, useCallback } from "react";
-import { toast } from "react-toastify"
+import { toast } from "react-hot-toast"
 export default function Register() {
   const [signUpData, setSignUpData] = useState({
     email: "",
