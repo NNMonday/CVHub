@@ -2,23 +2,26 @@ import React, { useCallback, useEffect, useState } from "react";
 import MainLayout from "../layouts/MainLayout";
 import { Button, Col, Container, Row, Dropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight, faCalendar, faDollarSign, faLocationDot, faThLarge, faVirus } from "@fortawesome/free-solid-svg-icons";
+import { faThLarge, faVirus } from "@fortawesome/free-solid-svg-icons";
 import { faSearch, faMapMarkerAlt, faVectorSquare } from '@fortawesome/free-solid-svg-icons';
 import PerformRequest from "../utilities/PerformRequest.js";
-import { getDistanceFromToday } from "../utilities/ReuseFns";
 import Job from "../components/Job.jsx"; // Import Job component here
+import { Link } from 'react-router-dom';
+import {  Typography } from 'antd';
+const {  Text } = Typography;
+
 
 export default function JobListView() {
     const OriginalRequest = useCallback(PerformRequest().OriginalRequest, []);
     const [jobs, setJobs] = useState([]);
-    const [sortOrder, setSortOrder] = useState('earliest');
+    const [sortOrder, setSortOrder] = useState('lastest');
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(12); 
+    const [itemsPerPage, setItemsPerPage] = useState(12);
 
     // Function to handle items per page change
     const handleItemsPerPageChange = (perPage) => {
         setItemsPerPage(perPage);
-        setCurrentPage(1); 
+        setCurrentPage(1);
     };
 
     // Function to handle sorting of jobs
@@ -71,7 +74,9 @@ export default function JobListView() {
                     <h4>FindJob</h4>
                 </div>
                 <div>
-                    <p>Home / FindJobs</p>
+                    <Text>
+                        <Link to="/">Home</Link> / <Link to="/viewAllJob">Find Jobs</Link>
+                    </Text>
                 </div>
             </div>
 
@@ -177,7 +182,7 @@ export default function JobListView() {
                 <Row className="ms-auto">
                     <Col xs="auto">
                         <Button variant="light">
-                        <FontAwesomeIcon icon={faThLarge} />
+                            <FontAwesomeIcon icon={faThLarge} />
                         </Button>
                     </Col>
                     <Col xs="auto">

@@ -19,6 +19,9 @@ import JobListView from "../screens/JobListView";
 import JobPortal from "../screens/account/dashboard/Overview";
 import Singlejob from "../screens/SingleJob";
 
+import BrowseCompanies from "../screens/BrowseCompanies.jsx";
+import BrowseCompaniesDetail from "../screens/BrowswCompaniesDetail.jsx";
+
 export default function MyRoutes() {
   return (
     <BrowserRouter>
@@ -45,6 +48,10 @@ export default function MyRoutes() {
         <Route path="/account/setup/finish" element={<Finish />} />
   
         <Route  path="/account/dashboard/overview" element={<JobPortal />} />
+
+
+        <Route path="/browsecompanies" element={<BrowseCompanies />} />
+        <Route path="/browsecompanies/detail" element={<BrowseCompaniesDetail />} />
       </Routes>
     </BrowserRouter>
   );
