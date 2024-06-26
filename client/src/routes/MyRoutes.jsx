@@ -21,6 +21,7 @@ import Singlejob from "../screens/SingleJob";
 
 import BrowseCompanies from "../screens/BrowseCompanies.jsx";
 import BrowseCompaniesDetail from "../screens/BrowswCompaniesDetail.jsx";
+import { Toast, ToastContainer } from "react-bootstrap";
 
 export default function MyRoutes() {
   return (

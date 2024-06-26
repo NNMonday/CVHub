@@ -13,6 +13,22 @@ const client = jwksClient({
   timeout: 30000, // Defaults to 30s
 });
 
+const checkEmailExists = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const existingUser = await AuthenticateRepository.getUserByEmail(email);
+    if (existingUser) {
+      return res.status(200).json({ exists: true });
+    } else {
+      return res.status(200).json({ exists: false });
+    }
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+
+
 const getKey = async (header, callback) => {
   try {
     // console.log(header);
@@ -41,39 +57,44 @@ const signUp = async (req, res) => {
       email,
       password,
       confirmPassword,
-      loacation,
+      location,
       avatar,
       role_id
     } = req.body;
+
     if (
       email.length == 0 ||
-      password.length == 0
+      password.length == 0 ||
+      role_id.length == 0
     ) {
       return res
         .status(400)
-        .json({ error: "Please fill out all the mandatory field" });
+        .json({ error: "Please fill out all the mandatory fields" });
     }
+
     if (confirmPassword !== password) {
       return res
         .status(400)
-        .json({ error: "Password does not match confirm password" });
+        .json({ error: "Passwords do not match" });
     }
+
     const existingUser = await AuthenticateRepository.getUserByEmail(email);
     if (existingUser) {
       return res.status(400).json({ error: "Email is taken" });
     }
-    // console.log(req.file);
-    // const profilePicture = (await req.file) ? req.file.path : null;
+
     const salt = bcrypt.genSaltSync(parseInt(process.env.SALT_ROUND));
     const hashedPassword = bcrypt.hashSync(password, salt);
     const newUser = await AuthenticateRepository.addUser({
       email,
       hashedPassword,
-      loacation,
+      location,
       avatar,
       role_id,
     });
+
     await sendConfirmEmail(email, newUser._id);
+
     return res.status(201).json({
       message:
         "Sign up successfully, go to your email to confirm signing up. The email will expire in an hour",
@@ -82,7 +103,6 @@ const signUp = async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 };
-
 
 const verifyUser = async (req, res) => {
   try {
@@ -448,4 +468,5 @@ export default {
   googleLogin,
   sendResetLink,
   mobileLogin,
+  checkEmailExists
 };

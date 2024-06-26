@@ -93,7 +93,7 @@ export default function MainLayout({ children }) {
 
       <div className="d-flex align-items-center">
       {isLoggedIn ? (
-        <ProfileMenu profile_picture performLogOut={performLogOut} />
+        <ProfileMenu avatar performLogOut={performLogOut} />
       ) : (
         <div className="d-flex align-items-center ml-5">
           {/* <Link to="/login" className="mr-2">

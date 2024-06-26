@@ -35,4 +35,5 @@ authenticationRouter.post(
   "/forgot-password",
   AuthenticationController.sendResetLink
 );
+authenticationRouter.post("/check-email", AuthenticationController.checkEmailExists);
 export default authenticationRouter;
