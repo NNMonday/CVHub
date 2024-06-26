@@ -5,7 +5,8 @@ import JobsController from "./jobs.js";
 import CompanyController from "./company.js";
 import WorkStatusController from "./workstatus.js";
 import FieldsController from "./fields.js";
-import JobSekkerController from "./jobsekker.js";
+import JobSeekersController from "../model/JobSeekers.js";
+
 export {
   AuthenticationController,
   RolesController,
@@ -14,5 +15,5 @@ export {
   CompanyController,
   WorkStatusController,
   FieldsController,
-  JobSekkerController
+  JobSeekersController
 };

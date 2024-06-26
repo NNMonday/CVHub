@@ -10,19 +10,25 @@ import {
   faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import BookmarkButton from './BookmarkButton';
 
-export default function Job({ name, work_status, location, salary, deadline }) {
+
+const Job = (props) => {
+
+
+  const { name, workstatus_id, location, salary, deadline, jobId, userId } = props;
+  const workType = workstatus_id?.workStatus_name || "Unknown"
   return (
     <Col
       sm={12}
       className="d-flex p-4 border align-items-center mb-3 job-container"
-      style={{ borderRadius: "10px" }}
+      style={{ borderRadius: '10px' }}
     >
       <div className="d-flex flex-grow-1">
         <div
           style={{
-            width: "7%",
-            borderRadius: "6px",
+            width: '7%',
+            borderRadius: '6px',
           }}
           className="overflow-hidden"
         >
@@ -34,44 +40,34 @@ export default function Job({ name, work_status, location, salary, deadline }) {
         </div>
         <div className="ms-3 d-flex flex-column justify-content-between">
           <div>
-            <Link className="text-decoration-none fw-bolder fs-5 job-name">
+            <Link to="#" className="text-decoration-none fw-bolder fs-5 job-name">
               {name}
             </Link>
             <span
               className="text-primary fw-bold bg-primary-subtle py-1 px-2 ms-3"
-              style={{ borderRadius: "15px" }}
+              style={{ borderRadius: '15px' }}
             >
-              {work_status}
+              {workType}
             </span>
           </div>
           <div className="text-secondary">
             <span>
-              <FontAwesomeIcon className="me-1" icon={faLocationDot} />{" "}
-              {location}
+              <FontAwesomeIcon className="me-1" icon={faLocationDot} /> {location}
             </span>
             <span>
-              <FontAwesomeIcon className="me-1 ms-3" icon={faDollarSign} />
-              {salary} VNĐ
+              <FontAwesomeIcon className="me-1 ms-3" icon={faDollarSign} /> {salary}
             </span>
             <span>
-              <FontAwesomeIcon className="me-1 ms-3" icon={faCalendar} />
-              {getDistanceFromToday(deadline)} Days Remaining
+              <FontAwesomeIcon className="me-1 ms-3" icon={faCalendar} /> {getDistanceFromToday(deadline)} Days Remaining
             </span>
           </div>
         </div>
       </div>
       <div className="d-flex">
-        <div
-          className="py-2 px-3 me-2 save-container"
-          style={{
-            borderRadius: "6px",
-          }}
-        >
-          <FontAwesomeIcon icon={faBookmark} />
-        </div>
+        <BookmarkButton jobId={jobId} userId={userId} />
         <div
           className="d-flex align-items-center py-1 px-3 apply-container"
-          style={{ backgroundColor: "#E7F0FA", borderRadius: "6px" }}
+          style={{ backgroundColor: '#E7F0FA', borderRadius: '6px' }}
         >
           <span className="fw-bold">
             Apply Now
@@ -79,6 +75,9 @@ export default function Job({ name, work_status, location, salary, deadline }) {
           </span>
         </div>
       </div>
+
     </Col>
   );
+
 }
+export default Job;

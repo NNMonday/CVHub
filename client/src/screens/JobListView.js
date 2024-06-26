@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { getDistanceFromToday } from "../utilities/ReuseFns";
 import PerformRequest from "../utilities/PerformRequest.js";
 import { faSearch, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
+import BookmarkButton from "../components/BookmarkButton.jsx";
 
 
 
@@ -60,7 +61,7 @@ export default function JobListView() {
     }
 
     const Job = (props) => {
-        const { name, workstatus_id, location, salary, deadline } = props;
+        const { name, workstatus_id, location, salary, deadline,jobId,userId } = props;
         const workType = workstatus_id?.workStatus_name || "Unknown"
         return (
             <Col sm={12} className="d-flex p-4 border align-items-center mb-3 job-container" style={{ borderRadius: "10px" }}>
@@ -84,7 +85,7 @@ export default function JobListView() {
                 </div>
                 <div className="d-flex">
                     <div className="py-2 px-3 me-2 save-container" style={{ borderRadius: "6px" }}>
-                        <FontAwesomeIcon icon={faBookmark} />
+                    <BookmarkButton jobId={jobId} userId={userId} />
                     </div>
                     <div className="d-flex align-items-center py-1 px-3 apply-container" style={{ backgroundColor: "#E7F0FA", borderRadius: "6px" }}>
                         <span className="fw-bold">Apply Now <FontAwesomeIcon className="ms-2" icon={faArrowRight} /></span>

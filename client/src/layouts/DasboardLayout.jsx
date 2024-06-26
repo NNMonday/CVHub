@@ -46,7 +46,7 @@ export default function DashboardLayout({ children }) {
             </NavLink>
             <NavLink
               className="dashboard-navlink-default d-block px-3 py-2"
-              to={"/account/setting"}
+              to={"/account/setting/personal"}
             >
               <FontAwesomeIcon icon={faGear} className="me-2" /> Settings
             </NavLink>

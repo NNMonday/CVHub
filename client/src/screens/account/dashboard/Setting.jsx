@@ -11,7 +11,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faCircleUser } from "@fortawesome/free-regular-svg-icons";
 import Dropzone from "../../../assets/Dropzone.png";
-import DashboardLayout from "../../../layouts/DashBoardLayout";
+import DashboardLayout from "../../../layouts/DasboardLayout";
 
 export default function Setting({ type }) {
   return (

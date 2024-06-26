@@ -5,19 +5,8 @@ import Logo from "../assets/Logo.png";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useLocation } from "react-router-dom";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import ProfileMenu from "../components/ProfileMenu.js";
-
-import {
-  Divider,
-  ListItemIcon,
-  ListItemText,
-  Menu,
-  MenuItem,
-} from "@mui/material";
-import { FaAddressBook, FaCircleUser } from "react-icons/fa6";
-import { IoLogOut } from "react-icons/io5";
 import { useEffect, useState, useCallback } from "react";
 import Logout from "../utilities/LogOut.js";
 import PerformRequest from "../utilities/PerformRequest.js";
@@ -26,7 +15,6 @@ import Footer from "../components/Footer.jsx";
 
 
 export default function MainLayout({ children }) {
-  const OriginalRequest = useCallback(PerformRequest().OriginalRequest, []);
 
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const expanded = useSelector((state) => state.sideBar.expanded);
@@ -48,6 +36,7 @@ export default function MainLayout({ children }) {
 
   const [location, setLocation] = useState([]);
   const [jobName, setJobName] = useState('');
+  const OriginalRequest = useCallback(PerformRequest().OriginalRequest, []);
 
   useEffect(() => {
     const fetchLocations = async () => {

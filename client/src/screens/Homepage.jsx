@@ -4,28 +4,24 @@ import { Button, Col, Container, Row } from "react-bootstrap";
 import Illustration from "../assets/Illustration.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import {
   faArrowRight,
-  faCalendar,
-  faDollarSign,
   faLocationDot,
   faMagnifyingGlass,
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
-import { faBookmark } from "@fortawesome/free-regular-svg-icons";
-import logoPlaceholder from "../assets/logoPlaceholder.png";
-import { Link, useParams } from "react-router-dom";
-import { getDistanceFromToday } from "../utilities/ReuseFns";
+import Job from "../components/Job.jsx"
+import { Link } from "react-router-dom";
 import PerformRequest from "../utilities/PerformRequest.js";
 import { useEffect, useState, useCallback } from "react";
+
 
 
 
 export default function Homepage() {
   const OriginalRequest = useCallback(PerformRequest().OriginalRequest, []);
   const [jobsList, setJobList] = useState([]);
-  const searchValue = useSelector((state) => state.search.searchKey); 
+  const searchValue = useSelector((state) => state.search.searchKey);
 
   const fetchJobs = async (jobTitle, location) => {
     try {
@@ -47,10 +43,10 @@ export default function Homepage() {
     }
   }, [searchValue.jobTitle, searchValue.location]);
 
-  const handleInputChange = (field, value) => { 
+  const handleInputChange = (field, value) => {
   };
 
-  const handleSearch = () => { 
+  const handleSearch = () => {
     fetchJobs(searchValue.jobTitle, searchValue.location);
   };
 
@@ -148,78 +144,6 @@ export default function Homepage() {
     </Col>
   );
 
-  const Job = (props) => {
-    const { name, workstatus_id, location, salary, deadline } = props;
-    const workType = workstatus_id?.workStatus_name || "Unknown"
-    return (
-      <Col
-        sm={12}
-        className="d-flex p-4 border align-items-center mb-3 job-container"
-        style={{ borderRadius: '10px' }}
-      >
-        <div className="d-flex flex-grow-1">
-          <div
-            style={{
-              width: '7%',
-              borderRadius: '6px',
-            }}
-            className="overflow-hidden"
-          >
-            <img
-              src={logoPlaceholder}
-              alt="logoPlaceholder"
-              className="w-100 h-100"
-            />
-          </div>
-          <div className="ms-3 d-flex flex-column justify-content-between">
-            <div>
-              <Link to="#" className="text-decoration-none fw-bolder fs-5 job-name">
-                {name}
-              </Link>
-              <span
-                className="text-primary fw-bold bg-primary-subtle py-1 px-2 ms-3"
-                style={{ borderRadius: '15px' }}
-              >
-                {workType}
-              </span>
-            </div>
-            <div className="text-secondary">
-              <span>
-                <FontAwesomeIcon className="me-1" icon={faLocationDot} /> {location}
-              </span>
-
-              {/* hahahaha */}
-              <span>
-                <FontAwesomeIcon className="me-1 ms-3" icon={faDollarSign} /> {salary}
-              </span>
-              <span>
-                <FontAwesomeIcon className="me-1 ms-3" icon={faCalendar} /> {getDistanceFromToday(deadline)} Days Remaining
-              </span>
-            </div>
-          </div>
-        </div>
-        <div className="d-flex">
-          <div
-            className="py-2 px-3 me-2 save-container"
-            style={{
-              borderRadius: '6px',
-            }}
-          >
-            <FontAwesomeIcon icon={faBookmark} />
-          </div>
-          <div
-            className="d-flex align-items-center py-1 px-3 apply-container"
-            style={{ backgroundColor: '#E7F0FA', borderRadius: '6px' }}
-          >
-            <span className="fw-bold">
-              Apply Now
-              <FontAwesomeIcon className="ms-2" icon={faArrowRight} />
-            </span>
-          </div>
-        </div>
-      </Col>
-    );
-  };
 
   const Banner = () => (
     <Container

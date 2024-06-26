@@ -5,7 +5,7 @@ import JobsRepository from "./jobs.js";
 import CompanyRepository from "./company.js";
 import WorkStatusRepository from "./workstatus.js";
 import FieldsRepository from "./fields.js";
-import JobSekkerRepository from "./jobsekker.js";
+import JobSeekersRepository from "./jobSeekers.js";
 export {
   AuthenticateRepository,
   RolesRepository,
@@ -14,5 +14,5 @@ export {
   CompanyRepository,
   WorkStatusRepository,
   FieldsRepository,
-  JobSekkerRepository
+  JobSeekersRepository
 };

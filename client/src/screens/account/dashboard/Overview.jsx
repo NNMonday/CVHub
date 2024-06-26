@@ -4,7 +4,7 @@ import { Container, Row, Col, Button, Table, Alert } from 'react-bootstrap';
 import { FaEdit } from 'react-icons/fa';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
-import DashboardLayout from '../../../layouts/DashBoardLayout';
+import DashboardLayout from '../../../layouts/DasboardLayout.jsx';
 import { faBriefcase, faCalendar, faDollarSign, faLocationDot, faThLarge, faUsers, faSort, faAddressBook, faVectorSquare, faVirus } from "@fortawesome/free-solid-svg-icons";
 import { faBookmark } from "@fortawesome/free-regular-svg-icons";
 import logoPlaceholder from "../../../assets/logoPlaceholder.png";

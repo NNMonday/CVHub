@@ -1,7 +1,7 @@
-import mongoose from "mongoose";
 
-import Jobs from "../model/Job.js";
-import fields from "./fields.js";
+
+import Jobs from "../model/Jobs.js";
+
 
 // Get all jobs
 const getAllJobs = async () => {

@@ -55,11 +55,11 @@ const getUserById = async (userId) => {
   try {
     const existingUser = await Users.findById(userId)
       // .populate({
-      //   path: "artist_followed",
-      //   select: "_id artist_name",
-      //   populate: { path: "userId", select: "profile_picture" },
+      //   path: "jobSekkers_followed",
+      //   select: "_id fullname",
+      //   populate: { path: "userId", select: "avatar" },
       // })
-      .exec();
+      // .exec();
     if (!existingUser) {
       throw new Error("Not found!!");
     }
@@ -73,11 +73,11 @@ const getUserByEmail = async (email) => {
   try {
     const existingUser = await Users.findOne({ email: email })
       // .populate({
-      //   path: "artist_followed",
-      //   select: "_id artist_name",
-      //   populate: { path: "userId", select: "profile_picture" },
+      //   path: "jobSekkers_followed",
+      //   select: "_id fullname",
+      //   populate: { path: "userId", select: "avatar" },
       // })
-      .exec();
+      // .exec();
     return existingUser;
   } catch (error) {
     throw new Error(error.message);
