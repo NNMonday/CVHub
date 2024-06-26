@@ -19,7 +19,6 @@ import { useEffect, useState, useCallback } from "react";
 
 
 export default function Homepage() {
-  const OriginalRequest = useCallback(PerformRequest().OriginalRequest, []);
   const [jobsList, setJobList] = useState([]);
   const searchValue = useSelector((state) => state.search.searchKey);
 
@@ -50,7 +49,7 @@ export default function Homepage() {
     fetchJobs(searchValue.jobTitle, searchValue.location);
   };
 
-
+  const OriginalRequest = useCallback(PerformRequest().OriginalRequest, []);
   const [jobs, setJobs] = useState([]);
   useEffect(() => {
     const fetchJobs = async () => {

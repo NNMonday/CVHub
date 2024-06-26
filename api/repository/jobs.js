@@ -18,9 +18,9 @@ const getAllJobs = async () => {
 };// đoạn này k
 
 // Get job by ID
-const getJobById = async (id) => {
+const getJobById = async (jobId) => {
   try {
-    const job = await Jobs.findById(id);
+    const job = await Jobs.findById(jobId);
     return job;
   } catch (error) {
     throw new Error(`Failed to fetch job with ID ${id}: ${error.message}`);

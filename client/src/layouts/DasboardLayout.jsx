@@ -2,6 +2,7 @@ import React from "react";
 import MainLayout from "./MainLayout";
 import { Col, Container, NavLink, Row } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
 import {
   faBookmark,
   faBriefcase,
@@ -24,12 +25,12 @@ export default function DashboardLayout({ children }) {
             className="pt-3 pe-0 dashboard"
           >
             <p style={{ fontSize: "smaller" }}>CANDIDATE DASHBOARD</p>
-            <NavLink
+            <Link
               className="dashboard-navlink-default d-block px-3 py-2"
-              to={"/account/overview"}
+              to={"/account/dashboard/overview"}
             >
               <FontAwesomeIcon icon={faLayerGroup} className="me-2" /> Overview
-            </NavLink>
+            </Link>
             <NavLink
               className="dashboard-navlink-default d-block px-3 py-2"
               to={"/account/applied"}
@@ -44,12 +45,13 @@ export default function DashboardLayout({ children }) {
               <FontAwesomeIcon icon={faBookmark} className="me-2" /> Favorite
               Jobs
             </NavLink>
-            <NavLink
+            <Link
               className="dashboard-navlink-default d-block px-3 py-2"
-              to={"/account/setting/personal"}
+              to={" /account/setting/personal"}
             >
               <FontAwesomeIcon icon={faGear} className="me-2" /> Settings
-            </NavLink>
+            
+            </Link>
           </Col>
           <Col sm={9} className="pt-5 ps-4 setting">
             {children}

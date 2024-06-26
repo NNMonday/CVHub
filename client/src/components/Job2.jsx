@@ -1,28 +1,23 @@
 import React, { useState } from "react";
 import { faBookmark, faBuilding, faCalendar, faClock } from "@fortawesome/free-regular-svg-icons";
 import logoPlaceholder from "../assets/logoPlaceholder.png";
-import { getDistanceFromToday } from "../utilities/ReuseFns";
 import { Button, Card, Col, Container, Form, InputGroup, Modal, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import {
   faArrowRight,
   faBold,
   faBriefcase,
-  faDollarSign,
   faEnvelope,
   faGraduationCap,
   faItalic,
   faLink,
   faListOl,
   faListUl,
-  faLocationDot,
   faMapMarker,
   faPhone,
   faStrikethrough,
   faUnderline,
   faWallet,
-
-
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFacebook, faPinterest, faTwitter } from "@fortawesome/free-brands-svg-icons";

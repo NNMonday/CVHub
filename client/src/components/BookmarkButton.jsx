@@ -1,45 +1,35 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBookmark } from '@fortawesome/free-solid-svg-icons';
 import { faBookmark as faBookmarkRegular } from '@fortawesome/free-regular-svg-icons';
-import PerformRequest from '../utilities/PerformRequest';
-import { useNavigate } from 'react-router-dom';
-import { useCallback } from "react";
+import { faBookmark } from '@fortawesome/free-solid-svg-icons';
+import PerformRequest from "../utilities/PerformRequest.js";
 
-const BookmarkButton = ({ jobId, userId }) => {
+
+const BookmarkButton = ({ jobId, isBookmarkedInitially }) => {
+  const [isBookmarked, setIsBookmarked] = useState(isBookmarkedInitially);
   const OriginalRequest = useCallback(PerformRequest().OriginalRequest, []);
-  const [isBookmarked, setIsBookmarked] = useState(false);
-  const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchBookmarkState = async () => {
-      try {
-        const data = await OriginalRequest(`jobSekker/savedjobs`, 'GET');
-        if (data && data.includes(jobId)) {
-          setIsBookmarked(true);
-        }
-      } catch (error) {
-        console.error('Error fetching bookmark state:', error);
-      }
-    };
 
-    fetchBookmarkState();
-  }, [OriginalRequest, jobId]);
-
-  
   const handleBookmarkClick = async () => {
+    const action = isBookmarked ? 'remove' : 'add';
     try {
-      if (isBookmarked) {
-        await OriginalRequest(`jobSekker/savedjobs/${jobId}`, 'DELETE');
-        setIsBookmarked(false);
+        const response = await OriginalRequest(
+          `jobSekker/setting/savedJob/${action}`,
+          'POST'
+        );
+        // console.log(response.ok);
+      if (response.ok) {
+        const updatedJobSeeker = await response.json();
+        setIsBookmarked(updatedJobSeeker.savedJobs.includes(jobId));
       } else {
-        await OriginalRequest(`jobSekker/savedjobs`, 'POST', { jobId }); // Pass jobId as body here
-        setIsBookmarked(true);
+        console.error('Failed to update bookmark status');
+        
       }
     } catch (error) {
-      console.error('Error updating bookmark state:', error);
+      console.error('Error updating bookmark:', error);
     }
   };
+
   
 
   return (

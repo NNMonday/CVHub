@@ -10,27 +10,19 @@
       throw error;
     }
   };
-  
-  // Function to add saved job for a job seeker
-  export const addSavedJobForJobSeeker = async (userId, jobId) => {
+  export const checkSavedJob = async (userId, jobId, action) => {
     try {
+      let updateOperation;
+      if (action === 'add') {
+        updateOperation = { $push: { savedJobs: jobId } };
+      } else if (action === 'remove') {
+        updateOperation = { $pull: { savedJobs: jobId } };
+      } else {
+        throw new Error('Invalid action. Use "add" or "remove".');
+      }
       const jobSeeker = await JobSeekersSchema.findOneAndUpdate(
         { user_Id: userId },
-        { $push: { savedJobs: jobId } },
-        { new: true }
-      ).populate('savedJobs');
-      return jobSeeker;
-    } catch (error) {
-      throw error;
-    }
-  };
-  
-  // Function to remove saved job for a job seeker
-  export const removeSavedJobForJobSeeker = async (userId, jobId) => {
-    try {
-      const jobSeeker = await JobSeekersSchema.findOneAndUpdate(
-        { user_Id: userId },
-        { $pull: { savedJobs: jobId } },
+        updateOperation,
         { new: true }
       ).populate('savedJobs');
       return jobSeeker;
@@ -60,5 +52,5 @@
   
     
   export default {
-      addSavedJobForJobSeeker,findJobSeekerByUserId,removeSavedJobForJobSeeker,getAllSavedJobs
+      findJobSeekerByUserId,checkSavedJob,getAllSavedJobs
   }
