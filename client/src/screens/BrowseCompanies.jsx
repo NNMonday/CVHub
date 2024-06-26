@@ -7,6 +7,9 @@ import { useNavigate } from 'react-router-dom';
 import { FaLocationArrow, FaSearch } from 'react-icons/fa';
 import { FaLocationDot } from 'react-icons/fa6';
 
+import { SearchOutlined, UserOutlined } from '@ant-design/icons';
+
+
 const { Content, Sider } = Layout;
 const { Option } = Select;
 const { Search } = Input;

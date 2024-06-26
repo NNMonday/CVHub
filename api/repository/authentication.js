@@ -9,7 +9,7 @@ const authenticate = async () => {
   }
 };
 
-const addUser = async ({ email, hashedPassword, location, avatar,role_id }) => {
+const addUser = async ({ email, hashedPassword, location, avatar, role_id }) => {
   try {
     const existingUser = await Users.findOne({ email: email }).exec();
     if (existingUser) {
@@ -20,7 +20,7 @@ const addUser = async ({ email, hashedPassword, location, avatar,role_id }) => {
       password: hashedPassword,
       location: location,
       avatar: avatar,
-      role_id : role_id,
+      role_id: role_id,
     });
     return result._doc;
   } catch (error) {
@@ -54,12 +54,8 @@ const verifyUser = async (userId) => {
 const getUserById = async (userId) => {
   try {
     const existingUser = await Users.findById(userId)
-      // .populate({
-      //   path: "jobSekkers_followed",
-      //   select: "_id fullname",
-      //   populate: { path: "userId", select: "avatar" },
-      // })
-      // .exec();
+      .populate({ path: "user_Id", model: "users", select: "avatar" })
+      .exec();
     if (!existingUser) {
       throw new Error("Not found!!");
     }
@@ -72,12 +68,12 @@ const getUserById = async (userId) => {
 const getUserByEmail = async (email) => {
   try {
     const existingUser = await Users.findOne({ email: email })
-      // .populate({
-      //   path: "jobSekkers_followed",
-      //   select: "_id fullname",
-      //   populate: { path: "userId", select: "avatar" },
-      // })
-      // .exec();
+    // .populate({
+    //   path: "jobSekkers_followed",
+    //   select: "_id fullname",
+    //   populate: { path: "userId", select: "avatar" },
+    // })
+    // .exec();
     return existingUser;
   } catch (error) {
     throw new Error(error.message);

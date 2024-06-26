@@ -2,13 +2,12 @@ import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import Auth from "../assets/Auth.png";
 import Logo from "../assets/Logo.png";
 import { Link, useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import PerformRequest from "../utilities/PerformRequest.js";
 import { login } from "../redux/auth.js";
 import { GoogleLogin } from "@react-oauth/google";
 import React, { useState, useEffect, useCallback } from "react";
-
+import { toast } from "react-hot-toast"
 export default function Register() {
   const [signUpData, setSignUpData] = useState({
     email: "",
@@ -22,8 +21,9 @@ export default function Register() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const imageSrc =
-    "https://res.cloudinary.com/djzdhtdpj/image/upload/v1704269768/tempAvatar_juqb4s.jpg";
+  const [imageSrc, setImageSrc] = useState(
+    "https://res.cloudinary.com/djzdhtdpj/image/upload/v1704269768/tempAvatar_juqb4s.jpg"
+  );
   useEffect(() => {
     const fetchRoles = async () => {
       try {
@@ -49,10 +49,12 @@ export default function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (
       !signUpData.email ||
       !signUpData.password ||
-      !signUpData.confirmPassword
+      !signUpData.confirmPassword ||
+      !signUpData.role_id
     ) {
       toast.error("Please fill in all fields.");
       return;
@@ -62,23 +64,44 @@ export default function Register() {
       toast.error("Passwords do not match.");
       return;
     }
-    const updateSignupData = { ...signUpData };
-    updateSignupData.profilePicture = imageSrc;
+
+    const updateSignupData = { ...signUpData, avatar: imageSrc };
+
     try {
       setLoading(true);
-      const data = await OriginalRequest(
-        `auth/signup`,
-        "POST",
-        updateSignupData
-      );
-      console.log("Signup response:", data);
-      setShowMessage(true);
+      const checkEmailExistence = await OriginalRequest('auth/check-email', 'POST', {
+        email: signUpData.email
+      });
+      if (checkEmailExistence.exists) {
+        toast.error("Email is already taken. Please choose another.");
+        setLoading(false);
+      } else {
+        const response = await OriginalRequest(
+          `auth/signup`,
+          "POST",
+          updateSignupData
+        );
+
+        if (response.error) {
+          toast.error(response.error);
+        } else {
+          console.log("Signup response:", response);
+          setShowMessage(true);
+          toast.success("Sign up successfully! Please check your email to confirm.");
+        }
+      }
+
+
+
+
     } catch (error) {
-      console.log(error);
+      console.log("Error:", error);
+      toast.error("An error occurred during registration.");
     } finally {
       setLoading(false);
     }
   };
+
   const postGoogleAuth = async (token) => {
     try {
       //a reusable fetch function, the body is optional,

@@ -21,6 +21,8 @@ import BrowseCompaniesDetail from "../screens/BrowseCompaniesDetail";
 import JobPortal from "../screens/account/dashboard/Overview";
 import Singlejob from "../screens/SingleJob";
 
+import { Toast, ToastContainer } from "react-bootstrap";
+
 export default function MyRoutes() {
   return (
     <BrowserRouter>
@@ -50,8 +52,12 @@ export default function MyRoutes() {
         <Route path="/account/setup/social" element={<Social />} />
         <Route path="/account/setup/contact" element={<Contact />} />
         <Route path="/account/setup/finish" element={<Finish />} />
+  
+        <Route  path="/account/dashboard/overview" element={<JobPortal />} />
 
-        <Route path="/account/dashboard/overview" element={<JobPortal />} />
+
+        <Route path="/browsecompanies" element={<BrowseCompanies />} />
+        <Route path="/browsecompanies/detail" element={<BrowseCompaniesDetail />} />
       </Routes>
     </BrowserRouter>
   );

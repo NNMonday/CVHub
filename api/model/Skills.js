@@ -4,7 +4,7 @@ import mongoose, { Schema } from "mongoose";
 const skillsSchema = new Schema(
   {
     name: {
-      type: String
+      type: String,
     },
   },
   { timestamps: true, collection: "skills" }

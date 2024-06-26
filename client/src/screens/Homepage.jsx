@@ -19,9 +19,9 @@ import { useEffect, useState, useCallback } from "react";
 
 
 export default function Homepage() {
-  const [jobsList, setJobList] = useState([]);
+  
   const searchValue = useSelector((state) => state.search.searchKey);
-
+  const [jobsList, setJobList] = useState([]);
   const fetchJobs = async (jobTitle, location) => {
     try {
       const searchJobValue = await OriginalRequest(

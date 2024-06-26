@@ -2,11 +2,34 @@ import React, { useState } from "react";
 import MainLayout from "../layouts/MainLayout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Job2 from "../components/Job2";
-import { Button, Card, Col, Container, Form, InputGroup, Modal, Row } from "react-bootstrap";
-import { faFacebook, faFacebookSquare, faInstagramSquare, faPinterest, faTwitter, faTwitterSquare, faYoutubeSquare } from "@fortawesome/free-brands-svg-icons";
+import { Card, Col, Container, Row } from "react-bootstrap";
+import { faFacebookSquare, faInstagramSquare, faTwitterSquare, faYoutubeSquare } from "@fortawesome/free-brands-svg-icons";
+import PerformRequest from "../utilities/PerformRequest.js";
+import { useEffect, useCallback } from "react";
+import { useParams } from 'react-router-dom';
 
 
 export default function Singlejob() {
+  const OriginalRequest = useCallback(PerformRequest().OriginalRequest, []);
+  const [job, setJob] = useState([]);
+  const { jobId } = useParams();
+  useEffect(() => {
+    const fetchJob = async () => {
+      try {
+        const response = await OriginalRequest(`jobs/getJobById/${jobId}`, 'GET');
+        if (response && response.data) {
+          console.log('Job fetched:', response.data);
+          setJob(response.data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch job:', error);
+      }
+    };
+
+    fetchJob();
+  }, [OriginalRequest]);
+
+
   const data = {
     jobs: [
 
@@ -45,79 +68,17 @@ export default function Singlejob() {
 
 
   return (
-
-
     <MainLayout>
-
-
       <div style={{ padding: "20px 200px" }} className="bg-secondary-subtle">
         <div className="d-flex" style={{ textAlign: "center" }}>
           <h5 className="fw-bold">Job Detail</h5>
         </div>
-
       </div>
       <div>
         {data.jobs.map((j) => (
           <Job2 {...j} />
         ))}
       </div>
-      <Container style={{ padding: '10px', }}>
-
-        <Row>
-          <Col xs={7} />
-
-          <Col xs={5}  >
-
-
-            <Card style={{ "bottom": "250px" }}>
-              <Card.Body>
-                <Row className="align-items-center mb-3">
-                  <Col xs="auto">
-                    <img src="path_to_instagram_logo.png" alt="Instagram" width="50" height="50" />
-                  </Col>
-                  <Col>
-                    <h5 className="mb-0">Instagram</h5>
-                    <small className="text-muted">Social networking service</small>
-                  </Col>
-                </Row>
-                <Row className="mb-2">
-                  <Col xs={5}><small>Founded in:</small></Col>
-                  <Col><strong>March 21, 2006</strong></Col>
-                </Row>
-                <Row className="mb-2">
-                  <Col xs={5}><small>Organization type:</small></Col>
-                  <Col><strong>Private Company</strong></Col>
-                </Row>
-                <Row className="mb-2">
-                  <Col xs={5}><small>Company size:</small></Col>
-                  <Col><strong>120-300 Companies</strong></Col>
-                </Row>
-                <Row className="mb-2">
-                  <Col xs={5}><small>Phone:</small></Col>
-                  <Col><strong>(406) 555-0120</strong></Col>
-                </Row>
-                <Row className="mb-2">
-                  <Col xs={5}><small>Email:</small></Col>
-                  <Col><strong>twitter@gmail.com</strong></Col>
-                </Row>
-                <Row className="mb-3">
-                  <Col xs={5}><small>Website:</small></Col>
-                  <Col><strong>https://twitter.com</strong></Col>
-                </Row>
-                <div>
-                  <FontAwesomeIcon icon={faFacebookSquare} size="2x" className="me-2 text-primary" />
-                  <FontAwesomeIcon icon={faTwitterSquare} size="2x" className="me-2 text-info" />
-                  <FontAwesomeIcon icon={faInstagramSquare} size="2x" className="me-2 text-danger" />
-                  <FontAwesomeIcon icon={faYoutubeSquare} size="2x" className="text-danger" />
-                </div>
-              </Card.Body>
-            </Card>
-
-          </Col>
-
-        </Row>
-      </Container>
-
     </MainLayout>
   );
 }
