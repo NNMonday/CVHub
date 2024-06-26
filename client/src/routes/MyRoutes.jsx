@@ -17,6 +17,7 @@ import Contact from "../screens/account/setup/Contact";
 import Finish from "../screens/account/setup/Finish";
 import JobListView from "../screens/JobListView";
 import JobPortal from "../screens/account/dashboard/Overview";
+import Singlejob from "../screens/SingleJob";
 
 export default function MyRoutes() {
   return (
@@ -27,6 +28,7 @@ export default function MyRoutes() {
         <Route path="/login" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/find/job" element={<FindJob />} />
+        <Route path="/singlejob" element={<Singlejob />} />
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/support" element={<Support />} />
         <Route path="/viewAllJob" element={<JobListView />} />
