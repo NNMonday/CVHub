@@ -15,6 +15,7 @@ import {
   ListItemText,
   Menu,
   MenuItem,
+  bottomNavigationActionClasses,
 } from "@mui/material";
 import { FaAddressBook, FaCircleUser } from "react-icons/fa6";
 import { IoLogOut } from "react-icons/io5";
@@ -72,7 +73,9 @@ export default function MainLayout({ children }) {
   const Header = () => (
     <Container
       fluid
-      style={{ padding: "18px 200px" }}
+      style={{
+        padding: "28px 200px",
+      }}
       className="d-flex justify-content-between align-items-center"
     >
       <div className="d-flex align-items-center">
@@ -93,34 +96,32 @@ export default function MainLayout({ children }) {
         </select>
         <div className="border border-1 mx-2" style={{ height: "60%" }}></div>
         <div className="d-inline-block py-2 px-3">
-            <FontAwesomeIcon icon={faMagnifyingGlass} className="me-3" />
-            <input
-              type="text"
-              placeholder="Job title, company"
-              className="border-0 h-100 custom-input w-75"
-            />
-          </div>
-      </div>
-
-      <div className="d-flex align-items-center">
-      {isLoggedIn ? (
-        <ProfileMenu profile_picture performLogOut={performLogOut} />
-      ) : (
-        <div className="d-flex align-items-center ml-5">
-          <Link to="/login" className="mr-2">
-            <button className="btn btn-primary bg-transparent text-primary">
-              Login
-            </button>
-          </Link>
-          <Link to="/register" className="btn btn-primary ms-2">
-            Sign Up
-          </Link>
+          <FontAwesomeIcon icon={faMagnifyingGlass} className="me-3" />
+          <input
+            type="text"
+            placeholder="Job title, company"
+            className="border-0 h-100 custom-input w-75"
+          />
         </div>
-      )}
-      <Link className="btn btn-primary ms-2">Post a Job</Link>
-    </div>
-
-    </Container>
+      </div>
+      <div className="d-flex align-items-center">
+        {isLoggedIn ? (
+          <ProfileMenu profile_picture performLogOut={performLogOut} />
+        ) : (
+          <div className="d-flex align-items-center ml-5">
+            <Link to="/login" className="mr-2">
+              <button className="btn btn-primary bg-transparent text-primary">
+                Login
+              </button>
+            </Link>
+            <Link to="/register" className="btn btn-primary ms-2">
+              Sign Up
+            </Link>
+          </div>
+        )}
+        <Link className="btn btn-primary ms-2">Post a Job</Link>
+      </div>
+    </Container >
   );
 
   return (

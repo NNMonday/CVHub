@@ -11,6 +11,8 @@ import Login from "../screens/Login";
 import Setting from "../screens/account/Setting";
 import ForgotPassword from "../screens/ForgotPassword";
 import JobListView from "../screens/JobListView";
+import BrowseCompanies from "../screens/BrowseCompanies";
+import BrowseCompaniesDetail from "../screens/BrowseCompaniesDetail";
 
 
 export default function MyRoutes() {
@@ -26,6 +28,8 @@ export default function MyRoutes() {
         <Route path="/support" element={<Support />} />
         <Route path="/viewAllJob" element={<JobListView />} />
         <Route path="/confirmSignUp/:token" element={<ConfirmSignUp />} />
+        <Route path="/browsecompanies" element={<BrowseCompanies />} />
+        <Route path="/browsecompanies/:id" element={<BrowseCompaniesDetail />} />
         {/* <Route path="/jobdetai" element={<JobDetailScreen />} /> */}
         <Route
           path="/account/setting/personal"
