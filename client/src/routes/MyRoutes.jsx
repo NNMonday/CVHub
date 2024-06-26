@@ -16,6 +16,8 @@ import Social from "../screens/account/setup/Social";
 import Contact from "../screens/account/setup/Contact";
 import Finish from "../screens/account/setup/Finish";
 import JobListView from "../screens/JobListView";
+import BrowseCompanies from "../screens/BrowseCompanies";
+import BrowseCompaniesDetail from "../screens/BrowseCompaniesDetail";
 import JobPortal from "../screens/account/dashboard/Overview";
 import Singlejob from "../screens/SingleJob";
 
@@ -33,6 +35,11 @@ export default function MyRoutes() {
         <Route path="/support" element={<Support />} />
         <Route path="/viewAllJob" element={<JobListView />} />
         <Route path="/confirmSignUp/:token" element={<ConfirmSignUp />} />
+        <Route path="/browsecompanies" element={<BrowseCompanies />} />
+        <Route
+          path="/browsecompanies/:id"
+          element={<BrowseCompaniesDetail />}
+        />
         {/* <Route path="/jobdetai" element={<JobDetailScreen />} /> */}
         <Route
           path="/account/setting/personal"
@@ -43,8 +50,8 @@ export default function MyRoutes() {
         <Route path="/account/setup/social" element={<Social />} />
         <Route path="/account/setup/contact" element={<Contact />} />
         <Route path="/account/setup/finish" element={<Finish />} />
-  
-        <Route  path="/account/dashboard/overview" element={<JobPortal />} />
+
+        <Route path="/account/dashboard/overview" element={<JobPortal />} />
       </Routes>
     </BrowserRouter>
   );
