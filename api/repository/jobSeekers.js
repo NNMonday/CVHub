@@ -49,8 +49,44 @@
       throw error;
     }
   };
+
+  const getJobSeekerById = async (jobSeekerId) => {
+    try {
+      const jobSeeker = await JobSeekersSchema.findById(jobSeekerId)
+        .populate({
+          path: "user_Id",
+          select: "avatar email" ,
+        })
+        .populate({
+          path: "savedJobs",
+          select: "_id",
+        })
+        .populate({
+          path: "applyJobs",
+          select: "_id",
+        })
+        .select("fullname savedJobs applyJobs email user_Id");
+  
+      if (!jobSeeker) {
+        return null;
+      }
+  
+      const result = {
+        fullname: jobSeeker.fullname,
+        email: jobSeeker.user_Id?.email,
+        savedJobs: jobSeeker.savedJobs,
+        applyJobs: jobSeeker.applyJobs,
+        avatar: jobSeeker.user_Id?.avatar,
+      };
+  
+      return result;
+    } catch (error) {
+      console.error(error);
+      throw new Error("Failed to get job seeker by ID");
+    }
+  };
   
     
   export default {
-      findJobSeekerByUserId,checkSavedJob,getAllSavedJobs
+      findJobSeekerByUserId,checkSavedJob,getAllSavedJobs,getJobSeekerById
   }
