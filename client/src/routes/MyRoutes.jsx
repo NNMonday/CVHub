@@ -22,6 +22,7 @@ import JobPortal from "../screens/account/dashboard/Overview";
 import Singlejob from "../screens/SingleJob";
 
 import { Toast, ToastContainer } from "react-bootstrap";
+import BrowseCandidate from "../screens/BrowseCandidate";
 
 export default function MyRoutes() {
   return (
@@ -38,6 +39,7 @@ export default function MyRoutes() {
         <Route path="/viewAllJob" element={<JobListView />} />
         <Route path="/confirmSignUp/:token" element={<ConfirmSignUp />} />
         <Route path="/browsecompanies" element={<BrowseCompanies />} />
+        <Route path="/browsecandidate" element={<BrowseCandidate />} />
         <Route
           path="/browsecompanies/:id"
           element={<BrowseCompaniesDetail />}
