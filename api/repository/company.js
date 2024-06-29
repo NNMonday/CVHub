@@ -2,6 +2,15 @@
 
 import Company from "../model/Company.js";
 
+
+export const findJobSeekerByUserId = async (userId) => {
+  try {
+    const jobSeeker = await JobSeekersSchema.findOne({ user_Id: userId });
+    return jobSeeker;
+  } catch (error) {
+    throw error;
+  }
+};
 // Get all jobs
 const getAllCompanies = async () => {
     try {
@@ -36,7 +45,38 @@ const getAllCompanies = async () => {
     }
   };
 
+  const getCompanyById = async (companyId) => {
+    try {
+      const company = await Company.findById(companyId)
+        .populate({
+          path: "user_Id",
+          select: "avatar email" ,
+        })
+        .select("company_name website description employee_quantity email user_Id");
+  
+      if (!company) {
+        return null;
+      }
+  
+      const result = {
+        company_name: company.company_name,
+        website: company.website,
+        description: company.description,
+        employee_quantity: company.employee_quantity,
+        email: company.user_Id?.email,
+        avatar: company.user_Id?.avatar,
+      };
+  
+      return result;
+    } catch (error) {
+      console.error(error);
+      throw new Error("Failed to get job seeker by ID");
+    }
+  };
+
 export default {
     getAllCompanies,
-    searchCompaniesByName
+    searchCompaniesByName,
+    getCompanyById,
+    findJobSeekerByUserId
 };
