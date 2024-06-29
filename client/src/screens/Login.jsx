@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import PerformRequest from "../utilities/PerformRequest.js";
 import { login } from "../redux/auth.js";
+
 import toast from "react-hot-toast";
 
 export default function Login() {
@@ -36,7 +37,8 @@ export default function Login() {
       const data = await OriginalRequest("auth/login", "POST", loginData);
       if (data) {
         dispatch(login(data)); 
-        navigate("/");
+
+        navigate("/account/setting/personal"); // navigate first login after sign up new account
       }
     } catch (error) {
       console.log("Error during login:", error.message);

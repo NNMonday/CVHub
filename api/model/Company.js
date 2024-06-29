@@ -16,7 +16,7 @@ const companySchema = new Schema(
     employee_quantity: {
         type: Number,
     },
-    user_id: { type: Schema.Types.ObjectId, ref: "users" },
+    user_Id: { type: Schema.Types.ObjectId, ref: "users" },
   },
   { timestamps: true, collection: "companys" }
 );

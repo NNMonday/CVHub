@@ -9,7 +9,7 @@ import "./utils/google-oauth2.js";
 import path from "path";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
-import { AuthenticationRouter, FieldsRouter, JobSeekerRouter, WorkStatusRouter } from "./routes/index.js";
+import { AuthenticationRouter, FieldsRouter, JobSeekerRouter, UsersRouter, WorkStatusRouter } from "./routes/index.js";
 import { RolesRouter } from "./routes/index.js";
 import { LocationRouter } from "./routes/index.js";
 import { JobsRouter } from "./routes/index.js";
@@ -50,7 +50,7 @@ app.use("/api/company", CompanyRouter);
 app.use("/api/workstatus", WorkStatusRouter);
 app.use("/api/fields", FieldsRouter);
 app.use("/api/jobSekker", JobSeekerRouter);
-
+app.use("/api/user", UsersRouter);
 
 
 
