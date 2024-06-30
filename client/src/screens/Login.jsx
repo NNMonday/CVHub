@@ -38,7 +38,7 @@ export default function Login() {
       if (data) {
         dispatch(login(data)); 
 
-        navigate("/account/setting/personal"); // navigate first login after sign up new account
+        navigate("/"); // navigate first login after sign up new account
       }
     } catch (error) {
       console.log("Error during login:", error.message);
