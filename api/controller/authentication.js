@@ -104,18 +104,53 @@ const signUp = async (req, res) => {
   }
 };
 
+// const verifyUser = async (req, res) => {
+//   try {
+//     const token = req.params.token;
+//     const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
+//     console.log(decodedToken);
+//     const { userId } = decodedToken;
+
+//     const result = await AuthenticateRepository.verifyUser(userId);
+//     console.log(result);
+//     return res
+//       .status(200)
+//       .json({ data: "The user was successfully verified!! Now redirecting" });
+//   } catch (error) {
+//     if (error.name === "TokenExpiredError") {
+//       return res.status(401).json({
+//         error: "Verify token expired, go to sign in page to send new email",
+//       });
+//     }
+
+//     return res.status(500).json({ error: error.message });
+//   }
+// };
 const verifyUser = async (req, res) => {
   try {
     const token = req.params.token;
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
-    console.log(decodedToken);
     const { userId } = decodedToken;
 
     const result = await AuthenticateRepository.verifyUser(userId);
-    console.log(result);
-    return res
-      .status(200)
-      .json({ data: "The user was successfully verified!! Now redirecting" });
+    if (!result) {
+      return res.status(400).json({ error: "User not found or already verified" });
+    }
+
+    // Assuming the result contains user email and password or other login information
+    const { email, password } = result;
+
+    // Optionally, create a new JWT for login
+    const loginToken = jwt.sign({ userId }, process.env.JWT_SECRET_KEY, {
+      expiresIn: '1h'
+    });
+
+    return res.status(200).json({
+      message: "The user was successfully verified!! Now redirecting",
+      email,
+      password, // Return plaintext password here
+      token: loginToken
+    });
   } catch (error) {
     if (error.name === "TokenExpiredError") {
       return res.status(401).json({
@@ -126,6 +161,7 @@ const verifyUser = async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 };
+
 
 const login = async (req, res) => {
   try {
