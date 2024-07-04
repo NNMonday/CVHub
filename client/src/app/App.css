@@ -17,3 +17,83 @@
 .google-btn {
   width: 100% !important;
 }
+
+.custom-input:focus-visible {
+  outline: none;
+}
+
+.figure:hover {
+  scale: 1.05;
+}
+
+.figure:hover > div {
+  box-shadow: 10px 10px 5px 0px rgba(206, 206, 206, 0.75);
+  border: 1px solid gainsboro;
+}
+
+.figure:hover .figure-icon-container {
+  background-color: var(--primary) !important;
+}
+
+.save-container:hover {
+  background-color: #e7f0fa;
+  color: var(--primary);
+}
+
+.apply-container {
+  color: var(--primary);
+}
+
+.apply-container:hover {
+  background-color: var(--primary) !important;
+  color: white !important;
+}
+
+.job-container:hover {
+  border-color: var(--primary) !important;
+  cursor: pointer;
+}
+
+.job-name {
+  color: black;
+}
+
+.job-name:hover {
+  color: var(--primary);
+}
+
+.dashboard-navlink-default,
+.setting-navlink-default {
+  color: #767f8c;
+  text-decoration: none;
+}
+
+.dashboard .active {
+  background-color: #e7f0fa;
+  color: var(--primary);
+  border-left: 3px solid var(--primary);
+  font-weight: bold;
+}
+
+.setting .active,
+.setup .active {
+  color: var(--primary);
+  border-bottom: 2px solid var(--primary);
+  font-weight: bold;
+}
+
+.add-cv {
+  border: 1px dashed #767f8c;
+}
+
+.bg-blue {
+  background-color: #add8e6; /* Màu xanh dương nhạt */
+}
+
+.bg-yellow {
+  background-color: #ffffe0; /* Màu vàng nhạt */
+}
+
+.bg-green {
+  background-color: #98fb98; /* Màu xanh lá nhạt */
+}

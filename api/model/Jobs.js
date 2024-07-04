@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import User from './RegisteredUser.js'
+
 
 const jobsSchema = new Schema(
   {
@@ -10,13 +10,11 @@ const jobsSchema = new Schema(
     salary: {
         type: String,
     },
-    loacation: {
-        type: String,
-    },
     quantity: {
         type: Number,
     },
-    workstatus_id:{ type: Schema.Types.ObjectId, ref: "WorkStatus" },
+    location_id:{ type: Schema.Types.ObjectId, ref: "locations" },
+    workstatus_id:{ type: Schema.Types.ObjectId, ref: "workStatus" },
     required_experience:{
         type:Number,
     },
@@ -32,12 +30,13 @@ const jobsSchema = new Schema(
     benifits: {
         type: String,
     },
-    fields_id: { type: Schema.Types.ObjectId, ref: "Fields" },
-    required_skills_id: { type: Schema.Types.ObjectId, ref: "Skills" },
-    user_id: { type: Schema.Types.ObjectId, ref: "Users" },
+    fields_id: { type: Schema.Types.ObjectId, ref: "fields" },
+    required_skills_id: [{ type: Schema.Types.ObjectId, ref: "skills" }],
+    user_id: { type: Schema.Types.ObjectId, ref: "users" },
+    
   },
   { timestamps: true, collection: "jobs" }
 );
 
-const JobsSchema = mongoose.model("jobs", jobsSchema);
-export default JobsSchema;
+const Jobs = mongoose.model("jobs", jobsSchema);
+export default Jobs;

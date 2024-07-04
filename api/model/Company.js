@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import User from './RegisteredUser.js'
+
 
 const companySchema = new Schema(
   {
@@ -16,10 +16,10 @@ const companySchema = new Schema(
     employee_quantity: {
         type: Number,
     },
-    user_id: { type: Schema.Types.ObjectId, ref: "Users" },
+    user_Id: { type: Schema.Types.ObjectId, ref: "users" },
   },
-  { timestamps: true, collection: "company" }
+  { timestamps: true, collection: "companys" }
 );
 
-const ComapnySchema = mongoose.model("company", companySchema);
+const ComapnySchema = mongoose.model("companys", companySchema);
 export default ComapnySchema;

@@ -1,46 +1,48 @@
 import SERVER_URL from "../config.js";
 import toast from "react-hot-toast";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { logOut, setUserInfo } from "../redux/auth.js";
 import { useNavigate } from "react-router-dom";
 
 export default function PerformRequest() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const userInfo = useSelector((state) => state.auth.userInfo);
   //TODO: use navigate doesn't need to be passed as a parameter
   const OriginalRequest = async (url, method, body) => {
-    const requestOption = {
-      method: String(method),
-      credentials: "include",
-      headers: {},
-    };
-    if (body instanceof FormData) {
-      requestOption.body = body;
-    } else if (body) {
-      requestOption.headers["Content-Type"] = "application/json";
-      requestOption.body = JSON.stringify(body);
-    }
-    const response = await fetch(`${SERVER_URL}${url}`, requestOption);
-    const data = await response.json();
-    if (response.ok) {
-      console.log(response.status);
-      //if the response have a message, then toast it
-      //the attribute must be named message
-      if (data.message) {
-        toast.success(data.message);
+    try {
+      const requestOption = {
+        method: String(method),
+        credentials: "include",
+        headers: {},
+      };
+      if (body instanceof FormData) {
+        requestOption.body = body;
+      } else if (body) {
+        requestOption.headers["Content-Type"] = "application/json";
+        requestOption.body = JSON.stringify(body);
       }
-      return data;
-    } else {
-      if (response.status === 401) {
-        //calls to refresh token if the accessToken is expired
-        return RefreshToken(url, method, body);
-      } else if (response.status === 403) {
-        navigate("/");
-        toast.error(data.error);
+      console.log(requestOption);
+      const response = await fetch(`${SERVER_URL}${url}`, requestOption);
+      const data = await response.json();
+      if (response.ok) {
+        console.log(response.status);
+        if (data.message) {
+          toast.success(data.message);
+        }
+        return data;
       } else {
-        toast.error(data.error);
+        if (response.status === 401) {
+          //calls to refresh token if the accessToken is expired
+          return RefreshToken(url, method, body);
+        } else if (response.status === 403) {
+          navigate("/");
+          toast.error(data.error);
+        } else {
+          toast.error(data.error);
+        }
       }
+    } catch (error) {
+      console.log(error);
     }
   };
 
