@@ -6,7 +6,7 @@ import companyController from "../controller/company.js";
 const companyRouter = express.Router();
 
 // GET all jobs
-companyRouter.get('/getAllCompanies', companyController.getAllCompanies);
+companyRouter.post('/getAllCompanies', companyController.getAllCompanies);
 
 companyRouter.get("/search", companyController.searchCompaniesByName);
 
