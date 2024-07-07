@@ -13,8 +13,8 @@ const jobsSchema = new Schema(
     quantity: {
         type: Number,
     },
-    location_id:{ type: Schema.Types.ObjectId, ref: "Locations" },
-    workstatus_id:{ type: Schema.Types.ObjectId, ref: "WorkStatus" },
+    location_id:{ type: Schema.Types.ObjectId, ref: "locations" },
+    workstatus_id:{ type: Schema.Types.ObjectId, ref: "workStatus" },
     required_experience:{
         type:Number,
     },
@@ -30,13 +30,13 @@ const jobsSchema = new Schema(
     benifits: {
         type: String,
     },
-    fields_id: { type: Schema.Types.ObjectId, ref: "Fields" },
-    required_skills_id: [{ type: Schema.Types.ObjectId, ref: "Skills" }],
-    user_id: { type: Schema.Types.ObjectId, ref: "Users" },
+    fields_id: { type: Schema.Types.ObjectId, ref: "fields" },
+    required_skills_id: [{ type: Schema.Types.ObjectId, ref: "skills" }],
+    user_id: { type: Schema.Types.ObjectId, ref: "users" },
     
   },
   { timestamps: true, collection: "jobs" }
 );
 
-const JobsSchema = mongoose.model("jobs", jobsSchema);
-export default JobsSchema;
+const Jobs = mongoose.model("jobs", jobsSchema);
+export default Jobs;

@@ -1,18 +1,13 @@
-
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import Auth from "../assets/Auth.png";
 import Logo from "../assets/Logo.png";
 import { Link, useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import PerformRequest from "../utilities/PerformRequest.js";
 import { login } from "../redux/auth.js";
 import { GoogleLogin } from "@react-oauth/google";
-import React, { useState, useEffect, useCallback } from 'react';
-
-
-
-
+import React, { useState, useEffect, useCallback } from "react";
+import { toast } from "react-hot-toast"
 export default function Register() {
   const [signUpData, setSignUpData] = useState({
     email: "",
@@ -22,7 +17,7 @@ export default function Register() {
   });
   const [showMessage, setShowMessage] = useState(false);
   const [roles, setRoles] = useState([]);
-  const  OriginalRequest = useCallback(PerformRequest().OriginalRequest,[]);
+  const OriginalRequest = useCallback(PerformRequest().OriginalRequest, []);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -32,16 +27,13 @@ export default function Register() {
   useEffect(() => {
     const fetchRoles = async () => {
       try {
-        const data = await OriginalRequest(
-          'roles/getAllRoles',
-          'GET'
-        );
+        const data = await OriginalRequest("roles/getAllRoles", "GET");
         if (data) {
-          console.log('Roles fetched:', data);
+          console.log("Roles fetched:", data);
           setRoles(data);
         }
       } catch (error) {
-        console.error('Failed to fetch roles:', error);
+        console.error("Failed to fetch roles:", error);
       }
     };
     fetchRoles();
@@ -57,32 +49,59 @@ export default function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!signUpData.email || !signUpData.password || !signUpData.confirmPassword) {
-      toast.error('Please fill in all fields.');
+
+    if (
+      !signUpData.email ||
+      !signUpData.password ||
+      !signUpData.confirmPassword ||
+      !signUpData.role_id
+    ) {
+      toast.error("Please fill in all fields.");
       return;
     }
 
     if (signUpData.password !== signUpData.confirmPassword) {
-      toast.error('Passwords do not match.');
+      toast.error("Passwords do not match.");
       return;
     }
-    const updateSignupData = { ...signUpData };
-    updateSignupData.profilePicture = imageSrc;
+
+    const updateSignupData = { ...signUpData, avatar: imageSrc };
+
     try {
       setLoading(true);
-      const data = await OriginalRequest(
-        `auth/signup`,
-        "POST",
-        updateSignupData
-      );
-      console.log('Signup response:', data); 
-      setShowMessage(true);
+      const checkEmailExistence = await OriginalRequest('auth/check-email', 'POST', {
+        email: signUpData.email
+      });
+      if (checkEmailExistence.exists) {
+        toast.error("Email is already taken. Please choose another.");
+        setLoading(false);
+      } else {
+        const response = await OriginalRequest(
+          `auth/signup`,
+          "POST",
+          updateSignupData
+        );
+
+        if (response.error) {
+          toast.error(response.error);
+        } else {
+          console.log("Signup response:", response);
+          setShowMessage(true);
+          toast.success("Sign up successfully! Please check your email to confirm.");
+        }
+      }
+
+
+
+
     } catch (error) {
-      console.log(error);
+      console.log("Error:", error);
+      toast.error("An error occurred during registration.");
     } finally {
       setLoading(false);
     }
   };
+
   const postGoogleAuth = async (token) => {
     try {
       //a reusable fetch function, the body is optional,
@@ -122,9 +141,12 @@ export default function Register() {
                     </span>
                   </div>
                   <div>
-                    <Form.Select name="role_id" onChange={(e) => {
-                      handleDataChange(e);
-                    }}>
+                    <Form.Select
+                      name="role_id"
+                      onChange={(e) => {
+                        handleDataChange(e);
+                      }}
+                    >
                       <option value="">Select Role</option>
                       {roles.map((role) => (
                         <option key={role._id} value={role._id}>
@@ -133,7 +155,6 @@ export default function Register() {
                       ))}
                     </Form.Select>
                   </div>
-
                 </Form.Group>
                 {/* <Form.Group>
                   <Form.Label></Form.Label>
@@ -158,7 +179,6 @@ export default function Register() {
                     value={signUpData.email}
                     onChange={(e) => {
                       handleDataChange(e);
-
                     }}
                   />
                 </Form.Group>
@@ -188,7 +208,6 @@ export default function Register() {
                     required
                     onChange={(e) => {
                       handleDataChange(e);
-
                     }}
                   />
                 </Form.Group>
@@ -213,17 +232,18 @@ export default function Register() {
                     }}
                     text="Login with google"
                     size={"large"}
-                    width={"395px"} />
+                    width={"395px"}
+                  />
                 </div>
                 <div>
                   {showMessage && (
                     <div className="alert alert-success mt-3" role="alert">
-                      Verification email sent successfully. Please check your email to verify.
+                      Verification email sent successfully. Please check your
+                      email to verify.
                     </div>
                   )}
                 </div>
               </Form>
-
             </div>
           </div>
         </Col>

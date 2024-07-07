@@ -13,6 +13,22 @@ const client = jwksClient({
   timeout: 30000, // Defaults to 30s
 });
 
+const checkEmailExists = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const existingUser = await AuthenticateRepository.getUserByEmail(email);
+    if (existingUser) {
+      return res.status(200).json({ exists: true });
+    } else {
+      return res.status(200).json({ exists: false });
+    }
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+
+
 const getKey = async (header, callback) => {
   try {
     // console.log(header);
@@ -41,39 +57,44 @@ const signUp = async (req, res) => {
       email,
       password,
       confirmPassword,
-      loacation,
+      location,
       avatar,
       role_id
     } = req.body;
+
     if (
       email.length == 0 ||
-      password.length == 0
+      password.length == 0 ||
+      role_id.length == 0
     ) {
       return res
         .status(400)
-        .json({ error: "Please fill out all the mandatory field" });
+        .json({ error: "Please fill out all the mandatory fields" });
     }
+
     if (confirmPassword !== password) {
       return res
         .status(400)
-        .json({ error: "Password does not match confirm password" });
+        .json({ error: "Passwords do not match" });
     }
+
     const existingUser = await AuthenticateRepository.getUserByEmail(email);
     if (existingUser) {
       return res.status(400).json({ error: "Email is taken" });
     }
-    // console.log(req.file);
-    // const profilePicture = (await req.file) ? req.file.path : null;
+
     const salt = bcrypt.genSaltSync(parseInt(process.env.SALT_ROUND));
     const hashedPassword = bcrypt.hashSync(password, salt);
     const newUser = await AuthenticateRepository.addUser({
       email,
       hashedPassword,
-      loacation,
+      location,
       avatar,
       role_id,
     });
+
     await sendConfirmEmail(email, newUser._id);
+
     return res.status(201).json({
       message:
         "Sign up successfully, go to your email to confirm signing up. The email will expire in an hour",
@@ -83,19 +104,53 @@ const signUp = async (req, res) => {
   }
 };
 
+// const verifyUser = async (req, res) => {
+//   try {
+//     const token = req.params.token;
+//     const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
+//     console.log(decodedToken);
+//     const { userId } = decodedToken;
 
+//     const result = await AuthenticateRepository.verifyUser(userId);
+//     console.log(result);
+//     return res
+//       .status(200)
+//       .json({ data: "The user was successfully verified!! Now redirecting" });
+//   } catch (error) {
+//     if (error.name === "TokenExpiredError") {
+//       return res.status(401).json({
+//         error: "Verify token expired, go to sign in page to send new email",
+//       });
+//     }
+
+//     return res.status(500).json({ error: error.message });
+//   }
+// };
 const verifyUser = async (req, res) => {
   try {
     const token = req.params.token;
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
-    console.log(decodedToken);
     const { userId } = decodedToken;
 
     const result = await AuthenticateRepository.verifyUser(userId);
-    console.log(result);
-    return res
-      .status(200)
-      .json({ data: "The user was successfully verified!! Now redirecting" });
+    if (!result) {
+      return res.status(400).json({ error: "User not found or already verified" });
+    }
+
+    // Assuming the result contains user email and password or other login information
+    const { email, password } = result;
+
+    // Optionally, create a new JWT for login
+    const loginToken = jwt.sign({ userId }, process.env.JWT_SECRET_KEY, {
+      expiresIn: '1h'
+    });
+
+    return res.status(200).json({
+      message: "The user was successfully verified!! Now redirecting",
+      email,
+      password, // Return plaintext password here
+      token: loginToken
+    });
   } catch (error) {
     if (error.name === "TokenExpiredError") {
       return res.status(401).json({
@@ -106,6 +161,7 @@ const verifyUser = async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 };
+
 
 const login = async (req, res) => {
   try {
@@ -448,4 +504,5 @@ export default {
   googleLogin,
   sendResetLink,
   mobileLogin,
+  checkEmailExists
 };

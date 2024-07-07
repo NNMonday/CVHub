@@ -10,23 +10,24 @@ const jobsSeekersSchema = new Schema(
     gender: {
         type: String,
     },
-    loacation: {
+    location: {
         type: String,
     },
-    skills_id: { type: Schema.Types.ObjectId, ref: "Skills" },
+    skills_id: { type: Schema.Types.ObjectId, ref: "skills" },
     experience:{
         type:String,
     },
     isSeeking: {
         type: Boolean,
     },
-    savedJobs: { type: Schema.Types.ObjectId, ref: "Jobs" },
-    applyJobs: [{ type: Schema.Types.ObjectId, ref: "Jobs" }],
-    followingCompany:{ type: Schema.Types.ObjectId, ref: "Company" },
-    user_Id: { type: Schema.Types.ObjectId, ref: "Users" },
+    savedJobs: [{ type: Schema.Types.ObjectId, ref: "jobs" }],
+    applyJobs: [{ type: Schema.Types.ObjectId, ref: "jobs" }],
+    followingCompany:{ type: Schema.Types.ObjectId, ref: "companys" },
+    user_Id: { type: Schema.Types.ObjectId, ref: "users" },
   },
   { timestamps: true, collection: "jobSeekers" }
 );
+
 
 const JobSeekersSchema = mongoose.model("jobSeekers", jobsSeekersSchema);
 export default JobSeekersSchema;

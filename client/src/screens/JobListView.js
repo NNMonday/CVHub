@@ -1,30 +1,30 @@
 import React, { useCallback, useEffect, useState } from "react";
 import MainLayout from "../layouts/MainLayout";
-import { Button, Col, Container, Row, Form, Dropdown, DropdownButton } from "react-bootstrap";
+import { Button, Col, Container, Row, Dropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight, faCalendar, faDollarSign, faLocationDot, faMagnifyingGlass, faUsers, faSort, faAddressBook, faVectorSquare, faVirus } from "@fortawesome/free-solid-svg-icons";
-import { faBookmark } from "@fortawesome/free-regular-svg-icons";
-import logoPlaceholder from "../assets/logoPlaceholder.png";
-import { Link } from "react-router-dom";
-import { getDistanceFromToday } from "../utilities/ReuseFns";
+import { faThLarge, faVirus } from "@fortawesome/free-solid-svg-icons";
+import { faSearch, faMapMarkerAlt, faVectorSquare } from '@fortawesome/free-solid-svg-icons';
 import PerformRequest from "../utilities/PerformRequest.js";
-import { faSearch, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
-
+import Job from "../components/Job.jsx"; // Import Job component here
+import { Link } from 'react-router-dom';
+import {  Typography } from 'antd';
+const {  Text } = Typography;
 
 
 export default function JobListView() {
     const OriginalRequest = useCallback(PerformRequest().OriginalRequest, []);
     const [jobs, setJobs] = useState([]);
-    const [workStatuses, setWorkStatuses] = useState([]);
-
-    const [sortOrder, setSortOrder] = useState('earliest');
+    const [sortOrder, setSortOrder] = useState('lastest');
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(12); 
+    const [itemsPerPage, setItemsPerPage] = useState(12);
+
+    // Function to handle items per page change
     const handleItemsPerPageChange = (perPage) => {
         setItemsPerPage(perPage);
-        setCurrentPage(1); 
+        setCurrentPage(1);
     };
 
+    // Function to handle sorting of jobs
     const handleSortJobs = (order) => {
         let sortedJobs = [...jobs];
         if (order === 'latest') {
@@ -36,7 +36,7 @@ export default function JobListView() {
         setSortOrder(order);
     };
 
-
+    // Effect to fetch jobs on component mount
     useEffect(() => {
         const fetchJobs = async () => {
             try {
@@ -51,7 +51,8 @@ export default function JobListView() {
         };
         fetchJobs();
     }, [OriginalRequest]);
-    
+
+    // Calculate total pages based on items per page
     const totalPages = Math.ceil(jobs.length / itemsPerPage);
     const pageNumbers = [];
 
@@ -59,43 +60,12 @@ export default function JobListView() {
         pageNumbers.push(i);
     }
 
-    const Job = (props) => {
-        const { name, workstatus_id, location, salary, deadline } = props;
-        const workType = workstatus_id?.workStatus_name || "Unknown"
-        return (
-            <Col sm={12} className="d-flex p-4 border align-items-center mb-3 job-container" style={{ borderRadius: "10px" }}>
-                <div className="d-flex flex-grow-1">
-                    <div style={{ width: "7%", borderRadius: "6px" }} className="overflow-hidden">
-                        <img src={logoPlaceholder} alt="logoPlaceholder" className="w-100 h-100" />
-                    </div>
-                    <div className="ms-3 d-flex flex-column justify-content-between">
-                        <div>
-                            <Link className="text-decoration-none fw-bolder fs-5 job-name">{name}</Link>
-                            <span className="text-primary fw-bold bg-primary-subtle py-1 px-2 ms-3" style={{ borderRadius: "15px" }}>
-                                {workType}
-                            </span>
-                        </div>
-                        <div className="text-secondary">
-                            <span><FontAwesomeIcon className="me-1" icon={faLocationDot} /> {location}</span>
-                            <span><FontAwesomeIcon className="me-1 ms-3" icon={faDollarSign} /> {salary}</span>
-                            <span><FontAwesomeIcon className="me-1 ms-3" icon={faCalendar} /> {getDistanceFromToday(deadline)} Days Remaining</span>
-                        </div>
-                    </div>
-                </div>
-                <div className="d-flex">
-                    <div className="py-2 px-3 me-2 save-container" style={{ borderRadius: "6px" }}>
-                        <FontAwesomeIcon icon={faBookmark} />
-                    </div>
-                    <div className="d-flex align-items-center py-1 px-3 apply-container" style={{ backgroundColor: "#E7F0FA", borderRadius: "6px" }}>
-                        <span className="fw-bold">Apply Now <FontAwesomeIcon className="ms-2" icon={faArrowRight} /></span>
-                    </div>
-                </div>
-            </Col>
-        );
-    }
+    // Calculate current jobs to display based on pagination
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentJobs = jobs.slice(indexOfFirstItem, indexOfLastItem);
+
+    // JSX component for job search section
     const JobSearch = () => (
         <div className="d-flex flex-column bg-gray w-100 p-3" style={{ backgroundColor: "#CCCCCC", borderRadius: "10px", boxShadow: "0 0 10px rgba(0,0,0,0.1)" }}>
             {/* Top row */}
@@ -104,7 +74,9 @@ export default function JobListView() {
                     <h4>FindJob</h4>
                 </div>
                 <div>
-                    <p>Home / FindJobs</p>
+                    <Text>
+                        <Link to="/">Home</Link> / <Link to="/viewAllJob">Find Jobs</Link>
+                    </Text>
                 </div>
             </div>
 
@@ -134,7 +106,6 @@ export default function JobListView() {
                 <div className="border border-1 mx-3" style={{ height: "20px", backgroundColor: "#FFFFFF" }}></div>
                 {/* Category dropdown */}
                 <Dropdown className="me-3" style={{ width: "20%", }}>
-
                     <Dropdown.Toggle variant="outline-secondary" id="dropdown-category">
                         <FontAwesomeIcon icon={faVectorSquare} className="me-3" />
                         Select Category
@@ -162,6 +133,7 @@ export default function JobListView() {
         </div>
     );
 
+    // JSX component for filter bar section
     const FilterBar = () => (
         <div className="d-flex bg-white align-items-center p-3" style={{ borderRadius: "10px", boxShadow: "0 0 10px rgba(0,0,0,0.1)" }}>
             {/* Name filter dropdown */}
@@ -210,7 +182,7 @@ export default function JobListView() {
                 <Row className="ms-auto">
                     <Col xs="auto">
                         <Button variant="light">
-                            <FontAwesomeIcon icon={faSort} />
+                            <FontAwesomeIcon icon={faThLarge} />
                         </Button>
                     </Col>
                     <Col xs="auto">
@@ -222,6 +194,7 @@ export default function JobListView() {
             </div>
         </div>
     );
+
     return (
         <MainLayout>
             {/* <Banner /> */}

@@ -20,7 +20,7 @@ export const playerSlice = createSlice({
       state.isPlaying = action.payload;
     },
     toogleLoop: (state, action) => {
-      state.loop = !state.loop
+      state.loop = !state.loop;
     },
     setCurrentSong: (state, action) => {
       console.log("Changes cause of navigate");
@@ -38,14 +38,14 @@ export const playerSlice = createSlice({
       if (!state.currentSong._id) {
         state.currentSong = state.songQueue[state.queueIndex];
         state.isPlaying = true;
-      }else{
+      } else {
         state.currentSong = state.songQueue[state.queueIndex];
         state.isPlaying = true;
       }
     },
     addSongToQueue: (state, action) => {
       const existingSong = state.songQueue.find(
-        (song) => song._id == action.payload._id
+        (song) => song._id === action.payload._id
       );
       if (existingSong) {
         toast("Song Already In Queue", {
@@ -87,14 +87,14 @@ export const playerSlice = createSlice({
         state.currentSong = state.songQueue[state.queueIndex];
       } else {
         state.isPlaying = false;
-        state.currentSong = {}
+        state.currentSong = {};
       }
     },
     toogleQueue: (state, action) => {
       state.showBox = state.showBox ? false : true;
     },
     setSliderValue: (state, action) => {
-      state.progress = action.payload
+      state.progress = action.payload;
       state.sliderValue = action.payload;
     },
   },

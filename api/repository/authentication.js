@@ -9,7 +9,7 @@ const authenticate = async () => {
   }
 };
 
-const addUser = async ({ email, hashedPassword, location, avatar,role_id }) => {
+const addUser = async ({ email, hashedPassword, location, avatar, role_id }) => {
   try {
     const existingUser = await Users.findOne({ email: email }).exec();
     if (existingUser) {
@@ -20,7 +20,7 @@ const addUser = async ({ email, hashedPassword, location, avatar,role_id }) => {
       password: hashedPassword,
       location: location,
       avatar: avatar,
-      role_id : role_id,
+      role_id: role_id,
     });
     return result._doc;
   } catch (error) {
@@ -28,37 +28,65 @@ const addUser = async ({ email, hashedPassword, location, avatar,role_id }) => {
   }
 };
 
+// const verifyUser = async (userId) => {
+//   try {
+//     const unverifiedUser = await Users.findById(userId).exec();
+//     if (!unverifiedUser) {
+//       throw new Error("Not found!!");
+//     }
+//     if (unverifiedUser.verify) {
+//       throw new Error("The user has already been verified!!");
+//     }
+//     const result = await Users.findOneAndUpdate(
+//       { _id: userId },
+//       { $set: { verify: true } },
+//       { new: true }
+//     );
+//     if (!result) {
+//       throw new Error("Something went wrong:(");
+//     }
+//     return result;
+//   } catch (error) {
+//     throw new Error(error.message);
+//   }
+// };
 const verifyUser = async (userId) => {
   try {
     const unverifiedUser = await Users.findById(userId).exec();
     if (!unverifiedUser) {
-      throw new Error("Not found!!");
+      throw new Error("User not found!!");
     }
     if (unverifiedUser.verify) {
       throw new Error("The user has already been verified!!");
     }
-    const result = await Users.findOneAndUpdate(
+
+    // Update user's verify status
+    const updatedUser = await Users.findOneAndUpdate(
       { _id: userId },
       { $set: { verify: true } },
-      { new: true }
+      { new: true } // Return the updated document
     );
-    if (!result) {
-      throw new Error("Something went wrong:(");
+
+    if (!updatedUser) {
+      throw new Error("Something went wrong while updating user's verify status");
     }
-    return result;
+
+    // Return necessary login information, including plaintext password if needed
+    return {
+      email: updatedUser.email,
+      password: updatedUser.password, // Ensure this is plaintext if required
+      // Other necessary login information if needed
+    };
   } catch (error) {
     throw new Error(error.message);
   }
 };
 
+
 const getUserById = async (userId) => {
   try {
     const existingUser = await Users.findById(userId)
-      // .populate({
-      //   path: "artist_followed",
-      //   select: "_id artist_name",
-      //   populate: { path: "userId", select: "profile_picture" },
-      // })
+      .populate({ path: "user_Id", model: "users", select: "avatar" })
       .exec();
     if (!existingUser) {
       throw new Error("Not found!!");
@@ -72,12 +100,12 @@ const getUserById = async (userId) => {
 const getUserByEmail = async (email) => {
   try {
     const existingUser = await Users.findOne({ email: email })
-      // .populate({
-      //   path: "artist_followed",
-      //   select: "_id artist_name",
-      //   populate: { path: "userId", select: "profile_picture" },
-      // })
-      .exec();
+    // .populate({
+    //   path: "jobSekkers_followed",
+    //   select: "_id fullname",
+    //   populate: { path: "userId", select: "avatar" },
+    // })
+    // .exec();
     return existingUser;
   } catch (error) {
     throw new Error(error.message);

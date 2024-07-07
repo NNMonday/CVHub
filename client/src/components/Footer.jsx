@@ -9,7 +9,7 @@ import '../style/styles.css';
 
 const Footer = () => {
     return (
-        <footer className="bg-light pt-5" >
+        <footer className="bg-light pt-5"  >
             <Container style={{ backgroundColor: '#f0f0f0' }}>
                 <Row>
                     <Col md={4}>

@@ -23,8 +23,10 @@ const usersSchema = new Schema(
     },
     avatar: {
         type: String,
+        default:
+        "https://res.cloudinary.com/djzdhtdpj/image/upload/v1704269768/tempAvatar_juqb4s.jpg",
     },
-    role_id: { type: Schema.Types.ObjectId, ref: "Roles" },
+    role_id: { type: Schema.Types.ObjectId, ref: "roles" },
   },
   { timestamps: true, collection: "users" }
 );
