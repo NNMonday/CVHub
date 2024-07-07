@@ -7,8 +7,8 @@ import verifyToken from '../middleware/verifyToken.js';
 const companyRouter = express.Router();
 
 // GET all jobs
-companyRouter.get('/getAllCompanies', companyController.getAllCompanies);
-companyRouter.get("/getCompanyById/:companyId",verifyToken, companyController.getCompanyById);
+companyRouter.post('/getAllCompanies', companyController.getAllCompanies);
+companyRouter.get("/getCompanyById/:companyId", verifyToken, companyController.getCompanyById);
 companyRouter.get("/search", companyController.searchCompaniesByName);
 
 export default companyRouter;
