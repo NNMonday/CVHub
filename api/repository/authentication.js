@@ -100,12 +100,8 @@ const getUserById = async (userId) => {
 const getUserByEmail = async (email) => {
   try {
     const existingUser = await Users.findOne({ email: email })
-    // .populate({
-    //   path: "jobSekkers_followed",
-    //   select: "_id fullname",
-    //   populate: { path: "userId", select: "avatar" },
-    // })
-    // .exec();
+    .populate({ path: "user_Id", model: "users", select: "avatar" })
+      .exec();
     return existingUser;
   } catch (error) {
     throw new Error(error.message);
