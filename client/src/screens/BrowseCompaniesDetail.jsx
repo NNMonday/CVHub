@@ -11,7 +11,7 @@ const BrowseCompaniesDetail = () => {
     return (
         <Layout>
             <MainNavbar />
-            <Content style={{ padding: '20px', marginTop: '20px' }}>
+            <Content style={{ padding: "70px 200px" }}>
                 <div style={{ background: '#f0f0f0', padding: '10px' }}>
                     <Row justify="space-between" align="middle">
                         <Col>
