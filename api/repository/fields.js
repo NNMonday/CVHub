@@ -5,34 +5,34 @@ const getFieldsHostest = async () => {
     const topFields = await Fields.aggregate([
       {
         $group: {
-          _id: '$fields_id',
-          count: { $sum: 1 } // Đếm số lượng công việc cho mỗi fields_id
-        }
+          _id: "$fields_id",
+          count: { $sum: 1 }, // Đếm số lượng công việc cho mỗi fields_id
+        },
       },
       {
         $lookup: {
-          from: 'fields',
-          localField: '_id',
-          foreignField: '_id',
-          as: 'field'
-        }
+          from: "fields",
+          localField: "_id",
+          foreignField: "_id",
+          as: "field",
+        },
       },
       {
-        $unwind: '$field'
+        $unwind: "$field",
       },
       {
-        $sort: { count: -1 } // Sắp xếp theo số lượng công việc giảm dần
+        $sort: { count: -1 }, // Sắp xếp theo số lượng công việc giảm dần
       },
       {
-        $limit: 10 // Giới hạn chỉ lấy top 10
+        $limit: 10, // Giới hạn chỉ lấy top 10
       },
       {
         $project: {
-          _id: 0, 
-          name: '$field.name',
-          job_count: '$count'
-        }
-      }
+          _id: 0,
+          name: "$field.name",
+          job_count: "$count",
+        },
+      },
     ]);
 
     return topFields;
@@ -41,6 +41,15 @@ const getFieldsHostest = async () => {
   }
 };
 
-  export default{
-    getFieldsHostest
-}
+const getAllFields = async () => {
+  try {
+    return await Fields.find().exec();
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+export default {
+  getFieldsHostest,
+  getAllFields,
+};

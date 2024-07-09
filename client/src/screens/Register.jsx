@@ -7,7 +7,7 @@ import PerformRequest from "../utilities/PerformRequest.js";
 import { login } from "../redux/auth.js";
 import { GoogleLogin } from "@react-oauth/google";
 import React, { useState, useEffect, useCallback } from "react";
-import { toast } from "react-hot-toast"
+import { toast } from "react-hot-toast";
 export default function Register() {
   const [signUpData, setSignUpData] = useState({
     email: "",
@@ -21,9 +21,8 @@ export default function Register() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [imageSrc, setImageSrc] = useState(
-    "https://res.cloudinary.com/djzdhtdpj/image/upload/v1704269768/tempAvatar_juqb4s.jpg"
-  );
+  const imageSrc =
+    "https://firebasestorage.googleapis.com/v0/b/cvhub-cfde1.appspot.com/o/Avatar%2FtempAvatar.jpg?alt=media&token=1a96a9c3-e85c-4cad-b25a-6f3563cdaa39";
   useEffect(() => {
     const fetchRoles = async () => {
       try {
@@ -69,9 +68,13 @@ export default function Register() {
 
     try {
       setLoading(true);
-      const checkEmailExistence = await OriginalRequest('auth/check-email', 'POST', {
-        email: signUpData.email
-      });
+      const checkEmailExistence = await OriginalRequest(
+        "auth/check-email",
+        "POST",
+        {
+          email: signUpData.email,
+        }
+      );
       if (checkEmailExistence.exists) {
         toast.error("Email is already taken. Please choose another.");
         setLoading(false);
@@ -87,13 +90,11 @@ export default function Register() {
         } else {
           console.log("Signup response:", response);
           setShowMessage(true);
-          toast.success("Sign up successfully! Please check your email to confirm.");
+          toast.success(
+            "Sign up successfully! Please check your email to confirm."
+          );
         }
       }
-
-
-
-
     } catch (error) {
       console.log("Error:", error);
       toast.error("An error occurred during registration.");
@@ -123,7 +124,9 @@ export default function Register() {
       <Row>
         <Col sm={6}>
           <div className="px-5 mx-5 pt-5 position-relative h-100 w-100">
-            <img src={Logo} className="position-absolute" alt="logo" />
+            <Link to={"/"}>
+              <img src={Logo} className="position-absolute" alt="logo" />
+            </Link>
             <div className="h-100 w-100 d-flex align-items-center">
               <Form
                 className="w-100"

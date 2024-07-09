@@ -6,8 +6,10 @@ import { faAddressBook, faGlobe } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faCircleUser } from "@fortawesome/free-regular-svg-icons";
 import MinimalFooter from "../components/MinimalFooter";
+import { useSelector } from "react-redux";
 
 export default function AccountSetup({ progress = 0, children }) {
+  const { role_name } = useSelector((state) => state.auth.userInfo);
   return (
     <>
       <Container className="pt-3 setup">
@@ -17,13 +19,13 @@ export default function AccountSetup({ progress = 0, children }) {
               <Link to={"/"}>
                 <img src={Logo} alt="Logo" />
               </Link>
-              <div style={{ minWidth: "300px" }}>
+              {/* <div style={{ minWidth: "300px" }}>
                 <div className="text-secondary d-flex justify-content-between">
                   <p>Setup Progress</p>
                   <p>{progress}% Completed</p>
                 </div>
                 <ProgressBar now={progress} />
-              </div>
+              </div> */}
             </div>
           </Col>
         </Row>
@@ -39,7 +41,7 @@ export default function AccountSetup({ progress = 0, children }) {
             >
               <span>
                 <FontAwesomeIcon icon={faUser} className="me-2" />
-                Company Info
+                General
               </span>
             </NavLink>
             <NavLink
@@ -48,27 +50,20 @@ export default function AccountSetup({ progress = 0, children }) {
             >
               <span>
                 <FontAwesomeIcon icon={faCircleUser} className="me-2" />
-                Founding Info
+                {role_name === "Company" ? "Company Info" : "Personal"}
               </span>
             </NavLink>
-            <NavLink
-              to={"/account/setup/social"}
-              className="setting-navlink-default px-3 py-2 d-inline-block"
-            >
-              <span>
-                <FontAwesomeIcon icon={faGlobe} className="me-2" />
-                Social Media Profile
-              </span>
-            </NavLink>
-            <NavLink
-              to={"/account/setup/contact"}
-              className="setting-navlink-default px-3 py-2 d-inline-block"
-            >
-              <span>
-                <FontAwesomeIcon icon={faAddressBook} className="me-2" />
-                Contact
-              </span>
-            </NavLink>
+            {role_name === "Job Seeker" && (
+              <NavLink
+                to={"/account/setup/social"}
+                className="setting-navlink-default px-3 py-2 d-inline-block"
+              >
+                <span>
+                  <FontAwesomeIcon icon={faGlobe} className="me-2" />
+                  {role_name} Info
+                </span>
+              </NavLink>
+            )}
           </div>
           <div className="mt-4">{children}</div>
         </div>

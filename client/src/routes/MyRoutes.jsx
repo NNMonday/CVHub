@@ -5,7 +5,6 @@ import FindJob from "../screens/FindJob";
 import Pricing from "../screens/Pricing";
 import Support from "../screens/Support";
 import Register from "../screens/Register";
-
 import ConfirmSignUp from "../screens/ConfirmSignUp";
 import Login from "../screens/Login";
 import Setting from "../screens/account/dashboard/Setting";
@@ -13,16 +12,14 @@ import ForgotPassword from "../screens/ForgotPassword";
 import PersonalInfo from "../screens/account/setup/PersonalInfo";
 import ProfileInfo from "../screens/account/setup/ProfileInfo";
 import Social from "../screens/account/setup/Social";
-import Contact from "../screens/account/setup/Contact";
 import Finish from "../screens/account/setup/Finish";
 import JobListView from "../screens/JobListView";
 import BrowseCompanies from "../screens/BrowseCompanies";
 import BrowseCompaniesDetail from "../screens/BrowseCompaniesDetail";
 import JobPortal from "../screens/account/dashboard/Overview";
 import Singlejob from "../screens/SingleJob";
-
-import { Toast, ToastContainer } from "react-bootstrap";
 import BrowseCandidate from "../screens/BrowseCandidate";
+import PrivateRoute from "./PrivateRoute";
 
 export default function MyRoutes() {
   return (
@@ -44,22 +41,59 @@ export default function MyRoutes() {
           path="/browsecompanies/:id"
           element={<BrowseCompaniesDetail />}
         />
-        {/* <Route path="/jobdetai" element={<JobDetailScreen />} /> */}
         <Route
-          path="/account/setting/personal"
-          element={<Setting type={"personal"} />}
+          path="/account/dashboard/setting/personal"
+          element={
+            <PrivateRoute>
+              <Setting type={"personal"} />
+            </PrivateRoute>
+          }
         />
-        <Route path="/account/setup/personal" element={<PersonalInfo />} />
-        <Route path="/account/setup/profile" element={<ProfileInfo />} />
-        <Route path="/account/setup/social" element={<Social />} />
-        <Route path="/account/setup/contact" element={<Contact />} />
-        <Route path="/account/setup/finish" element={<Finish />} />
-  
-        <Route  path="/account/dashboard/overview" element={<JobPortal />} />
-
-
+        <Route
+          path="/account/setup/personal"
+          element={
+            <PrivateRoute>
+              <PersonalInfo />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/account/setup/profile"
+          element={
+            <PrivateRoute>
+              <ProfileInfo />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/account/setup/social"
+          element={
+            <PrivateRoute>
+              <Social />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/account/setup/finish"
+          element={
+            <PrivateRoute>
+              <Finish />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/account/dashboard/overview"
+          element={
+            <PrivateRoute>
+              <JobPortal />
+            </PrivateRoute>
+          }
+        />
         <Route path="/browsecompanies" element={<BrowseCompanies />} />
-        <Route path="/browsecompanies/detail" element={<BrowseCompaniesDetail />} />
+        <Route
+          path="/browsecompanies/detail"
+          element={<BrowseCompaniesDetail />}
+        />
       </Routes>
     </BrowserRouter>
   );

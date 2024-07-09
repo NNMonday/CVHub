@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import SERVER_URL from "../config.js";
 import toast from "react-hot-toast";
 import PerformRequest from "../utilities/PerformRequest.js";
 import { login } from "../redux/auth.js";
@@ -20,9 +19,12 @@ export default function ConfirmSignUp() {
           (async () => {
             await new Promise((resolve) => setTimeout(resolve, 1000));
 
-            const response = await fetch(`${SERVER_URL}auth/verify/${token}`, {
-              method: "PATCH",
-            });
+            const response = await fetch(
+              `${process.env.REACT_APP_BACKEND_URL}auth/verify/${token}`,
+              {
+                method: "PATCH",
+              }
+            );
 
             if (!response.ok) {
               const errorData = await response.json();
@@ -38,7 +40,7 @@ export default function ConfirmSignUp() {
             dispatch(login(data));
 
             // Navigate to home page after successful login
-            navigate("/account/setting/personal");
+            navigate("/account/setup/personal");
 
             return data;
           })(),

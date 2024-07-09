@@ -1,6 +1,5 @@
 import mongoose, { Schema } from "mongoose";
 
-
 const companySchema = new Schema(
   {
     company_name: {
@@ -8,13 +7,13 @@ const companySchema = new Schema(
       required: true,
     },
     website: {
-        type: String,
+      type: String,
     },
-    description:{
-        type:String,
+    description: {
+      type: String,
     },
     employee_quantity: {
-        type: Number,
+      type: Number,
     },
     user_Id: { type: Schema.Types.ObjectId, ref: "users" },
   },
