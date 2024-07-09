@@ -1,6 +1,5 @@
 import mongoose, { Schema } from "mongoose";
 
-
 const companySchema = new Schema(
   {
     company_name: {
@@ -9,30 +8,30 @@ const companySchema = new Schema(
     },
     organization_type: {
       type: Number,
-      required: true
+      required: true,
     },
     website: {
       type: String,
     },
     location: {
       type: String,
-      required: true
+      required: true,
     },
     description: {
       type: String,
-      required: true
+      required: true,
     },
     employee_quantity: {
       type: Number,
     },
     user_id: {
       type: Schema.Types.ObjectId,
-      ref: "Users"
+      ref: "Users",
     },
   },
   {
     timestamps: true,
-    collection: "companys"
+    collection: "companys",
   }
 );
 

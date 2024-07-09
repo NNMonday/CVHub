@@ -9,18 +9,23 @@ import "./utils/google-oauth2.js";
 import path from "path";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
-import { AuthenticationRouter, FieldsRouter, JobSeekerRouter, UsersRouter, WorkStatusRouter } from "./routes/index.js";
+import {
+  AuthenticationRouter,
+  FieldsRouter,
+  JobSeekerRouter,
+  UsersRouter,
+  WorkStatusRouter,
+} from "./routes/index.js";
 import { RolesRouter } from "./routes/index.js";
 import { LocationRouter } from "./routes/index.js";
 import { JobsRouter } from "./routes/index.js";
 import { CompanyRouter } from "./routes/index.js";
-
-
+import morgan from "morgan";
 
 dotenv.config();
 
 const app = express();
-const server = http.createServer(app); 
+const server = http.createServer(app);
 
 const corsOptions = {
   origin: "http://localhost:3000",
@@ -28,6 +33,7 @@ const corsOptions = {
   credentials: true,
 };
 
+app.use(morgan("dev"));
 app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json({ limit: "10mb" }));
@@ -36,7 +42,10 @@ app.use(express.urlencoded({ extended: true }));
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-app.use("/upload/image", express.static(path.join(__dirname, "upload", "image")));
+app.use(
+  "/upload/image",
+  express.static(path.join(__dirname, "upload", "image"))
+);
 
 app.get("/hello", (req, res) => {
   return res.status(200).json("hello");
@@ -51,9 +60,6 @@ app.use("/api/workstatus", WorkStatusRouter);
 app.use("/api/fields", FieldsRouter);
 app.use("/api/jobSekker", JobSeekerRouter);
 app.use("/api/user", UsersRouter);
-
-
-
 
 const port = process.env.PORT || 9999;
 const MONGODB_URI = process.env.MONGODB_URI;

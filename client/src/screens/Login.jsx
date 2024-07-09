@@ -29,14 +29,14 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!loginData.email || !loginData.password ) {
-      toast.error('Please fill in all fields.');
+    if (!loginData.email || !loginData.password) {
+      toast.error("Please fill in all fields.");
       return;
     }
     try {
       const data = await OriginalRequest("auth/login", "POST", loginData);
       if (data) {
-        dispatch(login(data)); 
+        dispatch(login(data));
 
         navigate("/"); // navigate first login after sign up new account
       }
@@ -50,7 +50,9 @@ export default function Login() {
       <Row>
         <Col sm={6}>
           <div className="px-5 mx-5 pt-5 position-relative h-100 w-100">
-            <img src={Logo} className="position-absolute" alt="logo" />
+            <Link to={"/"}>
+              <img src={Logo} className="position-absolute" alt="logo" />
+            </Link>
             <div className="h-100 w-100 d-flex align-items-center">
               <Form className="w-100" onSubmit={handleSubmit}>
                 <Form.Group>
@@ -58,7 +60,10 @@ export default function Login() {
                     <span className="h2">Sign in</span>
                     <span>
                       Don't have account?
-                      <Link className="text-decoration-none ms-1" to={"/register"}>
+                      <Link
+                        className="text-decoration-none ms-1"
+                        to={"/register"}
+                      >
                         Create Account
                       </Link>
                     </span>
@@ -89,7 +94,7 @@ export default function Login() {
                 <Button variant="primary" type="submit" className="w-100 mt-3">
                   Sign In <FontAwesomeIcon icon={faArrowRight} />
                 </Button>
-                
+
                 <div className="my-2 w-100 align-items-center text-center">
                   <span className="text-secondary">or</span>
                 </div>
@@ -103,7 +108,12 @@ export default function Login() {
           </div>
         </Col>
         <Col sm={6}>
-          <img src={Auth} alt="auth" className="w-100" style={{ maxHeight: "100vh" }} />
+          <img
+            src={Auth}
+            alt="auth"
+            className="w-100"
+            style={{ maxHeight: "100vh" }}
+          />
         </Col>
       </Row>
     </Container>

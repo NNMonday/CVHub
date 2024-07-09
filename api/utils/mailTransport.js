@@ -126,7 +126,9 @@ const sendConfirmEmail = async (email, userId) => {
       "                      We are glad that you have choosen CVHub to accompany you on your journey to the land of rhythm. \uD83E\uDD1E\uD83D\uDE22\uD83E\uDD14,  Click on the link bellow to finish setting your account !!!\n" +
       "                    </p>\n" +
       "                    <p class='button-container'>\n" +
-      "<a href='" + url + "' class='button'>Activate your CVHub account</a>\n" +
+      "<a href='" +
+      url +
+      "' class='button' target='_blank'>Activate your CVHub account</a>\n" +
       "                    </p>\n" +
       "                    <p>We are thrilled to welcome you aboard on our musical journey,<br />The CVHub team</p>\n" +
       "                  </table>\n" +
@@ -158,7 +160,7 @@ const sendConfirmEmail = async (email, userId) => {
       emailHtml
     );
   } catch (error) {
-    throw new Error(error.message)
+    throw new Error(error.message);
   }
 };
 export { sendMail, transporter, sendConfirmEmail };

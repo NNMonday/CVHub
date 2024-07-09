@@ -9,7 +9,13 @@ const authenticate = async () => {
   }
 };
 
-const addUser = async ({ email, hashedPassword, location, avatar, role_id }) => {
+const addUser = async ({
+  email,
+  hashedPassword,
+  location,
+  avatar,
+  role_id,
+}) => {
   try {
     const existingUser = await Users.findOne({ email: email }).exec();
     if (existingUser) {
@@ -65,23 +71,27 @@ const verifyUser = async (userId) => {
       { _id: userId },
       { $set: { verify: true } },
       { new: true } // Return the updated document
-    );
+    ).populate("role_id");
 
     if (!updatedUser) {
-      throw new Error("Something went wrong while updating user's verify status");
+      throw new Error(
+        "Something went wrong while updating user's verify status"
+      );
     }
 
+    console.log("updatedUser: ", updatedUser);
     // Return necessary login information, including plaintext password if needed
     return {
+      _id: updatedUser._id,
       email: updatedUser.email,
-      password: updatedUser.password, // Ensure this is plaintext if required
+      password: updatedUser.password,
+      role_name: updatedUser.role_id.role_name, // Ensure this is plaintext if required
       // Other necessary login information if needed
     };
   } catch (error) {
     throw new Error(error.message);
   }
 };
-
 
 const getUserById = async (userId) => {
   try {
@@ -99,7 +109,7 @@ const getUserById = async (userId) => {
 
 const getUserByEmail = async (email) => {
   try {
-    const existingUser = await Users.findOne({ email: email })
+    const existingUser = await Users.findOne({ email: email });
     // .populate({
     //   path: "jobSekkers_followed",
     //   select: "_id fullname",
@@ -117,7 +127,9 @@ const findByEmail = async (email) => {
 };
 
 const generateResetToken = async (userId) => {
-  return jwt.sign({ userId }, process.env.RESET_TOKEN_SECRET, { expiresIn: '1h' });
+  return jwt.sign({ userId }, process.env.RESET_TOKEN_SECRET, {
+    expiresIn: "1h",
+  });
 };
 
 export default {

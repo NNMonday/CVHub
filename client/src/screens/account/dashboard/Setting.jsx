@@ -11,7 +11,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faCircleUser } from "@fortawesome/free-regular-svg-icons";
 import Dropzone from "../../../assets/Dropzone.png";
-import DashboardLayout from "../../../layouts/DasboardLayout";
+import DashboardLayout from "../../../layouts/DashboardLayout";
 
 export default function Setting({ type }) {
   return (
@@ -19,7 +19,7 @@ export default function Setting({ type }) {
       <h3>Setting</h3>
       <div className="mt-3" style={{ borderBottom: "1px solid #767f8c" }}>
         <NavLink
-          to={"/account/setting/personal"}
+          to={"/account/dashboard/setting/personal"}
           className="setting-navlink-default px-3 py-2 d-inline-block"
         >
           <span>
@@ -28,7 +28,7 @@ export default function Setting({ type }) {
           </span>
         </NavLink>
         <NavLink
-          to={"/account/setting/profile"}
+          to={"/account/dashboard/setting/profile"}
           className="setting-navlink-default px-3 py-2 d-inline-block"
         >
           <span>
@@ -37,7 +37,7 @@ export default function Setting({ type }) {
           </span>
         </NavLink>
         <NavLink
-          to={"/account/setting/profile"}
+          to={"/account/dashboard/setting/profile"}
           className="setting-navlink-default px-3 py-2 d-inline-block"
         >
           <span>
@@ -46,7 +46,7 @@ export default function Setting({ type }) {
           </span>
         </NavLink>
         <NavLink
-          to={"/account/setting/profile"}
+          to={"/account/dashboard/setting/profile"}
           className="setting-navlink-default px-3 py-2 d-inline-block"
         >
           <span>
