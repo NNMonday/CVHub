@@ -6,18 +6,33 @@ const companySchema = new Schema(
       type: String,
       required: true,
     },
+    organization_type: {
+      type: Number,
+      required: true,
+    },
     website: {
       type: String,
     },
+    location: {
+      type: String,
+      required: true,
+    },
     description: {
       type: String,
+      required: true,
     },
     employee_quantity: {
       type: Number,
     },
-    user_Id: { type: Schema.Types.ObjectId, ref: "users" },
+    user_id: {
+      type: Schema.Types.ObjectId,
+      ref: "Users",
+    },
   },
-  { timestamps: true, collection: "companys" }
+  {
+    timestamps: true,
+    collection: "companys",
+  }
 );
 
 const ComapnySchema = mongoose.model("companys", companySchema);

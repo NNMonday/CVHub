@@ -8,7 +8,7 @@ import ComapnySchema from "../model/Company.js";
 const companyRouter = express.Router();
 
 // GET all jobs
-companyRouter.get("/getAllCompanies", companyController.getAllCompanies);
+companyRouter.post("/getAllCompanies", companyController.getAllCompanies);
 companyRouter.get(
   "/getCompanyById/:companyId",
   verifyToken,
