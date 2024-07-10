@@ -89,11 +89,7 @@ export default function MyRoutes() {
             </PrivateRoute>
           }
         />
-        <Route path="/browsecompanies" element={<BrowseCompanies />} />
-        <Route
-          path="/browsecompanies/detail"
-          element={<BrowseCompaniesDetail />}
-        />
+
       </Routes>
     </BrowserRouter>
   );
