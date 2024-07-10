@@ -20,6 +20,7 @@ import JobPortal from "../screens/account/dashboard/Overview";
 import Singlejob from "../screens/SingleJob";
 import BrowseCandidate from "../screens/BrowseCandidate";
 import PrivateRoute from "./PrivateRoute";
+import PostAJob from "../screens/PostAJob";
 
 export default function MyRoutes() {
   return (
@@ -31,6 +32,7 @@ export default function MyRoutes() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/find/job" element={<FindJob />} />
         <Route path="/singlejob" element={<Singlejob />} />
+        <Route path="/postajob" element={<PostAJob />} />
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/support" element={<Support />} />
         <Route path="/viewAllJob" element={<JobListView />} />
