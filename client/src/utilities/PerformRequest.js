@@ -1,4 +1,3 @@
-import SERVER_URL from "../config.js";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { logOut, setUserInfo } from "../redux/auth.js";
@@ -22,7 +21,10 @@ export default function PerformRequest() {
         requestOption.body = JSON.stringify(body);
       }
       console.log(requestOption);
-      const response = await fetch(`${SERVER_URL}${url}`, requestOption);
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}${url}`,
+        requestOption
+      );
       const data = await response.json();
       if (response.ok) {
         console.log(response.status);
@@ -47,13 +49,16 @@ export default function PerformRequest() {
   };
 
   const RefreshToken = async (url, method, body) => {
-    const response = await fetch(`${SERVER_URL}auth/refreshToken`, {
-      method: "GET",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}auth/refreshToken`,
+      {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const data = await response.json();
     if (response.ok) {
       console.log(data.message);

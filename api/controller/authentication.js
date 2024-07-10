@@ -27,8 +27,6 @@ const checkEmailExists = async (req, res) => {
   }
 };
 
-
-
 const getKey = async (header, callback) => {
   try {
     // console.log(header);
@@ -53,29 +51,17 @@ const authenticate = async (req, res) => {
 const signUp = async (req, res) => {
   try {
     console.log(req.body);
-    const {
-      email,
-      password,
-      confirmPassword,
-      location,
-      avatar,
-      role_id
-    } = req.body;
+    const { email, password, confirmPassword, location, avatar, role_id } =
+      req.body;
 
-    if (
-      email.length == 0 ||
-      password.length == 0 ||
-      role_id.length == 0
-    ) {
+    if (email.length == 0 || password.length == 0 || role_id.length == 0) {
       return res
         .status(400)
         .json({ error: "Please fill out all the mandatory fields" });
     }
 
     if (confirmPassword !== password) {
-      return res
-        .status(400)
-        .json({ error: "Passwords do not match" });
+      return res.status(400).json({ error: "Passwords do not match" });
     }
 
     const existingUser = await AuthenticateRepository.getUserByEmail(email);
@@ -134,22 +120,26 @@ const verifyUser = async (req, res) => {
 
     const result = await AuthenticateRepository.verifyUser(userId);
     if (!result) {
-      return res.status(400).json({ error: "User not found or already verified" });
+      return res
+        .status(400)
+        .json({ error: "User not found or already verified" });
     }
 
     // Assuming the result contains user email and password or other login information
-    const { email, password } = result;
+    const { email, password, role_name, _id } = result;
 
     // Optionally, create a new JWT for login
     const loginToken = jwt.sign({ userId }, process.env.JWT_SECRET_KEY, {
-      expiresIn: '1h'
+      expiresIn: "1h",
     });
 
     return res.status(200).json({
       message: "The user was successfully verified!! Now redirecting",
+      _id,
       email,
       password, // Return plaintext password here
-      token: loginToken
+      role_name,
+      token: loginToken,
     });
   } catch (error) {
     if (error.name === "TokenExpiredError") {
@@ -161,7 +151,6 @@ const verifyUser = async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 };
-
 
 const login = async (req, res) => {
   try {
@@ -504,5 +493,5 @@ export default {
   googleLogin,
   sendResetLink,
   mobileLogin,
-  checkEmailExists
+  checkEmailExists,
 };

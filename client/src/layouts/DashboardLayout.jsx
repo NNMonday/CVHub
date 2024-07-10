@@ -1,8 +1,8 @@
 import React from "react";
 import MainLayout from "./MainLayout";
-import { Col, Container, NavLink, Row } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import {
   faBookmark,
   faBriefcase,
@@ -25,33 +25,32 @@ export default function DashboardLayout({ children }) {
             className="pt-3 pe-0 dashboard"
           >
             <p style={{ fontSize: "smaller" }}>CANDIDATE DASHBOARD</p>
-            <Link
+            <NavLink
               className="dashboard-navlink-default d-block px-3 py-2"
               to={"/account/dashboard/overview"}
             >
               <FontAwesomeIcon icon={faLayerGroup} className="me-2" /> Overview
-            </Link>
+            </NavLink>
             <NavLink
               className="dashboard-navlink-default d-block px-3 py-2"
-              to={"/account/applied"}
+              to={"/account/dashboard/applied"}
             >
               <FontAwesomeIcon icon={faBriefcase} className="me-2" /> Applied
               Jobs
             </NavLink>
             <NavLink
               className="dashboard-navlink-default d-block px-3 py-2"
-              to={"/account/favorite"}
+              to={"/account/dashboard/favorite"}
             >
               <FontAwesomeIcon icon={faBookmark} className="me-2" /> Favorite
               Jobs
             </NavLink>
-            <Link
+            <NavLink
               className="dashboard-navlink-default d-block px-3 py-2"
-              to={" /account/setting/personal"}
+              to={"/account/dashboard/setting/personal"}
             >
               <FontAwesomeIcon icon={faGear} className="me-2" /> Settings
-            
-            </Link>
+            </NavLink>
           </Col>
           <Col sm={9} className="pt-5 ps-4 setting">
             {children}

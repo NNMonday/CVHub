@@ -1,6 +1,5 @@
 import mongoose, { Schema } from "mongoose";
 
-
 const jobsSeekersSchema = new Schema(
   {
     fullname: {
@@ -8,26 +7,27 @@ const jobsSeekersSchema = new Schema(
       required: true,
     },
     gender: {
-        type: String,
+      type: String,
     },
+    dob: Date,
     location: {
-        type: String,
+      type: String,
     },
     skills_id: { type: Schema.Types.ObjectId, ref: "skills" },
-    experience:{
-        type:String,
+    experience: {
+      type: String,
     },
     isSeeking: {
-        type: Boolean,
+      type: Boolean,
     },
     savedJobs: [{ type: Schema.Types.ObjectId, ref: "jobs" }],
     applyJobs: [{ type: Schema.Types.ObjectId, ref: "jobs" }],
-    followingCompany:{ type: Schema.Types.ObjectId, ref: "companys" },
+    followingCompany: { type: Schema.Types.ObjectId, ref: "companys" },
     user_Id: { type: Schema.Types.ObjectId, ref: "users" },
+    about: { type: String },
   },
   { timestamps: true, collection: "jobSeekers" }
 );
-
 
 const JobSeekersSchema = mongoose.model("jobSeekers", jobsSeekersSchema);
 export default JobSeekersSchema;
