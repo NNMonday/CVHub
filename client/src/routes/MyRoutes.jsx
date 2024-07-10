@@ -20,6 +20,8 @@ import JobPortal from "../screens/account/dashboard/Overview";
 import Singlejob from "../screens/SingleJob";
 import BrowseCandidate from "../screens/BrowseCandidate";
 import PrivateRoute from "./PrivateRoute";
+import AppliedJobs from "../screens/account/dashboard/AppliedJobs";
+import FavoriteJobs from "../screens/account/dashboard/FavoriteJobs";
 
 export default function MyRoutes() {
   return (
@@ -86,6 +88,22 @@ export default function MyRoutes() {
           element={
             <PrivateRoute>
               <JobPortal />
+            </PrivateRoute>
+          }
+        />{" "}
+        <Route
+          path="/account/dashboard/applied"
+          element={
+            <PrivateRoute>
+              <AppliedJobs />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/account/dashboard/favorite"
+          element={
+            <PrivateRoute>
+              <FavoriteJobs />
             </PrivateRoute>
           }
         />
