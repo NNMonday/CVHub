@@ -15,7 +15,7 @@ export default function ConfirmSignUp() {
   useEffect(() => {
     const verifyUser = async () => {
       try {
-        const result = await toast.promise(
+        await toast.promise(
           (async () => {
             await new Promise((resolve) => setTimeout(resolve, 1000));
 

@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import MainLayout from "../layouts/MainLayout";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Job2 from "../components/Job2";
-import { Card, Col, Container, Row } from "react-bootstrap";
-import { faFacebookSquare, faInstagramSquare, faTwitterSquare, faYoutubeSquare } from "@fortawesome/free-brands-svg-icons";
+// import { Card, Col, Container, Row } from "react-bootstrap";
+// import { faFacebookSquare, faInstagramSquare, faTwitterSquare, faYoutubeSquare } from "@fortawesome/free-brands-svg-icons";
 import PerformRequest from "../utilities/PerformRequest.js";
 import { useEffect, useCallback } from "react";
-import { useParams } from 'react-router-dom';
-
+import { useParams } from "react-router-dom";
 
 export default function Singlejob() {
   const OriginalRequest = useCallback(PerformRequest().OriginalRequest, []);
@@ -16,23 +15,24 @@ export default function Singlejob() {
   useEffect(() => {
     const fetchJob = async () => {
       try {
-        const response = await OriginalRequest(`jobs/getJobById/${jobId}`, 'GET');
+        const response = await OriginalRequest(
+          `jobs/getJobById/${jobId}`,
+          "GET"
+        );
         if (response && response.data) {
-          console.log('Job fetched:', response.data);
+          console.log("Job fetched:", response.data);
           setJob(response.data);
         }
       } catch (error) {
-        console.error('Failed to fetch job:', error);
+        console.error("Failed to fetch job:", error);
       }
     };
 
     fetchJob();
-  }, [OriginalRequest]);
-
+  }, [OriginalRequest, jobId]);
 
   const data = {
     jobs: [
-
       {
         name: "Senior UX Designer",
         work_status: "Fulltime",
@@ -61,11 +61,10 @@ export default function Singlejob() {
         salary: "$50k-80k/month",
         location: "New York, USA",
         jobType: "Full Time",
-        experience: "10-15 Years"
+        experience: "10-15 Years",
       },
     ],
   };
-
 
   return (
     <MainLayout>
@@ -82,5 +81,3 @@ export default function Singlejob() {
     </MainLayout>
   );
 }
-
-

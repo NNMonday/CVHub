@@ -1,8 +1,8 @@
 import React from "react";
-import { Col, Container, ProgressBar, Row } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import { Link, NavLink } from "react-router-dom";
 import Logo from "../assets/Logo.png";
-import { faAddressBook, faGlobe } from "@fortawesome/free-solid-svg-icons";
+import { faGlobe } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faCircleUser } from "@fortawesome/free-regular-svg-icons";
 import MinimalFooter from "../components/MinimalFooter";

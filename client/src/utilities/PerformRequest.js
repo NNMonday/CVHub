@@ -20,14 +20,12 @@ export default function PerformRequest() {
         requestOption.headers["Content-Type"] = "application/json";
         requestOption.body = JSON.stringify(body);
       }
-      console.log(requestOption);
       const response = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}${url}`,
         requestOption
       );
       const data = await response.json();
       if (response.ok) {
-        console.log(response.status);
         if (data.message) {
           toast.success(data.message);
         }

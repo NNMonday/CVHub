@@ -5,7 +5,7 @@ import {
   MenuItem,
   ListItemIcon,
   Divider,
-  ListItemText,
+  // ListItemText,
 } from "@mui/material";
 import { FaUserCircle } from "react-icons/fa";
 import { IoLogOut } from "react-icons/io5";
@@ -18,7 +18,6 @@ const ProfileMenu = ({ performLogOut }) => {
     setAnchorEl(event.currentTarget);
   };
   const userInfo = useSelector((state) => state.auth.userInfo);
-  console.log(userInfo);
   const handleClose = () => {
     setAnchorEl(null);
   };
