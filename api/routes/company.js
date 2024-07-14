@@ -9,6 +9,7 @@ const companyRouter = express.Router();
 
 // GET all jobs
 companyRouter.post("/getAllCompanies", companyController.getAllCompanies);
+companyRouter.post("/insertCompany", verifyToken, companyController.insertCompany);
 companyRouter.get(
   "/getCompanyById/:companyId",
   verifyToken,
@@ -20,7 +21,6 @@ companyRouter.post("/:id", async (req, res) => {
   const { id } = req.params;
   const { company_name, website, description, employee_quantity, user_Id } =
     req.body;
-
   try {
     const company = await ComapnySchema.findById(id);
 
@@ -40,5 +40,6 @@ companyRouter.post("/:id", async (req, res) => {
     res.status(500).json({ message: "Error updating company", error });
   }
 });
+
 
 export default companyRouter;
