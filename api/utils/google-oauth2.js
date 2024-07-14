@@ -12,7 +12,6 @@ passport.use(
       callbackURL: "http://localhost:9999/api/auth/google/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
-      console.log(profile);
       try {
         const existingUser = await AuthenticateRepository.getUserByEmail(
           profile._json.email

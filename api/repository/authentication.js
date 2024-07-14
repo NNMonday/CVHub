@@ -79,7 +79,6 @@ const verifyUser = async (userId) => {
       );
     }
 
-    console.log("updatedUser: ", updatedUser);
     // Return necessary login information, including plaintext password if needed
     return {
       _id: updatedUser._id,
@@ -95,9 +94,9 @@ const verifyUser = async (userId) => {
 
 const getUserById = async (userId) => {
   try {
-    const existingUser = await Users.findById(userId)
-      // .populate({ path: "user_Id", model: "users", select: "avatar" })
-      // .exec();
+    const existingUser = await Users.findById(userId);
+    // .populate({ path: "user_Id", model: "users", select: "avatar" })
+    // .exec();
     if (!existingUser) {
       throw new Error("Not found!!");
     }
@@ -109,7 +108,7 @@ const getUserById = async (userId) => {
 
 const getUserByEmail = async (email) => {
   try {
-    const existingUser = await Users.findOne({ email: email })
+    const existingUser = await Users.findOne({ email: email });
     // .populate({ path: "user_Id", model: "users", select: "avatar" })
     //   .exec();
     return existingUser;

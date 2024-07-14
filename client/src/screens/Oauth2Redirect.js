@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import PerformRequest from "../utilities/PerformRequest";
-import {login} from "../redux/auth.js"
+import { login } from "../redux/auth.js";
 export default function Oauth2Redirect() {
   const navigate = useNavigate();
   const hasMounted = useRef(false);
@@ -16,7 +16,6 @@ export default function Oauth2Redirect() {
         const result = await OriginalRequest("auth/user", navigate, "GET");
         if (result) {
           dispatch(login(result));
-          console.log(result);
         }
       } else {
         hasMounted.current = true;

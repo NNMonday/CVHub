@@ -20,7 +20,6 @@ export default function Singlejob() {
           "GET"
         );
         if (response && response.data) {
-          console.log("Job fetched:", response.data);
           setJob(response.data);
         }
       } catch (error) {

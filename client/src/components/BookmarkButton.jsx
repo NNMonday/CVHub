@@ -1,43 +1,37 @@
-import React, { useState, useCallback } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBookmark as faBookmarkRegular } from '@fortawesome/free-regular-svg-icons';
-import { faBookmark } from '@fortawesome/free-solid-svg-icons';
+import React, { useState, useCallback } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBookmark as faBookmarkRegular } from "@fortawesome/free-regular-svg-icons";
+import { faBookmark } from "@fortawesome/free-solid-svg-icons";
 import PerformRequest from "../utilities/PerformRequest.js";
-
 
 const BookmarkButton = ({ jobId, isBookmarkedInitially }) => {
   const [isBookmarked, setIsBookmarked] = useState(isBookmarkedInitially);
   const OriginalRequest = useCallback(PerformRequest().OriginalRequest, []);
 
-
   const handleBookmarkClick = async () => {
-    const action = isBookmarked ? 'remove' : 'add';
+    const action = isBookmarked ? "remove" : "add";
     try {
-        const response = await OriginalRequest(
-          `jobSekker/setting/savedJob/${action}`,
-          'POST'
-        );
-        // console.log(response.ok);
+      const response = await OriginalRequest(
+        `jobSekker/setting/savedJob/${action}`,
+        "POST"
+      );
       if (response.ok) {
         const updatedJobSeeker = await response.json();
         setIsBookmarked(updatedJobSeeker.savedJobs.includes(jobId));
       } else {
-        console.error('Failed to update bookmark status');
-        
+        console.error("Failed to update bookmark status");
       }
     } catch (error) {
-      console.error('Error updating bookmark:', error);
+      console.error("Error updating bookmark:", error);
     }
   };
-
-  
 
   return (
     <div
       className="py-2 px-3 me-2 save-container"
       style={{
-        borderRadius: '6px',
-        color: isBookmarked ? 'black' : 'initial',
+        borderRadius: "6px",
+        color: isBookmarked ? "black" : "initial",
       }}
       onClick={handleBookmarkClick}
     >

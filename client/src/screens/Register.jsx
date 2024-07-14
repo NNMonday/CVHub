@@ -28,7 +28,6 @@ export default function Register() {
       try {
         const data = await OriginalRequest("roles/getAllRoles", "GET");
         if (data) {
-          console.log("Roles fetched:", data);
           setRoles(data);
         }
       } catch (error) {
@@ -39,7 +38,6 @@ export default function Register() {
   }, [OriginalRequest]);
 
   const handleDataChange = (e) => {
-    console.log(e.target.value);
     setSignUpData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
@@ -88,7 +86,6 @@ export default function Register() {
         if (response.error) {
           toast.error(response.error);
         } else {
-          console.log("Signup response:", response);
           setShowMessage(true);
           toast.success(
             "Sign up successfully! Please check your email to confirm."
@@ -96,7 +93,6 @@ export default function Register() {
         }
       }
     } catch (error) {
-      console.log("Error:", error);
       toast.error("An error occurred during registration.");
     } finally {
       setLoading(false);
@@ -227,7 +223,6 @@ export default function Register() {
                 <div>
                   <GoogleLogin
                     onSuccess={(credentialResponse) => {
-                      // console.log(credentialResponse?.credential);
                       postGoogleAuth(credentialResponse?.credential);
                     }}
                     onError={() => {

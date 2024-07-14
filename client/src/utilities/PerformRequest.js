@@ -59,7 +59,6 @@ export default function PerformRequest() {
     );
     const data = await response.json();
     if (response.ok) {
-      console.log(data.message);
       dispatch(setUserInfo(data.data));
       // Return the result of OriginalRequest after refreshing the token
       return await OriginalRequest(url, method, body);
@@ -67,7 +66,6 @@ export default function PerformRequest() {
       //clear cookie, localStorage, redirect to login and toast error
       //if the request is made while there is no refreshToken
       if (response.status === 401) {
-        console.log(data.error);
         dispatch(logOut());
         toast.error("Please login");
         navigate("/login");

@@ -55,7 +55,6 @@ export default function BrowseCandidate() {
 
   const applyFilters = () => {
     // Apply filters logic here
-    console.log("Applying filters:", filters);
     setShowFilters(false); // Optionally close the sidebar after applying filters
   };
 

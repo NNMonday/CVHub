@@ -29,13 +29,10 @@ const checkEmailExists = async (req, res) => {
 
 const getKey = async (header, callback) => {
   try {
-    // console.log(header);
     const key = await client.getSigningKey(header.kid);
-    console.log(key);
     const signingKey = key.getPublicKey();
     callback(null, signingKey);
   } catch (error) {
-    console.log(error);
     callback(error);
   }
 };
@@ -50,7 +47,6 @@ const authenticate = async (req, res) => {
 
 const signUp = async (req, res) => {
   try {
-    console.log(req.body);
     const { email, password, confirmPassword, location, avatar, role_id } =
       req.body;
 
@@ -154,8 +150,6 @@ const verifyUser = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    // const { email, password } = req.body;
-    console.log(req.body);
     const existingUser = await AuthenticateRepository.getUserByEmail(
       req.body.email
     );
@@ -222,8 +216,6 @@ const login = async (req, res) => {
 
 const mobileLogin = async (req, res) => {
   try {
-    // const { email, password } = req.body;
-    console.log(req.body);
     const existingUser = await AuthenticateRepository.getUserByEmail(
       req.body.email
     );
@@ -271,7 +263,6 @@ const mobileLogin = async (req, res) => {
 const getUserInfo = async (req, res) => {
   try {
     const decodedToken = req.decodedToken;
-    // console.log(decodedToken);
     const user = await AuthenticateRepository.getUserById(decodedToken.userId);
     const { password, createdAt, updatedAt, ...filterdUser } = user._doc;
     return res.status(200).json({ data: filterdUser });
@@ -442,7 +433,6 @@ const sendResetLink = async (req, res) => {
     const user = await AuthenticateRepository.findByEmail(email);
     if (!user) {
       // toast.error("Email not found. Please enter a valid email.");
-      console.log("Not have email!");
       return res.status(400).json({ error: "Email not found" });
     }
 

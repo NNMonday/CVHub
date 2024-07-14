@@ -32,7 +32,6 @@ export default function ConfirmSignUp() {
             }
 
             const data = await response.json();
-            console.log("Verification Data:", data);
 
             toast.success("Verification successful!");
 
@@ -56,7 +55,6 @@ export default function ConfirmSignUp() {
           }
         );
       } catch (error) {
-        console.log("Verification/Login Error:", error.message);
         toast.error(`Verification failed: ${error.message}`);
       }
     };
