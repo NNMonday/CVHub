@@ -78,7 +78,6 @@ export default function Homepage() {
       try {
         const response = await OriginalRequest('jobs/field', 'GET');
         const data = response.data;
-
         if (Array.isArray(data)) {
           console.log('Jobs fetched:', data);
           setJobFie(data);

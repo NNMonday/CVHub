@@ -70,11 +70,11 @@ export default function MainLayout({ children }) {
       <div className="d-flex align-items-center">
         <img src={Logo} width={100} style={{ margin: "0 10px" }} alt="Logo" />
       </div>
-      <div
+      {/* <div
         className="border border-1 d-flex w-50 align-items-center"
         style={{ borderColor: "#E4E5E8" }}
-      >
-        <select
+      > */}
+        {/* <select
           value={location[1]}
           onChange={(e) => setLocation(e.target.value)}
           className="border-0 py-2 px-3"
@@ -94,8 +94,8 @@ export default function MainLayout({ children }) {
             placeholder="Job title, company"
             className="border-0 h-100 custom-input w-75"
           />
-        </div>
-      </div>
+        </div> */}
+      {/* </div> */}
       <div className="d-flex align-items-center">
         {isLoggedIn ? (
           <ProfileMenu avatar performLogOut={performLogOut} />
