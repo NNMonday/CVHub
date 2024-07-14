@@ -2,10 +2,11 @@ import React from "react";
 import { faBookmark, faCalendar } from "@fortawesome/free-regular-svg-icons";
 import logoPlaceholder from "../assets/logoPlaceholder.png";
 import { getDistanceFromToday } from "../utilities/ReuseFns";
-import { Col } from "react-bootstrap";
+import { Badge, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import {
   faArrowRight,
+  faCheckCircle,
   faDollarSign,
   faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
@@ -16,7 +17,7 @@ import BookmarkButton from './BookmarkButton';
 const Job = (props) => {
 
 
-  const { name, workstatus_id, location, salary, deadline, jobId, userId } = props;
+  const { name, workstatus_id, location, salary, deadline, jobId, userId,date,statuss } = props;
   const workType = workstatus_id?.workStatus_name || "Unknown"
   return (
     <Col
@@ -61,8 +62,25 @@ const Job = (props) => {
               <FontAwesomeIcon className="me-1 ms-3" icon={faCalendar} /> {getDistanceFromToday(deadline)} Days Remaining
             </span>
           </div>
+          
         </div>
+        <div className=" d-flex align-items-center" style={{marginLeft:'150px'}}>
+      {date && <div className="me-4">{date}</div>}
+</div>
+      <div className="ms-auto d-flex align-items-center">
+      {statuss && (
+        <div className="me-4">
+          <Badge bg="success">
+            <FontAwesomeIcon icon={faCheckCircle} className="me-1" />
+            {statuss}
+          </Badge>
+        </div>
+      )}
+    </div>
       </div>
+
+      
+      
       <div className="d-flex">
         <BookmarkButton jobId={jobId} userId={userId} />
         <div
