@@ -31,10 +31,20 @@ const getCompanyById = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+const insertCompany = async (req, res) => {
+  try {
+    const companyData = req.body;
+    const newCompany = await companyRepository.insertCompany(companyData);
+    res.status(201).json(newCompany);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
 
 export default {
   getAllCompanies,
   searchCompaniesByName,
-  getCompanyById
+  getCompanyById,
+  insertCompany
 }

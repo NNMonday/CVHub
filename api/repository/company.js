@@ -92,10 +92,33 @@ const getCompanyById = async (companyId) => {
     throw new Error("Failed to get job seeker by ID");
   }
 };
+const insertCompany = async (companyData) => {
+  try {
+    const { company_name, location, organization_type, website, description, employee_quantity, user_id } = companyData;
+    if (!company_name || !location || !organization_type || !description) {
+      throw new Error("Missing required fields: company_name, location, organization_type, or description");
+    }
+    const newCompany = new CompanySchema({
+      company_name,
+      location,
+      organization_type,
+      website,
+      description,
+      employee_quantity,
+      user_id
+    });
+    const savedCompany = await newCompany.save();
+
+    return savedCompany;
+  } catch (error) {
+    throw new Error(`Failed to insert company: ${error.message}`);
+  }
+};
 
 export default {
   getAllCompanies,
   searchCompaniesByName,
   getCompanyById,
-  findJobSeekerByUserId
+  findJobSeekerByUserId,
+  insertCompany
 };
