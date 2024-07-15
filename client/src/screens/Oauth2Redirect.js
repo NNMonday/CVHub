@@ -1,13 +1,13 @@
 import { useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import PerformRequest from "../utilities/PerformRequest";
 import { login } from "../redux/auth.js";
 export default function Oauth2Redirect() {
   const navigate = useNavigate();
   const hasMounted = useRef(false);
-  const auth = useSelector((state) => state.auth.userInfo);
-  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  // const auth = useSelector((state) => state.auth.userInfo);
+  // const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const dispatch = useDispatch();
   const { OriginalRequest } = PerformRequest();
   useEffect(() => {

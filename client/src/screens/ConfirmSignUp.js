@@ -33,7 +33,7 @@ export default function ConfirmSignUp() {
 
             const data = await response.json();
 
-            toast.success("Verification successful!");
+            // toast.success("Verification successful!");
 
             // Dispatch login action with the received data
             dispatch(login(data));
@@ -55,7 +55,8 @@ export default function ConfirmSignUp() {
           }
         );
       } catch (error) {
-        toast.error(`Verification failed: ${error.message}`);
+        navigate("/");
+        // toast.error(`Verification failed: ${error.message}`);
       }
     };
 
@@ -64,7 +65,7 @@ export default function ConfirmSignUp() {
     } else {
       hasMounted.current = true;
     }
-  }, [token, OriginalRequest, dispatch, navigate]);
+  }, [token, dispatch, navigate]);
 
   return (
     <div className="w-full h-screen bg-primaryBg flex items-center justify-center">

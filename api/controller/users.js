@@ -24,6 +24,7 @@ const changePassword = async (req, res) => {
 
 const uploadAvatar = async (req, res) => {
   try {
+    console.log(req.cookies);
     const { id } = req.params;
     const { avatar } = req.body;
 

@@ -22,11 +22,7 @@ const ForgotPassword = () => {
     const requestBody = { email };
 
     try {
-      const data = await OriginalRequest(
-        "auth/forgot-password",
-        "POST",
-        requestBody
-      );
+      await OriginalRequest("auth/forgot-password", "POST", requestBody);
       setShowMessage(true); // Show success message
     } catch (error) {
       console.error("Error sending reset request:", error.message);

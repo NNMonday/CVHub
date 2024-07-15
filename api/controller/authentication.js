@@ -86,28 +86,6 @@ const signUp = async (req, res) => {
   }
 };
 
-// const verifyUser = async (req, res) => {
-//   try {
-//     const token = req.params.token;
-//     const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
-//     console.log(decodedToken);
-//     const { userId } = decodedToken;
-
-//     const result = await AuthenticateRepository.verifyUser(userId);
-//     console.log(result);
-//     return res
-//       .status(200)
-//       .json({ data: "The user was successfully verified!! Now redirecting" });
-//   } catch (error) {
-//     if (error.name === "TokenExpiredError") {
-//       return res.status(401).json({
-//         error: "Verify token expired, go to sign in page to send new email",
-//       });
-//     }
-
-//     return res.status(500).json({ error: error.message });
-//   }
-// };
 const verifyUser = async (req, res) => {
   try {
     const token = req.params.token;
@@ -121,22 +99,37 @@ const verifyUser = async (req, res) => {
         .json({ error: "User not found or already verified" });
     }
 
-    // Assuming the result contains user email and password or other login information
-    const { email, password, role_name, _id } = result;
-
-    // Optionally, create a new JWT for login
-    const loginToken = jwt.sign({ userId }, process.env.JWT_SECRET_KEY, {
-      expiresIn: "1h",
+    const accessToken = jwt.sign(
+      { userId: userId },
+      process.env.JWT_SECRET_KEY,
+      {
+        expiresIn: "1hr",
+      }
+    );
+    const refreshToken = jwt.sign(
+      { userId: userId },
+      process.env.JWT_SECRET_KEY,
+      {
+        expiresIn: "1w",
+      }
+    );
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      path: "/",
+      expires: new Date(Date.now() + 60 * 60 * 1000),
+      sameSite: "lax",
+      secure: false,
     });
-
-    return res.status(200).json({
-      message: "The user was successfully verified!! Now redirecting",
-      _id,
-      email,
-      password, // Return plaintext password here
-      role_name,
-      token: loginToken,
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      path: "/",
+      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      sameSite: "lax",
+      secure: false,
     });
+    return res
+      .status(200)
+      .json({ message: "Verification successful", data: result });
   } catch (error) {
     if (error.name === "TokenExpiredError") {
       return res.status(401).json({
@@ -260,6 +253,7 @@ const mobileLogin = async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 };
+
 const getUserInfo = async (req, res) => {
   try {
     const decodedToken = req.decodedToken;
@@ -270,6 +264,7 @@ const getUserInfo = async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 };
+
 const refreshToken = async (req, res) => {
   try {
     const token = req.cookies.refreshToken;
@@ -306,6 +301,7 @@ const refreshToken = async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 };
+
 const logOut = async (req, res) => {
   try {
     res.clearCookie("refreshToken");
@@ -315,6 +311,7 @@ const logOut = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
 const oauth2GoogleAuthentication = async (req, res) => {
   try {
     const oauth2Result = await req.user;

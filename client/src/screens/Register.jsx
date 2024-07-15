@@ -87,9 +87,9 @@ export default function Register() {
           toast.error(response.error);
         } else {
           setShowMessage(true);
-          toast.success(
-            "Sign up successfully! Please check your email to confirm."
-          );
+          // toast.success(
+          //   "Sign up successfully! Please check your email to confirm."
+          // );
         }
       }
     } catch (error) {
@@ -233,14 +233,14 @@ export default function Register() {
                     width={"395px"}
                   />
                 </div>
-                <div>
+                {/* <div>
                   {showMessage && (
                     <div className="alert alert-success mt-3" role="alert">
                       Verification email sent successfully. Please check your
                       email to verify.
                     </div>
                   )}
-                </div>
+                </div> */}
               </Form>
             </div>
           </div>

@@ -3,7 +3,6 @@ import MainLayout from "../layouts/MainLayout";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import Illustration from "../assets/Illustration.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useSelector } from "react-redux";
 import {
   faArrowRight,
   faLocationDot,
@@ -15,39 +14,32 @@ import { Link } from "react-router-dom";
 import PerformRequest from "../utilities/PerformRequest.js";
 import { useEffect, useState, useCallback } from "react";
 
+const data = {
+  figures: [
+    {
+      name: "Live Jobs",
+      quantity: 175324,
+    },
+    {
+      name: "Companies",
+      quantity: 87354,
+    },
+    {
+      name: "Candidates",
+      quantity: 3847154,
+    },
+    {
+      name: "New Jobs",
+      quantity: 7532,
+    },
+  ],
+};
+
 export default function Homepage() {
-  const searchValue = useSelector((state) => state.search.searchKey);
   const [jobsList, setJobList] = useState([]);
   const OriginalRequest = useCallback(PerformRequest().OriginalRequest, []);
 
-  const fetchJobs = useCallback(
-    async (jobTitle, location) => {
-      try {
-        const searchJobValue = await OriginalRequest(
-          `jobs/search?name=${jobTitle}&locationName=${location}`,
-          "GET"
-        );
-        if (searchJobValue) {
-          setJobList(searchJobValue.data);
-        }
-      } catch (error) {
-        console.error("Failed to fetch jobs:", error);
-      }
-    },
-    [OriginalRequest]
-  );
-
-  useEffect(() => {
-    if (searchValue.jobTitle || searchValue.location) {
-      fetchJobs(searchValue.jobTitle, searchValue.location);
-    }
-  }, [searchValue.jobTitle, searchValue.location, fetchJobs]);
-
   const handleInputChange = (field, value) => {};
-
-  const handleSearch = () => {
-    fetchJobs(searchValue.jobTitle, searchValue.location);
-  };
 
   const [jobs, setJobs] = useState([]);
   useEffect(() => {
@@ -84,26 +76,30 @@ export default function Homepage() {
     fetchJobByFieldId();
   }, [OriginalRequest]);
 
-  const data = {
-    figures: [
-      {
-        name: "Live Jobs",
-        quantity: 175324,
-      },
-      {
-        name: "Companies",
-        quantity: 87354,
-      },
-      {
-        name: "Candidates",
-        quantity: 3847154,
-      },
-      {
-        name: "New Jobs",
-        quantity: 7532,
-      },
-    ],
-  };
+  const [searchValue, setSearchValue] = useState({
+    jobTitle: "",
+    location: "",
+  });
+
+  const fetchJobs = useCallback(
+    async (jobTitle, location) => {
+      try {
+        const searchJobValue = await OriginalRequest(
+          `jobs/search?name=${jobTitle}&locationName=${location}`,
+          "GET"
+        );
+        if (searchJobValue) {
+          setJobList(searchJobValue.data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch jobs:", error);
+      }
+    },
+    [OriginalRequest]
+  );
+
+  const handleSearch = () => {};
+
   const Badge = ({ h5, span, type = "" }) => (
     <Col sm={3} className="figure">
       <div
@@ -153,8 +149,8 @@ export default function Homepage() {
                 type="text"
                 placeholder="Job title"
                 className="border-0 h-100 custom-input"
-                value={searchValue.jobTitle}
-                onChange={(e) => handleInputChange("jobTitle", e.target.value)} // Sử dụng handleInputChange để xử lý sự kiện onChange
+                // value={searchValue.jobTitle}
+                // onChange={(e) => handleInputChange("jobTitle", e.target.value)} // Sử dụng handleInputChange để xử lý sự kiện onChange
               />
             </div>
             <div
@@ -167,8 +163,8 @@ export default function Homepage() {
                 type="text"
                 placeholder="Your location"
                 className="border-0 h-100 custom-input"
-                value={searchValue.location}
-                onChange={(e) => handleInputChange("location", e.target.value)} // Sử dụng handleInputChange để xử lý sự kiện onChange
+                // value={searchValue.location}
+                // onChange={(e) => handleInputChange("location", e.target.value)} // Sử dụng handleInputChange để xử lý sự kiện onChange
               />
             </div>
             <Button

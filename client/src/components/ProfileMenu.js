@@ -24,11 +24,7 @@ const ProfileMenu = ({ performLogOut }) => {
   return (
     <div className="relative inline-block ">
       <img
-        src={
-          userInfo.data
-            ? userInfo.data.avatar
-            : "https://firebasestorage.googleapis.com/v0/b/cvhub-cfde1.appspot.com/o/Avatar%2FtempAvatar.jpg?alt=media&token=1a96a9c3-e85c-4cad-b25a-6f3563cdaa39"
-        }
+        src={userInfo.data.avatar}
         alt="profile"
         className="w-8 h-8 rounded-full cursor-pointer border-2 border-orange-200 shadow-lg"
         onClick={handleClick}
