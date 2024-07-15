@@ -5,17 +5,14 @@ import PerformRequest from "./PerformRequest.js";
 export default function LogOut() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {OriginalRequest} = PerformRequest()
+  const { OriginalRequest } = PerformRequest();
   const clearToken = async () => {
-    await OriginalRequest("auth/logOut", "GET")
-  };
-  const clearAuthInfo = () => {
-    dispatch(logOut());
+    await OriginalRequest("auth/logOut", "GET");
   };
   const performLogOut = async () => {
     await clearToken();
     dispatch(logOut());
     navigate("/");
   };
-  return {performLogOut}
+  return { performLogOut };
 }

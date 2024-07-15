@@ -34,28 +34,6 @@ const addUser = async ({
   }
 };
 
-// const verifyUser = async (userId) => {
-//   try {
-//     const unverifiedUser = await Users.findById(userId).exec();
-//     if (!unverifiedUser) {
-//       throw new Error("Not found!!");
-//     }
-//     if (unverifiedUser.verify) {
-//       throw new Error("The user has already been verified!!");
-//     }
-//     const result = await Users.findOneAndUpdate(
-//       { _id: userId },
-//       { $set: { verify: true } },
-//       { new: true }
-//     );
-//     if (!result) {
-//       throw new Error("Something went wrong:(");
-//     }
-//     return result;
-//   } catch (error) {
-//     throw new Error(error.message);
-//   }
-// };
 const verifyUser = async (userId) => {
   try {
     const unverifiedUser = await Users.findById(userId).exec();
@@ -79,12 +57,9 @@ const verifyUser = async (userId) => {
       );
     }
 
-    console.log("updatedUser: ", updatedUser);
     // Return necessary login information, including plaintext password if needed
     return {
-      _id: updatedUser._id,
-      email: updatedUser.email,
-      password: updatedUser.password,
+      ...updatedUser.toObject(),
       role_name: updatedUser.role_id.role_name, // Ensure this is plaintext if required
       // Other necessary login information if needed
     };
@@ -95,9 +70,9 @@ const verifyUser = async (userId) => {
 
 const getUserById = async (userId) => {
   try {
-    const existingUser = await Users.findById(userId)
-      // .populate({ path: "user_Id", model: "users", select: "avatar" })
-      // .exec();
+    const existingUser = await Users.findById(userId);
+    // .populate({ path: "user_Id", model: "users", select: "avatar" })
+    // .exec();
     if (!existingUser) {
       throw new Error("Not found!!");
     }
@@ -109,7 +84,7 @@ const getUserById = async (userId) => {
 
 const getUserByEmail = async (email) => {
   try {
-    const existingUser = await Users.findOne({ email: email })
+    const existingUser = await Users.findOne({ email: email });
     // .populate({ path: "user_Id", model: "users", select: "avatar" })
     //   .exec();
     return existingUser;

@@ -18,7 +18,7 @@ export default function PersonalInfo() {
   const [isUploading, setIsUploading] = useState(false);
   const [downloadURL, setDownloadURL] = useState("");
 
-  const { _id, role_name } = useSelector((state) => state.auth.userInfo);
+  const { _id, role_name } = useSelector((state) => state.auth.userInfo.data);
 
   const onDrop = useCallback((acceptedFiles) => {
     const file = acceptedFiles[0];
@@ -98,6 +98,9 @@ export default function PersonalInfo() {
           process.env.REACT_APP_BACKEND_URL + `user/upload-avatar/${_id}`,
           {
             avatar: fileURL,
+          },
+          {
+            withCredentials: true,
           }
         );
         console.log(res);

@@ -1,12 +1,12 @@
 import jwt from "jsonwebtoken";
 import "dotenv/config.js";
-import { AuthenticateRepository } from "../repository/index.js";
 const verifyToken = (req, res, next) => {
   try {
+    console.log(req.cookies);
     const token = req.cookies.accessToken;
     if (!token) {
       return res
-        .status(401)
+        .status(404)
         .json({ error: "No cookie for accessToken was provided" });
     }
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);

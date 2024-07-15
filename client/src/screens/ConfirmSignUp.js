@@ -15,7 +15,7 @@ export default function ConfirmSignUp() {
   useEffect(() => {
     const verifyUser = async () => {
       try {
-        const result = await toast.promise(
+        await toast.promise(
           (async () => {
             await new Promise((resolve) => setTimeout(resolve, 1000));
 
@@ -32,9 +32,8 @@ export default function ConfirmSignUp() {
             }
 
             const data = await response.json();
-            console.log("Verification Data:", data);
 
-            toast.success("Verification successful!");
+            // toast.success("Verification successful!");
 
             // Dispatch login action with the received data
             dispatch(login(data));
@@ -56,8 +55,8 @@ export default function ConfirmSignUp() {
           }
         );
       } catch (error) {
-        console.log("Verification/Login Error:", error.message);
-        toast.error(`Verification failed: ${error.message}`);
+        navigate("/");
+        // toast.error(`Verification failed: ${error.message}`);
       }
     };
 
@@ -66,7 +65,7 @@ export default function ConfirmSignUp() {
     } else {
       hasMounted.current = true;
     }
-  }, [token, OriginalRequest, dispatch, navigate]);
+  }, [token, dispatch, navigate]);
 
   return (
     <div className="w-full h-screen bg-primaryBg flex items-center justify-center">

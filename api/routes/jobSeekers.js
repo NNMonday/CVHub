@@ -18,7 +18,7 @@ router.post(
   jobSeekersController.handleSavedJob
 );
 
-router.post("/:id", async (req, res) => {
+router.post("/:id", verifyToken, async (req, res) => {
   const { id } = req.params;
   const {
     fullname,

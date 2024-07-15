@@ -101,7 +101,6 @@ export default function MyRoutes() {
             </PrivateRoute>
           }
         />
-
       </Routes>
     </BrowserRouter>
   );
