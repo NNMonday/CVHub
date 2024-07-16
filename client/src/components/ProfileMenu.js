@@ -22,7 +22,10 @@ const ProfileMenu = ({ performLogOut }) => {
     setAnchorEl(null);
   };
   return (
-    <div className="relative inline-block ">
+    <div
+      className="relative inline-block overflow-hidden"
+      style={{ borderRadius: "50%" }}
+    >
       <img
         src={userInfo.data.avatar}
         alt="profile"

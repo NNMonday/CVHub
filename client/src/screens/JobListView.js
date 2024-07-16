@@ -10,8 +10,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import PerformRequest from "../utilities/PerformRequest.js";
 import Job from "../components/Job.jsx"; // Import Job component here
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { Typography } from "antd";
+import axios from "axios";
 const { Text } = Typography;
 
 export default function JobListView() {
@@ -20,6 +21,25 @@ export default function JobListView() {
   const [sortOrder, setSortOrder] = useState("lastest");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(12);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [filter, setFilter] = useState({
+    title: searchParams.get("jobTitle") || "",
+    location: searchParams.get("location") || "",
+  });
+
+  const [location, setLocation] = useState([]);
+  useEffect(() => {
+    (async () => {
+      try {
+        const locationRes = await axios.get(
+          "http://localhost:9999/api/location/getAllLocation"
+        );
+        setLocation(locationRes.data);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
 
   // Function to handle items per page change
   const handleItemsPerPageChange = (perPage) => {
@@ -43,8 +63,12 @@ export default function JobListView() {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const data = await OriginalRequest("jobs/getAllJobs", "GET");
+        const data = await OriginalRequest(
+          `jobs/getAllJobs?title=${filter.title}&location=${filter.location}`,
+          "GET"
+        );
         if (data) {
+          console.log(data);
           setJobs(data);
         }
       } catch (error) {
@@ -52,7 +76,7 @@ export default function JobListView() {
       }
     };
     fetchJobs();
-  }, [OriginalRequest]);
+  }, []);
 
   // Calculate total pages based on items per page
   const totalPages = Math.ceil(jobs.length / itemsPerPage);
@@ -66,115 +90,6 @@ export default function JobListView() {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentJobs = jobs.slice(indexOfFirstItem, indexOfLastItem);
-
-  // JSX component for job search section
-  const JobSearch = () => (
-    <div
-      className="d-flex flex-column bg-gray w-100 p-3"
-      style={{
-        backgroundColor: "#CCCCCC",
-        borderRadius: "10px",
-        boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-      }}
-    >
-      {/* Top row */}
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <div>
-          <h4>FindJob</h4>
-        </div>
-        <div>
-          <Text>
-            <Link to="/">Home</Link> / <Link to="/viewAllJob">Find Jobs</Link>
-          </Text>
-        </div>
-      </div>
-
-      {/* Job search */}
-      <div
-        className="d-flex bg-white align-items-center p-3 mb-3"
-        style={{ borderRadius: "10px", boxShadow: "0 0 5px rgba(0,0,0,0.1)" }}
-      >
-        {/* Input for Job title */}
-        <div
-          className="d-flex align-items-center"
-          style={{
-            width: "25%",
-            backgroundColor: "#FFFFFF",
-            padding: "10px",
-            borderRadius: "10px",
-            marginRight: "10px",
-          }}
-        >
-          <FontAwesomeIcon icon={faSearch} className="me-3" />
-          <input
-            type="text"
-            placeholder="Job title"
-            className="border-0 h-100 custom-input"
-            style={{
-              width: "100%",
-              backgroundColor: "inherit",
-              border: "none",
-              outline: "none",
-            }}
-          />
-        </div>
-        <div className="border border-1 mx-3" style={{ height: "20px" }}></div>
-        {/* Input for location */}
-        <div
-          className="d-flex align-items-center"
-          style={{
-            width: "25%",
-            backgroundColor: "#FFFFFF",
-            padding: "10px",
-            borderRadius: "10px",
-            marginRight: "10px",
-          }}
-        >
-          <FontAwesomeIcon icon={faMapMarkerAlt} className="me-3" />
-          <input
-            type="text"
-            placeholder="Your location"
-            className="border-0 h-100 custom-input"
-            style={{
-              width: "100%",
-              backgroundColor: "inherit",
-              border: "none",
-              outline: "none",
-            }}
-          />
-        </div>
-        <div
-          className="border border-1 mx-3"
-          style={{ height: "20px", backgroundColor: "#FFFFFF" }}
-        ></div>
-        {/* Category dropdown */}
-        <Dropdown className="me-3" style={{ width: "20%" }}>
-          <Dropdown.Toggle variant="outline-secondary" id="dropdown-category">
-            <FontAwesomeIcon icon={faVectorSquare} className="me-3" />
-            Select Category
-          </Dropdown.Toggle>
-          <Dropdown.Menu>
-            <Dropdown.Item href="#/action-1">Category 1</Dropdown.Item>
-            <Dropdown.Item href="#/action-2">Category 2</Dropdown.Item>
-            <Dropdown.Item href="#/action-3">Category 3</Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
-        {/* Advanced filter dropdown */}
-        <Dropdown className="me-3" style={{ width: "20%" }}>
-          <Dropdown.Toggle variant="outline-secondary" id="dropdown-filter">
-            Advance Filter
-          </Dropdown.Toggle>
-          <Dropdown.Menu>
-            <Dropdown.Item href="#/action-1">Filter 1</Dropdown.Item>
-            <Dropdown.Item href="#/action-2">Filter 2</Dropdown.Item>
-            <Dropdown.Item href="#/action-3">Filter 3</Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
-        {/* Find jobs button */}
-        <Button variant="primary">FindJobs</Button>
-      </div>
-    </div>
-  );
 
   // JSX component for filter bar section
   const FilterBar = () => (
@@ -256,7 +171,141 @@ export default function JobListView() {
       {/* <Banner /> */}
 
       <Container fluid style={{ padding: "70px 200px" }}>
-        <JobSearch />
+        <div
+          className="d-flex flex-column bg-gray w-100 p-3"
+          style={{
+            backgroundColor: "#CCCCCC",
+            borderRadius: "10px",
+            boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+          }}
+        >
+          {/* Top row */}
+          <div className="d-flex justify-content-between align-items-center mb-3">
+            <div>
+              <h4>Find Job</h4>
+            </div>
+            <div>
+              <Text>
+                <Link to="/">Home</Link> /{" "}
+                <Link to="/viewAllJob">Find Job</Link>
+              </Text>
+            </div>
+          </div>
+
+          {/* Job search */}
+          <div
+            className="d-flex bg-white align-items-center p-3 mb-3"
+            style={{
+              borderRadius: "10px",
+              boxShadow: "0 0 5px rgba(0,0,0,0.1)",
+            }}
+          >
+            {/* Input for Job title */}
+            <div
+              className="d-flex align-items-center"
+              style={{
+                width: "25%",
+                backgroundColor: "#FFFFFF",
+                padding: "10px",
+                borderRadius: "10px",
+                marginRight: "10px",
+              }}
+            >
+              <FontAwesomeIcon icon={faSearch} className="me-3" />
+              <input
+                type="text"
+                placeholder="Job title"
+                className="border-0 h-100 custom-input"
+                style={{
+                  width: "100%",
+                  backgroundColor: "inherit",
+                  border: "none",
+                  outline: "none",
+                }}
+                value={filter.title}
+                onChange={(e) =>
+                  setFilter({ ...filter, title: e.target.value })
+                }
+              />
+            </div>
+            <div
+              className="border border-1 mx-3"
+              style={{ height: "20px" }}
+            ></div>
+            {/* Input for location */}
+            <div
+              className="d-flex align-items-center"
+              style={{
+                width: "25%",
+                backgroundColor: "#FFFFFF",
+                padding: "10px",
+                borderRadius: "10px",
+                marginRight: "10px",
+              }}
+            >
+              <FontAwesomeIcon icon={faMapMarkerAlt} className="me-3" />
+              <div className="d-flex w-100 align-items-center">
+                <select
+                  value={filter.location}
+                  onChange={(e) =>
+                    setFilter({ ...filter, location: e.target.value })
+                  }
+                  className="border-0 py-2 px-3 w-50"
+                >
+                  <option value="" hidden>
+                    Select Location
+                  </option>
+                  {location.map((l) => (
+                    <option key={l._id} value={l._id}>
+                      {l.location_name}
+                    </option>
+                  ))}
+                </select>
+                <div
+                  className="border border-1 mx-2"
+                  style={{ height: "60%" }}
+                ></div>
+              </div>
+            </div>
+            <div
+              className="border border-1 mx-3"
+              style={{ height: "20px", backgroundColor: "#FFFFFF" }}
+            ></div>
+            {/* Category dropdown */}
+            <Dropdown className="me-3" style={{ width: "20%" }}>
+              <Dropdown.Toggle
+                variant="outline-secondary"
+                id="dropdown-category"
+              >
+                <FontAwesomeIcon icon={faVectorSquare} className="me-3" />
+                Select Category
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item href="#/action-1">Category 1</Dropdown.Item>
+                <Dropdown.Item href="#/action-2">Category 2</Dropdown.Item>
+                <Dropdown.Item href="#/action-3">Category 3</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+            {/* Advanced filter dropdown */}
+            <Dropdown className="me-3" style={{ width: "20%" }}>
+              <Dropdown.Toggle variant="outline-secondary" id="dropdown-filter">
+                Advance Filter
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item href="#/action-1">Filter 1</Dropdown.Item>
+                <Dropdown.Item href="#/action-2">Filter 2</Dropdown.Item>
+                <Dropdown.Item href="#/action-3">Filter 3</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+            {/* Find jobs button */}
+            <Link
+              className="btn btn-primary"
+              to={`/viewAllJob?jobTitle=${filter.title}&location=${filter.location}`}
+            >
+              Find Jobs
+            </Link>
+          </div>
+        </div>
         <FilterBar />
         <Row>
           {currentJobs.map((j, i) => (
