@@ -68,32 +68,6 @@ export default function MainLayout({ children }) {
       <div className="d-flex align-items-center">
         <img src={Logo} width={100} style={{ margin: "0 10px" }} alt="Logo" />
       </div>
-      {/* <div
-        className="border border-1 d-flex w-50 align-items-center"
-        style={{ borderColor: "#E4E5E8" }}
-      > */}
-      {/* <select
-          value={location[1]}
-          onChange={(e) => setLocation(e.target.value)}
-          className="border-0 py-2 px-3"
-        >
-          <option value="">Select Location</option>
-          {location.map((role) => (
-            <option key={role._id} value={role._id}>
-              {role.location_name}
-            </option>
-          ))}
-        </select>
-        <div className="border border-1 mx-2" style={{ height: "60%" }}></div>
-        <div className="d-inline-block py-2 px-3">
-          <FontAwesomeIcon icon={faMagnifyingGlass} className="me-3" />
-          <input
-            type="text"
-            placeholder="Job title, company"
-            className="border-0 h-100 custom-input w-75"
-          />
-        </div> */}
-      {/* </div> */}
       <div className="d-flex align-items-center">
         {isLoggedIn ? (
           <ProfileMenu avatar performLogOut={performLogOut} />
