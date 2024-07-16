@@ -3,16 +3,20 @@
 import express from "express";
 import companyController from "../controller/company.js";
 import verifyToken from "../middleware/verifyToken.js";
-import ComapnySchema from "../model/Company.js";
+import Company from "../model/Company.js";
 
 const companyRouter = express.Router();
 
 // GET all jobs
 companyRouter.post("/getAllCompanies", companyController.getAllCompanies);
-companyRouter.post("/insertCompany", verifyToken, companyController.insertCompany);
+companyRouter.post(
+  "/insertCompany",
+  // verifyToken,
+  companyController.insertCompany
+);
 companyRouter.get(
   "/getCompanyById/:companyId",
-  verifyToken,
+  // verifyToken,
   companyController.getCompanyById
 );
 companyRouter.get("/search", companyController.searchCompaniesByName);
@@ -22,7 +26,7 @@ companyRouter.post("/:id", async (req, res) => {
   const { company_name, website, description, employee_quantity, user_Id } =
     req.body;
   try {
-    const company = await ComapnySchema.findById(id);
+    const company = await Company.findById(id);
 
     if (!company) {
       return res.status(404).json({ message: "Company not found" });
@@ -40,6 +44,5 @@ companyRouter.post("/:id", async (req, res) => {
     res.status(500).json({ message: "Error updating company", error });
   }
 });
-
 
 export default companyRouter;

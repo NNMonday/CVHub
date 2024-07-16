@@ -5,6 +5,8 @@ import jwksClient from "jwks-rsa";
 import emailTemplate from "../utils/emailTemplate.js";
 import { AuthenticateRepository } from "../repository/index.js";
 import { io } from "../server.js"; //s
+import Company from "../model/Company.js";
+import JobSeekersSchema from "../model/JobSeekers.js";
 const client = jwksClient({
   jwksUri: "https://www.googleapis.com/oauth2/v3/certs",
   requestHeaders: {
@@ -75,6 +77,11 @@ const signUp = async (req, res) => {
       role_id,
     });
 
+    if (role_id === "66713822005995ca56828d32") {
+      await Company.create({});
+    } else {
+      await JobSeekersSchema.create({});
+    }
     await sendConfirmEmail(email, newUser._id);
 
     return res.status(201).json({

@@ -18,8 +18,10 @@ export const authSlice = createSlice({
     setUserInfo: (state, action) => {
       state.userInfo = { ...state.userInfo, ...action.payload };
     },
-
+    setAvatar: (state, action) => {
+      state.userInfo.data = { ...state.userInfo.data, avatar: action.payload };
+    },
   },
 });
-export const { login, logOut , setUserInfo} = authSlice.actions;
+export const { login, logOut, setUserInfo, setAvatar } = authSlice.actions;
 export default authSlice.reducer;

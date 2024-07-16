@@ -8,19 +8,25 @@ const statsRoute = express.Router();
 statsRoute.get("/homepage", async (req, res, next) => {
   try {
     const currentDateUTC = new Date().toISOString();
+    const weekAgoDateUTC = new Date(
+      new Date().setDate(new Date().getDate() - 7)
+    ).toISOString();
 
-    console.log(currentDateUTC);
     const jobCount = await Jobs.countDocuments({
       deadline: { $gte: currentDateUTC },
     });
     const companyCount = await ComapnySchema.countDocuments({});
     const jobSeekerCount = await JobSeekersSchema.countDocuments({});
-
-    res.status(200).json({
-      jobs: jobCount,
-      companies: companyCount,
-      jobSeekers: jobSeekerCount,
+    const latestJobCount = await Jobs.countDocuments({
+      createdAt: { $gte: weekAgoDateUTC },
     });
+
+    res.status(200).json([
+      { count: jobCount, title: "Live Jobs" },
+      { count: companyCount, title: "Companies" },
+      { count: jobSeekerCount, title: "Candidates" },
+      { count: latestJobCount, title: "Latest Jobs" },
+    ]);
   } catch (error) {
     next(error);
   }
