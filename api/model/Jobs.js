@@ -20,13 +20,13 @@ const jobsSchema = new Schema(
     deadline: {
       type: Date,
     },
-    description: {
+    desciption: {
       type: String,
     },
     applicant_requirements: {
       type: String,
     },
-    benefits: {
+    benifits: {
       type: String,
     },
     fields_id: { type: Schema.Types.ObjectId, ref: "fields" },

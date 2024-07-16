@@ -28,7 +28,7 @@ export default function MainNavbar() {
     >
       <nav className="d-inline-block">
         <MyNavLink to={"/"}>Home</MyNavLink>
-        <MyNavLink to={"/find/job"}>Find Job</MyNavLink>
+        <MyNavLink to={"/viewAllJob"}>Find Job</MyNavLink>
         <MyNavLink to={"/pricing"}>Pricing Plans</MyNavLink>
         <MyNavLink to={"/support"}>Customer Supports</MyNavLink>
       </nav>
