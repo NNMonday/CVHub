@@ -1,6 +1,5 @@
 import mongoose, { Schema } from "mongoose";
 
-
 const jobsSchema = new Schema(
   {
     name: {
@@ -8,32 +7,31 @@ const jobsSchema = new Schema(
       required: true,
     },
     salary: {
-        type: String,
+      type: String,
     },
     quantity: {
-        type: Number,
+      type: Number,
     },
-    location_id:{ type: Schema.Types.ObjectId, ref: "locations" },
-    workstatus_id:{ type: Schema.Types.ObjectId, ref: "workStatus" },
-    required_experience:{
-        type:Number,
+    location_id: { type: Schema.Types.ObjectId, ref: "locations" },
+    workstatus_id: { type: Schema.Types.ObjectId, ref: "workStatus" },
+    required_experience: {
+      type: Number,
     },
     deadline: {
-        type: Date,
+      type: Date,
     },
     desciption: {
-        type: String,
+      type: String,
     },
     applicant_requirements: {
-        type: String,
+      type: String,
     },
     benifits: {
-        type: String,
+      type: String,
     },
     fields_id: { type: Schema.Types.ObjectId, ref: "fields" },
     required_skills_id: [{ type: Schema.Types.ObjectId, ref: "skills" }],
     user_id: { type: Schema.Types.ObjectId, ref: "users" },
-    
   },
   { timestamps: true, collection: "jobs" }
 );

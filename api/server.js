@@ -21,6 +21,7 @@ import { LocationRouter } from "./routes/index.js";
 import { JobsRouter } from "./routes/index.js";
 import { CompanyRouter } from "./routes/index.js";
 import morgan from "morgan";
+import statsRoute from "./routes/stats.js";
 
 dotenv.config();
 
@@ -60,6 +61,7 @@ app.use("/api/workstatus", WorkStatusRouter);
 app.use("/api/fields", FieldsRouter);
 app.use("/api/jobSekker", JobSeekerRouter);
 app.use("/api/user", UsersRouter);
+app.use("/api/stats", statsRoute);
 
 const port = process.env.PORT || 9999;
 const MONGODB_URI = process.env.MONGODB_URI;
