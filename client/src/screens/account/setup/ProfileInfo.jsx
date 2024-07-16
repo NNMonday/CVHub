@@ -29,7 +29,6 @@ export default function ProfileInfo() {
         const response = await axios.get(
           `${process.env.REACT_APP_BACKEND_URL}fields/getAllFields`
         );
-        console.log(response.data);
         setIndustryTypes(response.data.data);
       } catch (error) {
         console.error("Error fetching industry types:", error);

@@ -4,20 +4,19 @@ import { Container } from "react-bootstrap";
 import Logo from "../assets/Logo.png";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import ProfileMenu from "../components/ProfileMenu.js";
-
-import {
-  Divider,
-  ListItemIcon,
-  ListItemText,
-  Menu,
-  MenuItem,
-  bottomNavigationActionClasses,
-} from "@mui/material";
-import { FaAddressBook, FaCircleUser } from "react-icons/fa6";
-import { IoLogOut } from "react-icons/io5";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+// import {
+//   Divider,
+//   ListItemIcon,
+//   ListItemText,
+//   Menu,
+//   MenuItem,
+//   bottomNavigationActionClasses,
+// } from "@mui/material";
+// import { FaAddressBook, FaCircleUser } from "react-icons/fa6";
+// import { IoLogOut } from "react-icons/io5";
 import { useEffect, useState, useCallback } from "react";
 import Logout from "../utilities/LogOut.js";
 import PerformRequest from "../utilities/PerformRequest.js";
@@ -25,23 +24,23 @@ import Footer from "../components/Footer.jsx";
 
 export default function MainLayout({ children }) {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  const expanded = useSelector((state) => state.sideBar.expanded);
-  const userInfo = useSelector((state) => state.auth.userInfo);
-  const [anchorProfile, setAnchorProfile] = useState(null);
-  const [openProfileMenu, setOpenProfileMenu] = useState(false);
+  // const expanded = useSelector((state) => state.sideBar.expanded);
+  // const userInfo = useSelector((state) => state.auth.userInfo);
+  // const [anchorProfile, setAnchorProfile] = useState(null);
+  // const [openProfileMenu, setOpenProfileMenu] = useState(false);
 
-  const openMenu = (e) => {
-    setOpenProfileMenu(true);
-    setAnchorProfile(e.currentTarget);
-  };
-  const closeMenu = (e) => {
-    setOpenProfileMenu(false);
-    setAnchorProfile(null);
-  };
+  // const openMenu = (e) => {
+  //   setOpenProfileMenu(true);
+  //   setAnchorProfile(e.currentTarget);
+  // };
+  // const closeMenu = (e) => {
+  //   setOpenProfileMenu(false);
+  //   setAnchorProfile(null);
+  // };
   const { performLogOut } = Logout();
 
   const [location, setLocation] = useState([]);
-  const [jobName, setJobName] = useState("");
+  // const [jobName, setJobName] = useState("");
   const OriginalRequest = useCallback(PerformRequest().OriginalRequest, []);
 
   useEffect(() => {
@@ -49,7 +48,6 @@ export default function MainLayout({ children }) {
       try {
         const data = await OriginalRequest("location/getAllLocation", "GET");
         if (data) {
-          console.log("Locations fetched:", data);
           setLocation(data);
         }
       } catch (error) {
@@ -74,7 +72,7 @@ export default function MainLayout({ children }) {
         className="border border-1 d-flex w-50 align-items-center"
         style={{ borderColor: "#E4E5E8" }}
       > */}
-        {/* <select
+      {/* <select
           value={location[1]}
           onChange={(e) => setLocation(e.target.value)}
           className="border-0 py-2 px-3"

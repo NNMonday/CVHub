@@ -4,7 +4,6 @@ import bcrypt from "bcrypt";
 const changePassword = async (req, res) => {
   try {
     const { id, currentPassword, newPassword } = req.body;
-    console.log(req.body);
     const user = await usersRepository.findById(id);
 
     // Kiểm tra mật khẩu hiện tại
@@ -25,6 +24,7 @@ const changePassword = async (req, res) => {
 
 const uploadAvatar = async (req, res) => {
   try {
+    console.log(req.cookies);
     const { id } = req.params;
     const { avatar } = req.body;
 
@@ -33,7 +33,6 @@ const uploadAvatar = async (req, res) => {
     }
 
     const user = await usersRepository.findByIdAndUpdate(id, avatar);
-    console.log("user: ", user);
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }

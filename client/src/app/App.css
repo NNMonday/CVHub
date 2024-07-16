@@ -97,3 +97,11 @@
 .bg-green {
   background-color: #98fb98; /* Màu xanh lá nhạt */
 }
+
+.job-card {
+  transition: border-color 0.3s;
+}
+
+.job-card:hover {
+  border-color: blue;
+}

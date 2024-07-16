@@ -14,9 +14,9 @@ import {
 import { faBookmark } from "@fortawesome/free-regular-svg-icons";
 import logoPlaceholder from "../../../assets/logoPlaceholder.png";
 import { Link } from "react-router-dom";
-import PerformRequest from "../../../utilities/PerformRequest.js";
-import { useEffect, useState, useCallback } from "react";
-import { useParams } from "react-router-dom";
+// import PerformRequest from "../../../utilities/PerformRequest.js";
+// import { useEffect, useState, useCallback } from "react";
+// import { useParams } from "react-router-dom";
 
 const JobPortal = () => {
   // const OriginalRequest = useCallback(PerformRequest().OriginalRequest, []);

@@ -35,7 +35,7 @@ export default function MyRoutes() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/find/job" element={<FindJob />} />
+        <Route path="/viewAllJob" element={<JobListView />} />
         <Route path="/singlejob" element={<Singlejob />} />
         <Route path="/postajob" element={<PostAJob />} />
         <Route path="/candidatedashboard" element={<CandidateDashboard />} />
@@ -101,7 +101,6 @@ export default function MyRoutes() {
             </PrivateRoute>
           }
         />
-
       </Routes>
     </BrowserRouter>
   );
