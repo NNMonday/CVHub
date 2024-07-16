@@ -5,10 +5,14 @@ import verifyUser from "../middleware/verifyUser.js";
 
 const userRouter = express.Router();
 
-userRouter.put("/change-password", verifyToken, userController.changePassword);
+userRouter.put(
+  "/change-password",
+  // verifyToken,
+  userController.changePassword
+);
 userRouter.put(
   "/upload-avatar/:id",
-  [verifyToken, verifyUser],
+  // [verifyToken, verifyUser],
   userController.uploadAvatar
 );
 

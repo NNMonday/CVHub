@@ -6,10 +6,6 @@ const companySchema = new Schema(
       type: String,
       required: true,
     },
-    organization_type: {
-      type: Number,
-      required: true,
-    },
     website: {
       type: String,
     },
@@ -35,5 +31,5 @@ const companySchema = new Schema(
   }
 );
 
-const ComapnySchema = mongoose.model("companys", companySchema);
-export default ComapnySchema;
+const Company = mongoose.model("company", companySchema);
+export default Company;

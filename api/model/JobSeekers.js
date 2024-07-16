@@ -22,8 +22,8 @@ const jobsSeekersSchema = new Schema(
     },
     savedJobs: [{ type: Schema.Types.ObjectId, ref: "jobs" }],
     applyJobs: [{ type: Schema.Types.ObjectId, ref: "jobs" }],
-    followingCompany: { type: Schema.Types.ObjectId, ref: "companys" },
-    user_Id: { type: Schema.Types.ObjectId, ref: "users" },
+    followingCompanies: [{ type: Schema.Types.ObjectId, ref: "companys" }],
+    user_id: { type: Schema.Types.ObjectId, ref: "users" },
     about: { type: String },
   },
   { timestamps: true, collection: "jobSeekers" }

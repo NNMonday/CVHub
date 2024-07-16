@@ -5,11 +5,12 @@ import Dropzone from "../../../assets/Dropzone.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useDropzone } from "react-dropzone";
 import { storage } from "../../../firebase/config";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import axios from "axios";
+import { setAvatar, setUserInfo } from "../../../redux/auth";
 
 export default function PersonalInfo() {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ export default function PersonalInfo() {
   const [preview, setPreview] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
   const [downloadURL, setDownloadURL] = useState("");
+  const dispatch = useDispatch();
 
   const { _id, role_name } = useSelector((state) => state.auth.userInfo.data);
 
@@ -79,6 +81,7 @@ export default function PersonalInfo() {
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             console.log("File available at", downloadURL);
+            dispatch(setAvatar(downloadURL));
             setDownloadURL(downloadURL);
             resolve(downloadURL);
           });
@@ -126,7 +129,7 @@ export default function PersonalInfo() {
         <Row>
           <Col sm={4}>
             <p>Upload {role_name === "Company" ? "Logo" : "Avatar"}</p>
-            <div {...getRootProps()}>
+            <div {...getRootProps()} style={{ cursor: "pointer" }}>
               <input {...getInputProps()} />
               <img src={Dropzone} alt="Dropzone" />
             </div>
@@ -154,7 +157,7 @@ export default function PersonalInfo() {
         <hr />
 
         <Button className="mt-4" type="submit" disabled={isUploading}>
-          {isUploading ? "Uploading..." : " Next"}
+          {isUploading ? "Uploading..." : " Next"}{" "}
           <FontAwesomeIcon icon={faArrowRight} />
         </Button>
       </Form>
