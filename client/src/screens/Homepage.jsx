@@ -13,6 +13,7 @@ import Job from "../components/Job.jsx";
 import { Link } from "react-router-dom";
 import PerformRequest from "../utilities/PerformRequest.js";
 import { useEffect, useState, useCallback } from "react";
+import axios from "axios";
 
 const data = {
   figures: [
@@ -98,6 +99,20 @@ export default function Homepage() {
     [OriginalRequest]
   );
 
+  const [location, setLocation] = useState([]);
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await axios.get(
+          "http://localhost:9999/api/location/getAllLocation"
+        );
+        setLocation(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
+
   const handleSearch = () => {};
 
   const Badge = ({ h5, span, type = "" }) => (
@@ -157,15 +172,27 @@ export default function Homepage() {
               className="border border-1 mx-3"
               style={{ height: "20px" }}
             ></div>
-            <div className="d-flex align-items-center w-25">
-              <FontAwesomeIcon icon={faLocationDot} className="me-3" />
-              <input
-                type="text"
-                placeholder="Your location"
-                className="border-0 h-100 custom-input"
-                // value={searchValue.location}
-                // onChange={(e) => handleInputChange("location", e.target.value)} // Sử dụng handleInputChange để xử lý sự kiện onChange
-              />
+            <div className="d-flex w-50 align-items-center">
+              <select
+                value=""
+                onChange={(e) =>
+                  setSearchValue({ ...searchValue, location: e.target.value })
+                }
+                className="border-0 py-2 px-3 w-75"
+              >
+                <option value="" hidden>
+                  Select Location
+                </option>
+                {location.map((l) => (
+                  <option key={l._id} value={l._id}>
+                    {l.location_name}
+                  </option>
+                ))}
+              </select>
+              <div
+                className="border border-1 mx-2"
+                style={{ height: "60%" }}
+              ></div>
             </div>
             <Button
               variant="primary"
