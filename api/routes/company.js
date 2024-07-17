@@ -26,7 +26,7 @@ companyRouter.post("/:id", async (req, res) => {
   const { company_name, website, description, employee_quantity, user_Id } =
     req.body;
   try {
-    const company = await Company.findById(id);
+    const company = await Company.find({ user_id: id });
 
     if (!company) {
       return res.status(404).json({ message: "Company not found" });

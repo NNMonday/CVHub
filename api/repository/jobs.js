@@ -2,9 +2,19 @@ import mongoose from "mongoose";
 import Jobs from "../model/Jobs.js";
 
 // Get all jobs
-const getAllJobs = async () => {
+const getAllJobs = async (title, location) => {
   try {
-    const jobs = await Jobs.find()
+    const query = {};
+
+    if (title.length > 0) {
+      query.name = { $regex: title, $options: "i" }; // Case-insensitive search for title
+    }
+
+    if (location.length > 0) {
+      query.location_id = location; // Match the location _id
+    }
+
+    const jobs = await Jobs.find(query)
       .populate({
         path: "workstatus_id",
         model: "workStatus",
@@ -15,11 +25,16 @@ const getAllJobs = async () => {
         model: "users",
         select: "avatar",
       });
-    return jobs;
+
+    return jobs.map((j) => ({
+      ...j.toObject(),
+      avatar: j.user_id ? j.user_id.avatar : "",
+    }));
   } catch (error) {
     throw new Error(`Failed to fetch jobs: ${error.message}`);
   }
 };
+
 // đoạn này k
 
 // Get job by ID

@@ -9,14 +9,14 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 export default function ProfileInfo() {
-  const { _id, role_name } = useSelector((state) => state.auth.userInfo);
+  const { _id, role_name } = useSelector((state) => state.auth.userInfo.data);
   const [fullname, setFullname] = useState("");
   const [gender, setGender] = useState("");
   const [dob, setDob] = useState("");
   const [about, setAbout] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [industryType, setIndustryType] = useState("");
-  const [teamSize, setTeamSize] = useState("");
+  const [teamSize, setTeamSize] = useState(0);
   const [yearOfEstablishment, setYearOfEstablishment] = useState("");
   const [website, setWebsite] = useState("");
   const [companyVision, setCompanyVision] = useState("");
@@ -78,14 +78,14 @@ export default function ProfileInfo() {
             year_of_establishment: yearOfEstablishment,
             website,
             company_vision: companyVision,
-            user_Id: _id,
+            user_id: _id,
           }
         : {
             fullname,
             gender,
             dob,
             about,
-            user_Id: _id,
+            user_id: _id,
           };
 
     try {
@@ -138,17 +138,11 @@ export default function ProfileInfo() {
               <Col className="mt-3" sm={6}>
                 <Form.Group>
                   <Form.Label>Team Size</Form.Label>
-                  <Form.Select
+                  <Form.Control
+                    type="number"
                     value={teamSize}
-                    onChange={(e) => setTeamSize(e.target.value)}
-                  >
-                    <option disabled hidden value="">
-                      Select...
-                    </option>
-                    <option value="Small">Small</option>
-                    <option value="Medium">Medium</option>
-                    <option value="Large">Large</option>
-                  </Form.Select>
+                    onChange={(e) => setTeamSize(Number(e.target.value))}
+                  />
                 </Form.Group>
               </Col>
               <Col className="mt-3" sm={6}>

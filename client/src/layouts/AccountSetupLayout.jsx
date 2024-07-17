@@ -9,7 +9,7 @@ import MinimalFooter from "../components/MinimalFooter";
 import { useSelector } from "react-redux";
 
 export default function AccountSetup({ progress = 0, children }) {
-  const { role_name } = useSelector((state) => state.auth.userInfo);
+  const { role_name } = useSelector((state) => state.auth.userInfo.data);
   return (
     <>
       <Container className="pt-3 setup">

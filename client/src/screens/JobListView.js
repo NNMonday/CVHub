@@ -10,12 +10,13 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import PerformRequest from "../utilities/PerformRequest.js";
 import Job from "../components/Job.jsx"; // Import Job component here
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Typography } from "antd";
 import axios from "axios";
 const { Text } = Typography;
 
 export default function JobListView() {
+  const navigate = useNavigate();
   const OriginalRequest = useCallback(PerformRequest().OriginalRequest, []);
   const [jobs, setJobs] = useState([]);
   const [sortOrder, setSortOrder] = useState("lastest");
@@ -27,17 +28,22 @@ export default function JobListView() {
     location: searchParams.get("location") || "",
   });
 
+  const [loading, setLoading] = useState(true);
+
   const [location, setLocation] = useState([]);
   useEffect(() => {
     (async () => {
-      try {
-        const locationRes = await axios.get(
-          "http://localhost:9999/api/location/getAllLocation"
-        );
-        setLocation(locationRes.data);
-      } catch (error) {
-        console.log(error);
+      if (loading) {
+        try {
+          const locationRes = await axios.get(
+            "http://localhost:9999/api/location/getAllLocation"
+          );
+          setLocation(locationRes.data);
+        } catch (error) {
+          console.log(error);
+        }
       }
+      setLoading(false);
     })();
   }, []);
 
@@ -68,7 +74,6 @@ export default function JobListView() {
           "GET"
         );
         if (data) {
-          console.log(data);
           setJobs(data);
         }
       } catch (error) {
@@ -77,6 +82,22 @@ export default function JobListView() {
     };
     fetchJobs();
   }, []);
+
+  const searchJob = async () => {
+    try {
+      const data = await OriginalRequest(
+        `jobs/getAllJobs?title=${filter.title}&location=${filter.location}`,
+        "GET"
+      );
+      if (data) {
+        console.log(data);
+        setJobs(data);
+      }
+    } catch (error) {
+      console.error("Failed to fetch jobs:", error);
+    }
+    setLoading(false);
+  };
 
   // Calculate total pages based on items per page
   const totalPages = Math.ceil(jobs.length / itemsPerPage);
@@ -250,7 +271,7 @@ export default function JobListView() {
                   onChange={(e) =>
                     setFilter({ ...filter, location: e.target.value })
                   }
-                  className="border-0 py-2 px-3 w-50"
+                  className="border-0 py-2 px-3 w-75"
                 >
                   <option value="" hidden>
                     Select Location
@@ -298,12 +319,15 @@ export default function JobListView() {
               </Dropdown.Menu>
             </Dropdown>
             {/* Find jobs button */}
-            <Link
-              className="btn btn-primary"
-              to={`/viewAllJob?jobTitle=${filter.title}&location=${filter.location}`}
+            <Button
+              disabled={loading}
+              onClick={() => {
+                setLoading(true);
+                searchJob();
+              }}
             >
               Find Jobs
-            </Link>
+            </Button>
           </div>
         </div>
         <FilterBar />

@@ -2,7 +2,8 @@ import jobsRepository from "../repository/jobs.js";
 
 const getAllJobs = async (req, res) => {
   try {
-    const jobs = await jobsRepository.getAllJobs();
+    const { title = "", location = "" } = req.query;
+    const jobs = await jobsRepository.getAllJobs(title, location);
     res.status(200).json(jobs);
   } catch (error) {
     res.status(500).json({ message: error.message });

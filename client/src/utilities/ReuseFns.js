@@ -8,5 +8,5 @@ export function getDistanceFromToday(mongoDateString) {
   const millisInOneDay = 24 * 60 * 60 * 1000;
   const diffInDays = Math.floor(diffInMillis / millisInOneDay);
 
-  return diffInDays;
+  return diffInDays * -1;
 }

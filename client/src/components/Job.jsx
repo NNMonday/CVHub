@@ -24,6 +24,7 @@ const Job = (props) => {
     userId,
     date,
     statuss,
+    avatar,
   } = props;
   const workType = workstatus_id?.workStatus_name || "Unknown";
   return (
@@ -41,7 +42,7 @@ const Job = (props) => {
           className="overflow-hidden"
         >
           <img
-            src={logoPlaceholder}
+            src={avatar || logoPlaceholder}
             alt="logoPlaceholder"
             className="w-100 h-100"
           />

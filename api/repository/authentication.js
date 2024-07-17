@@ -84,10 +84,16 @@ const getUserById = async (userId) => {
 
 const getUserByEmail = async (email) => {
   try {
-    const existingUser = await Users.findOne({ email: email });
-    // .populate({ path: "user_Id", model: "users", select: "avatar" })
-    //   .exec();
-    return existingUser;
+    const existingUser = await Users.findOne({ email: email })
+      // .populate({ path: "user_Id", model: "users", select: "avatar" })
+      //   .exec();
+      .populate("role_id")
+      .exec();
+    if (existingUser) {
+      const result = existingUser._doc;
+      return { ...result, role_name: result.role_id.role_name };
+    }
+    return false;
   } catch (error) {
     throw new Error(error.message);
   }

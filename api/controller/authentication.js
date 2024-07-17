@@ -78,9 +78,9 @@ const signUp = async (req, res) => {
     });
 
     if (role_id === "66713822005995ca56828d32") {
-      await Company.create({});
+      await Company.create({ user_id: newUser._id });
     } else {
-      await JobSeekersSchema.create({});
+      await JobSeekersSchema.create({ user_id: newUser._id });
     }
     await sendConfirmEmail(email, newUser._id);
 
@@ -190,8 +190,7 @@ const login = async (req, res) => {
         expiresIn: "1w",
       }
     );
-    const { createdAt, updatedAt, password, ...filterdUser } =
-      existingUser._doc;
+    const { createdAt, updatedAt, password, ...filterdUser } = existingUser;
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
       path: "/",
