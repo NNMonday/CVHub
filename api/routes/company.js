@@ -11,12 +11,16 @@ const companyRouter = express.Router();
 companyRouter.post("/getAllCompanies", companyController.getAllCompanies);
 companyRouter.post(
   "/insertCompany",
-  // verifyToken,
+  verifyToken,
   companyController.insertCompany
 );
+// companyRouter.get(
+//   "/getCompanyById/:companyId",
+//   verifyToken,
+//   companyController.getCompanyById
+// );
 companyRouter.get(
   "/getCompanyById/:companyId",
-  // verifyToken,
   companyController.getCompanyById
 );
 companyRouter.get("/search", companyController.searchCompaniesByName);

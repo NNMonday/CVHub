@@ -99,6 +99,8 @@ const verifyUser = async (req, res) => {
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
     const { userId } = decodedToken;
 
+    localStorage.setItem("token", userId);
+
     const result = await AuthenticateRepository.verifyUser(userId);
     if (!result) {
       return res

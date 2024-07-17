@@ -40,7 +40,7 @@ export const handleSavedJob = async (req, res) => {
 
 export const getAllSavedJobs = async (req, res) => {
   try {
-    const userId = req.decodedToken.userId;
+    const userId = "66964c35837e4ae73fa17cfe"
     const savedJobsIds = await jobSeekersRepository.getAllSavedJobs(userId);
     res.status(200).json(savedJobsIds);
   } catch (error) {

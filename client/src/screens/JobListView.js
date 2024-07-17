@@ -8,6 +8,11 @@ import {
   faMapMarkerAlt,
   faVectorSquare,
 } from "@fortawesome/free-solid-svg-icons";
+import {
+  faSearch,
+  faMapMarkerAlt,
+  faVectorSquare,
+} from "@fortawesome/free-solid-svg-icons";
 import PerformRequest from "../utilities/PerformRequest.js";
 import Job from "../components/Job.jsx"; // Import Job component here
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
@@ -52,7 +57,23 @@ export default function JobListView() {
     setItemsPerPage(perPage);
     setCurrentPage(1);
   };
+  // Function to handle items per page change
+  const handleItemsPerPageChange = (perPage) => {
+    setItemsPerPage(perPage);
+    setCurrentPage(1);
+  };
 
+  // Function to handle sorting of jobs
+  const handleSortJobs = (order) => {
+    let sortedJobs = [...jobs];
+    if (order === "latest") {
+      sortedJobs.sort((a, b) => new Date(b.deadline) - new Date(a.deadline));
+    } else if (order === "earliest") {
+      sortedJobs.sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
+    }
+    setJobs(sortedJobs);
+    setSortOrder(order);
+  };
   // Function to handle sorting of jobs
   const handleSortJobs = (order) => {
     let sortedJobs = [...jobs];
@@ -102,7 +123,13 @@ export default function JobListView() {
   // Calculate total pages based on items per page
   const totalPages = Math.ceil(jobs.length / itemsPerPage);
   const pageNumbers = [];
+  // Calculate total pages based on items per page
+  const totalPages = Math.ceil(jobs.length / itemsPerPage);
+  const pageNumbers = [];
 
+  for (let i = 1; i <= totalPages; i++) {
+    pageNumbers.push(i);
+  }
   for (let i = 1; i <= totalPages; i++) {
     pageNumbers.push(i);
   }
@@ -112,6 +139,25 @@ export default function JobListView() {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentJobs = jobs.slice(indexOfFirstItem, indexOfLastItem);
 
+  // JSX component for filter bar section
+  const FilterBar = () => (
+    <div
+      className="d-flex bg-white align-items-center p-3"
+      style={{ borderRadius: "10px", boxShadow: "0 0 10px rgba(0,0,0,0.1)" }}
+    >
+      {/* Name filter dropdown */}
+      <div className="me-auto">
+        <Dropdown>
+          <Dropdown.Toggle variant="light" id="dropdown-name">
+            Select Name
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            <Dropdown.Item href="#">Name 1</Dropdown.Item>
+            <Dropdown.Item href="#">Name 2</Dropdown.Item>
+            <Dropdown.Item href="#">Name 3</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      </div>
   // JSX component for filter bar section
   const FilterBar = () => (
     <div
@@ -148,7 +194,42 @@ export default function JobListView() {
           </Dropdown.Menu>
         </Dropdown>
       </div>
+      {/* Latest dropdown */}
+      <div className="me-3">
+        <Dropdown>
+          <Dropdown.Toggle variant="light" id="dropdown-latest">
+            {sortOrder === "latest" ? "Latest" : "Earliest"}
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            <Dropdown.Item onClick={() => handleSortJobs("latest")}>
+              Latest
+            </Dropdown.Item>
+            <Dropdown.Item onClick={() => handleSortJobs("earliest")}>
+              Earliest
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      </div>
 
+      {/* Items per page dropdown */}
+      <div className="me-3">
+        <Dropdown>
+          <Dropdown.Toggle variant="light" id="dropdown-perpage">
+            {itemsPerPage} per page
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            <Dropdown.Item onClick={() => handleItemsPerPageChange(6)}>
+              6
+            </Dropdown.Item>
+            <Dropdown.Item onClick={() => handleItemsPerPageChange(12)}>
+              12
+            </Dropdown.Item>
+            <Dropdown.Item onClick={() => handleItemsPerPageChange(24)}>
+              24
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      </div>
       {/* Items per page dropdown */}
       <div className="me-3">
         <Dropdown>
@@ -186,7 +267,27 @@ export default function JobListView() {
       </div>
     </div>
   );
+      {/* Sort icon button */}
+      <div className="ms-auto">
+        <Row className="ms-auto">
+          <Col xs="auto">
+            <Button variant="light">
+              <FontAwesomeIcon icon={faThLarge} />
+            </Button>
+          </Col>
+          <Col xs="auto">
+            <Button variant="light">
+              <FontAwesomeIcon icon={faVirus} />
+            </Button>
+          </Col>
+        </Row>
+      </div>
+    </div>
+  );
 
+  return (
+    <MainLayout>
+      {/* <Banner /> */}
   return (
     <MainLayout>
       {/* <Banner /> */}

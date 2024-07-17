@@ -14,6 +14,7 @@ import {
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
 import Job from "../components/Job.jsx";
+import Job from "../components/Job.jsx";
 import { Link } from "react-router-dom";
 import PerformRequest from "../utilities/PerformRequest.js";
 import { useEffect, useState, useCallback } from "react";
@@ -223,6 +224,12 @@ export default function Homepage() {
         <Row>
           <Col className="d-flex justify-content-between align-items-center mb-4">
             <h3>Featured jobs</h3>
+            <div className="border py-2 px-3" style={{ borderRadius: "5px" }}>
+              <Link
+                to="/viewAllJob"
+                className="text-primary"
+                style={{ textDecoration: "none" }}
+              >
             <div className="border py-2 px-3" style={{ borderRadius: "5px" }}>
               <Link
                 to="/viewAllJob"

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   Col,
@@ -25,8 +25,38 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Job from "../components/Job";
 import { NavLink } from "react-router-dom";
-
+import axios from "axios";
 export default function AppliedJobs() {
+  const [jobSeeker, setJobSeeker] = useState([]);
+  const [appliedjobs, setApplyJob] = useState(null);
+
+  const fetchJobSeeker = async () => {
+    try {
+      const userId = localStorage.getItem("userInfo");
+      console.log("hello");
+      console.log(userId);
+      const response = await axios.get(
+        "http://localhost:9999/api/jobSekker/getJobSeekerById/" + userId
+      );
+      setJobSeeker(response.data.applyJobs); // Assuming response.data contains job seeker details
+
+      console.log(jobSeeker);
+    } catch (error) {
+      console.error("Error fetching job seeker:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchJobSeeker();
+  }, []);
+
+  useEffect(() => {
+    // Update apply job count when jobSeeker data changes
+    if (jobSeeker) {
+      console.log(jobSeeker);
+    }
+  }, [jobSeeker]);
+
   const data = {
     jobs: [
       {
@@ -170,6 +200,9 @@ export default function AppliedJobs() {
               </thead>
             </Table>
             <div>
+              {jobSeeker.map((i) => {
+                console.log(i._id);
+              })}
               {data.jobs.map((j) => (
                 <Job key={j.jobId} {...j} />
               ))}

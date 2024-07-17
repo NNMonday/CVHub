@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPhoneVolume } from "@fortawesome/free-solid-svg-icons";
 import English from "../assets/Icons/united-states.png";
 
-
 const MyNavLink = ({ to, children }) => (
   <NavLink
     to={to}
@@ -29,6 +28,8 @@ export default function MainNavbar() {
       <nav className="d-inline-block">
         <MyNavLink to={"/"}>Home</MyNavLink>
         <MyNavLink to={"/viewAllJob"}>Find Job</MyNavLink>
+        <MyNavLink to={"/companies"}>Find Companies</MyNavLink>
+        <MyNavLink to={"/appliedjobs"}>Dashboard</MyNavLink>
         <MyNavLink to={"/pricing"}>Pricing Plans</MyNavLink>
         <MyNavLink to={"/support"}>Customer Supports</MyNavLink>
       </nav>

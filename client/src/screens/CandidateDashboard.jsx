@@ -1,5 +1,5 @@
-import React from "react";
-
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import {
   Col,
   Container,
@@ -32,6 +32,33 @@ import { NavLink } from "react-router-dom";
 export default function CandidateDashboard() {
   const favoriteJobsCount = getFavoriteJobsCount();
   const alertJobsCount = getAlertJobsCount();
+
+  const [jobSeeker, setJobSeeker] = useState(null);
+
+  const [applyJob, setApplyJob] = useState(0);
+  const [favoriteJob, setFavoriteJob] = useState(0);
+  const fetchJobSeeker = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:9999/api/jobSekker/getJobSeekerById/667910ce771a127878b1799a"
+      );
+      setJobSeeker(response.data); // Assuming response.data contains job seeker details
+    } catch (error) {
+      console.error("Error fetching job seeker:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchJobSeeker();
+  }, []);
+
+  useEffect(() => {
+    // Update apply job count when jobSeeker data changes
+    if (jobSeeker) {
+      setApplyJob(jobSeeker.applyJobs.length);
+      setFavoriteJob(jobSeeker.savedJobs.length);
+    }
+  }, [jobSeeker]);
 
   const data = {
     jobs: [
@@ -193,7 +220,7 @@ export default function CandidateDashboard() {
             <Row className="my-4">
               <Col md={4}>
                 <AppliedJobsCard
-                  jobCount={appliedJobsCount}
+                  jobCount={applyJob}
                   appliedjobs="Applied jobs"
                   color={"#E7F0FA"}
                   icon={faBriefcase}
@@ -201,7 +228,7 @@ export default function CandidateDashboard() {
               </Col>
               <Col md={4}>
                 <AppliedJobsCard
-                  jobCount={favoriteJobsCount}
+                  jobCount={favoriteJob}
                   appliedjobs="Favorite jobs"
                   color={"#FFF6E6"}
                   icon={faBookmark}

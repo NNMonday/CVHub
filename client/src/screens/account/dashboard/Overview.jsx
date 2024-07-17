@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Row, Col, Button, Table, Alert } from "react-bootstrap";
 import { FaEdit } from "react-icons/fa";
@@ -14,11 +14,45 @@ import {
 import { faBookmark } from "@fortawesome/free-regular-svg-icons";
 import logoPlaceholder from "../../../assets/logoPlaceholder.png";
 import { Link } from "react-router-dom";
+import axios from "axios";
+// Trong client/src/screens/Overview.jsx
 // import PerformRequest from "../../../utilities/PerformRequest.js";
 // import { useEffect, useState, useCallback } from "react";
 // import { useParams } from "react-router-dom";
 
 const JobPortal = () => {
+  const [jobSeeker, setJobSeeker] = useState([]);
+
+  const [applyJob, setApplyJob] = useState(0);
+  const [favoriteJob, setFavoriteJob] = useState(0);
+  const fetchJobSeeker = async (req, res) => {
+    try {
+      const userId = localStorage.getItem("userInfo");
+      console.log(userId);
+      const response = await axios.get(
+        `http://localhost:9999/api/jobs/appliedJobs/${userId}`
+      );
+      const response2 = await axios.get(
+        `http://localhost:9999/api/jobs/favoriteJobs/${userId}`
+      );
+      setJobSeeker(response.data); // Assuming response.data contains job seeker details
+      setFavoriteJob(response2.data);
+    } catch (error) {
+      console.error("Error fetching job seeker:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchJobSeeker();
+  }, []);
+
+  useEffect(() => {
+    // Update apply job count when jobSeeker data changes
+    if (jobSeeker) {
+      setApplyJob(jobSeeker.length);
+      setFavoriteJob(jobSeeker.length);
+    }
+  }, [jobSeeker]);
   // const OriginalRequest = useCallback(PerformRequest().OriginalRequest, []);
   // const [jobSeekers, setJobSeekers] = useState([]);
   // const { jobSeekerId } = useParams();
@@ -64,7 +98,7 @@ const JobPortal = () => {
               className="text-center p-2 border"
             >
               <div style={{ textAlign: "left" }}>
-                <h2 style={{ fontSize: "1.5em" }}>589</h2>
+                <h2 style={{ fontSize: "1.5em" }}>{applyJob}</h2>
                 <p style={{ margin: 0 }}>Applied jobs</p>
               </div>
               <div
@@ -95,7 +129,7 @@ const JobPortal = () => {
               className="text-center p-2 border"
             >
               <div style={{ textAlign: "left" }}>
-                <h2 style={{ fontSize: "1.5em" }}>238</h2>
+                <h2 style={{ fontSize: "1.5em" }}>{favoriteJob}</h2>
                 <p style={{ margin: 0 }}>Favorite jobs</p>
               </div>
               <div

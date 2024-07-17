@@ -2,6 +2,10 @@ import React, { useState, useCallback } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBookmark as faBookmarkRegular } from "@fortawesome/free-regular-svg-icons";
 import { faBookmark } from "@fortawesome/free-solid-svg-icons";
+import React, { useState, useCallback } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBookmark as faBookmarkRegular } from "@fortawesome/free-regular-svg-icons";
+import { faBookmark } from "@fortawesome/free-solid-svg-icons";
 import PerformRequest from "../utilities/PerformRequest.js";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -38,6 +42,8 @@ const BookmarkButton = ({ jobId, isBookmarkedInitially }) => {
     <div
       className="py-2 px-3 me-2 save-container"
       style={{
+        borderRadius: "6px",
+        color: isBookmarked ? "black" : "initial",
         borderRadius: "6px",
         color: isBookmarked ? "black" : "initial",
       }}

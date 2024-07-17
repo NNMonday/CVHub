@@ -1,4 +1,5 @@
 import jobsRepository from "../repository/jobs.js";
+import jobsRepository from "../repository/jobs.js";
 
 const getAllJobs = async (req, res) => {
   try {
@@ -38,7 +39,38 @@ const searchJobsByNameAndLocation = async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 };
+const searchJobsByNameAndLocation = async (req, res) => {
+  try {
+    const { name, location } = req.query;
+    console.log("name: ", name);
+    console.log("location: ", location);
+    const jobs = await jobsRepository.searchJobsByNameAndLocation(
+      name,
+      location
+    );
+    return res.status(200).json({ data: jobs });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
 
+const getJobCountByFieldId = async (req, res) => {
+  try {
+    const jobCounts = await jobsRepository.getJobCountByFieldId();
+    return res.status(200).json({ data: jobCounts });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+const getWorkStatusByJobId = async (req, res) => {
+  try {
+    const jobWorkStatus = await jobsRepository.getWorkStatusByJobId();
+    return res.status(200).json({ data: jobWorkStatus });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
 const getJobCountByFieldId = async (req, res) => {
   try {
     const jobCounts = await jobsRepository.getJobCountByFieldId();

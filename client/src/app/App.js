@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 function App() {
   const auth = useSelector((state) => state.auth);
   console.log(auth);
+  localStorage.setItem("userId", auth.userInfo.data._id);
   return (
     <div>
       <Toaster position="top-center" reverseOrder />

@@ -60,6 +60,7 @@ const verifyUser = async (userId) => {
     // Return necessary login information, including plaintext password if needed
     return {
       ...updatedUser.toObject(),
+      ...updatedUser.toObject(),
       role_name: updatedUser.role_id.role_name, // Ensure this is plaintext if required
       // Other necessary login information if needed
     };
@@ -70,6 +71,9 @@ const verifyUser = async (userId) => {
 
 const getUserById = async (userId) => {
   try {
+    const existingUser = await Users.findById(userId);
+    // .populate({ path: "user_Id", model: "users", select: "avatar" })
+    // .exec();
     const existingUser = await Users.findById(userId);
     // .populate({ path: "user_Id", model: "users", select: "avatar" })
     // .exec();

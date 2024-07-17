@@ -17,6 +17,18 @@ import ProfileMenu from "../components/ProfileMenu.js";
 // } from "@mui/material";
 // import { FaAddressBook, FaCircleUser } from "react-icons/fa6";
 // import { IoLogOut } from "react-icons/io5";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+// import {
+//   Divider,
+//   ListItemIcon,
+//   ListItemText,
+//   Menu,
+//   MenuItem,
+//   bottomNavigationActionClasses,
+// } from "@mui/material";
+// import { FaAddressBook, FaCircleUser } from "react-icons/fa6";
+// import { IoLogOut } from "react-icons/io5";
 import { useEffect, useState, useCallback } from "react";
 import Logout from "../utilities/LogOut.js";
 import PerformRequest from "../utilities/PerformRequest.js";
@@ -24,6 +36,10 @@ import Footer from "../components/Footer.jsx";
 
 export default function MainLayout({ children }) {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  // const expanded = useSelector((state) => state.sideBar.expanded);
+  // const userInfo = useSelector((state) => state.auth.userInfo);
+  // const [anchorProfile, setAnchorProfile] = useState(null);
+  // const [openProfileMenu, setOpenProfileMenu] = useState(false);
   // const expanded = useSelector((state) => state.sideBar.expanded);
   // const userInfo = useSelector((state) => state.auth.userInfo);
   // const [anchorProfile, setAnchorProfile] = useState(null);
@@ -37,9 +53,18 @@ export default function MainLayout({ children }) {
   //   setOpenProfileMenu(false);
   //   setAnchorProfile(null);
   // };
+  // const openMenu = (e) => {
+  //   setOpenProfileMenu(true);
+  //   setAnchorProfile(e.currentTarget);
+  // };
+  // const closeMenu = (e) => {
+  //   setOpenProfileMenu(false);
+  //   setAnchorProfile(null);
+  // };
   const { performLogOut } = Logout();
 
   const [location, setLocation] = useState([]);
+  // const [jobName, setJobName] = useState("");
   // const [jobName, setJobName] = useState("");
   const OriginalRequest = useCallback(PerformRequest().OriginalRequest, []);
 

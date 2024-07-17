@@ -5,13 +5,19 @@ import JobSeekersSchema from "../model/JobSeekers.js";
 
 const router = express.Router();
 
-router.get("/savedjobs", verifyToken, jobSeekersController.getAllSavedJobs);
+// router.get("/savedjobs", verifyToken, jobSeekersController.getAllSavedJobs);
+
+router.get("/savedjobs", jobSeekersController.getAllSavedJobs);
+// router.get(
+//   "/getJobSeekerById/:jobSeekerId",
+//   verifyToken,
+//   jobSeekersController.getJobSeekerById
+// );
 router.get(
   "/getJobSeekerById/:jobSeekerId",
-  verifyToken,
+  
   jobSeekersController.getJobSeekerById
 );
-
 router.post(
   "/setting/savedjob/:action",
   verifyToken,

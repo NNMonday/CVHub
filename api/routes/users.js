@@ -2,6 +2,7 @@ import express from "express";
 import userController from "../controller/users.js";
 import verifyToken from "../middleware/verifyToken.js";
 import verifyUser from "../middleware/verifyUser.js";
+import verifyUser from "../middleware/verifyUser.js";
 
 const userRouter = express.Router();
 

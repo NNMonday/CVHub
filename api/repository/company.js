@@ -15,16 +15,30 @@ export const findJobSeekerByUserId = async (userId) => {
 const getAllCompanies = async (req) => {
   try {
     const { company_name, location, organization_type, pagesize, currentpage } = req.body
-    let query = {
-      company_name: { $regex: company_name, $options: "i" },
-      location: { $regex: location, $options: "i" }
-    }
-    if (!!organization_type) {
-      query = {
-        ...query,
-        organization_type: organization_type
-      }
-    }
+    // let query = {
+    //   company_name: { $regex: company_name, $options: "i" },
+    //   location: { $regex: location, $options: "i" }
+    // }
+    // if (!!organization_type) {
+    //   query = {
+    //     ...query,
+    //     organization_type: organization_type
+    //   }
+    // }
+
+  const query = {};
+  if (company_name && typeof company_name === 'string') {
+    query.company_name = { $regex: company_name, $options: "i" };
+  }
+  if (location && typeof location === 'string') {
+    query.location = { $regex: location, $options: "i" };
+  }
+  if (!!organization_type) {
+    query.organization_type = organization_type;
+  }
+
+
+  
     const companies = Company
       .find(query)
       .skip((currentpage - 1) * pagesize)

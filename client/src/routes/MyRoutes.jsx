@@ -22,10 +22,12 @@ import BrowseCandidate from "../screens/BrowseCandidate";
 import PrivateRoute from "./PrivateRoute";
 import PostAJob from "../screens/PostAJob";
 import CandidateDashboard from "../screens/CandidateDashboard";
-import AppliedJobs from "../screens/AppliedJobs";
-import FavoriteJobs from "../screens/FavoriteJobs";
+import AppliedJobs from "../screens/account/dashboard/AppliedJobs";
+import FavoriteJobs from "../screens/account/dashboard/FavoriteJobs";
 import JobAlerts from "../screens/JobAlerts";
 import SettingPersonal from "../screens/SettingPersonal";
+import FindCompany from "../screens/FindCompany";
+import SingleCompany from "../screens/SingleCompany";
 
 export default function MyRoutes() {
   return (
@@ -49,6 +51,10 @@ export default function MyRoutes() {
         <Route path="/confirmSignUp/:token" element={<ConfirmSignUp />} />
         <Route path="/browsecompanies" element={<BrowseCompanies />} />
         <Route path="/browsecandidate" element={<BrowseCandidate />} />
+
+        <Route path="/companies" element={<FindCompany />} />
+        <Route path="/companies/:companyId" element={<SingleCompany />} />
+
         <Route
           path="/browsecompanies/:id"
           element={<BrowseCompaniesDetail />}
@@ -98,6 +104,22 @@ export default function MyRoutes() {
           element={
             <PrivateRoute>
               <JobPortal />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/account/dashboard/applied"
+          element={
+            <PrivateRoute>
+              <AppliedJobs />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/account/dashboard/favorite"
+          element={
+            <PrivateRoute>
+              <FavoriteJobs />
             </PrivateRoute>
           }
         />

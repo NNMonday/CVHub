@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import Jobs from "../model/Jobs.js";
+import SkillsSchema from "../model/Skills.js";
 
 // Get all jobs
 const getAllJobs = async (title, location) => {
@@ -261,10 +262,157 @@ const getWorkStatusByJobId = async (jobsId) => {
   }
 };
 
+const getJobsAppliedByUser = async (userId) => {
+  try {
+    // Giả sử có một collection tên là 'applications' lưu trữ thông tin ứng tuyển của user đến các job
+    // và 'user_id' là trường trong 'applications' tham chiếu đến user, 'job_id' tham chiếu đến job
+    const appliedJobs = await Jobs.aggregate([
+      {
+        $lookup: {
+          from: "applications", // Tên collection chứa thông tin ứng tuyển
+          localField: "_id", // Trường trong Jobs
+          foreignField: "job_id", // Trường trong Applications
+          as: "applications",
+        },
+      },
+      {
+        $unwind: "$applications", // Giải nén mảng applications
+      },
+      {
+        $match: {
+          "applications.user_id": new mongoose.Types.ObjectId(userId), // Lọc theo userId
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          name: 1,
+          company: 1, // Giả sử bạn muốn hiển thị thông tin công ty
+          // Thêm các trường thông tin bạn muốn hiển thị
+        },
+      },
+    ]);
+
+    return appliedJobs;
+  } catch (error) {
+    throw new Error(
+      `Failed to fetch applied jobs for user ${userId}: ${error.message}`
+    );
+  }
+};
+
+const insertJob = async (req, res) => {
+  try {
+    const {
+      jobTitle,
+      tags,
+      jobRole,
+      minSalary,
+      maxSalary,
+      salaryType,
+      education,
+      experience,
+      jobType,
+      vacancies,
+      expirationDate,
+      jobLevel,
+      applyJobOn,
+      description,
+      responsibilities,
+    } = req.body;
+
+    // Ensure all required fields are present
+    if (
+      !jobTitle ||
+      !minSalary ||
+      !maxSalary ||
+      !salaryType ||
+      !education ||
+      !experience ||
+      !jobType ||
+      !vacancies ||
+      !expirationDate ||
+      !jobLevel ||
+      !applyJobOn ||
+      !description ||
+      !responsibilities
+    ) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
+
+    const newJob = new Jobs({
+      name: jobTitle,
+      tags,
+      jobRole,
+      minSalary,
+      maxSalary,
+      salaryType,
+      education,
+      experience,
+      jobType,
+      vacancies,
+      expirationDate,
+      jobLevel,
+      applyJobOn,
+      description,
+      responsibilities,
+      required_skills_id: [], // You might want to handle required skills differently
+    });
+
+    const newJobSave = await newJob.save();
+
+    return res.json(newJobSave);
+  } catch (error) {
+    console.error(`Failed to insert job: ${error.message}`);
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+const getFavoriteJobsByUserId = async (userId) => {
+  try {
+    // Giả sử có một collection tên là 'favoriteJobs' lưu trữ thông tin công việc yêu thích
+    // và 'user_id' là trường trong 'favoriteJobs' tham chiếu đến user
+    const favoriteJobs = await Jobs.aggregate([
+      {
+        $lookup: {
+          from: "favoriteJobs", // Tên collection chứa thông tin công việc yêu thích
+          localField: "_id", // Trường trong Jobs
+          foreignField: "job_id", // Trường trong favoriteJobs
+          as: "favoriteInfo",
+        },
+      },
+      {
+        $unwind: "$favoriteInfo", // Giải nén mảng favoriteInfo
+      },
+      {
+        $match: {
+          "favoriteInfo.user_id": new mongoose.Types.ObjectId(userId), // Lọc theo userId
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          name: 1,
+          // Thêm các trường thông tin bạn muốn hiển thị
+        },
+      },
+    ]);
+
+    return favoriteJobs;
+  } catch (error) {
+    throw new Error(
+      `Failed to fetch favorite jobs for user ${userId}: ${error.message}`
+    );
+  }
+};
+
 export default {
   getAllJobs,
   getJobById,
   searchJobsByNameAndLocation,
   getJobCountByFieldId,
   getWorkStatusByJobId,
+  insertJob,
+  getJobsAppliedByUser,
+  getFavoriteJobsByUserId,
 };

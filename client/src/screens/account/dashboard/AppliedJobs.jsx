@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Container, Row, Col, Button } from "react-bootstrap";
 import DashboardLayout from "../../../layouts/DashboardLayout";
-
+import axios from 'axios';
 const AppliedJobs = () => {
   const jobs = [
     {
@@ -78,11 +78,39 @@ const AppliedJobs = () => {
     },
   ];
 
+  const [jobSeeker, setJobSeeker] = useState([]);
+
+  const [applyJob, setApplyJob] = useState(0);
+  const [favoriteJob, setFavoriteJob] = useState(0);
+  const [applyJobList, setApplyJobList] = useState([]);
+  const fetchJobSeeker = async (req, res) => {
+    try {
+       const userId = localStorage.getItem("userInfo")
+      console.log(userId);
+      const response = await axios.get(`http://localhost:9999/api/jobs/appliedJobs/${userId}`);
+      setApplyJobList(response.data); // Assuming response.data contains job seeker details
+    } catch (error) {
+      console.error("Error fetching job seeker:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchJobSeeker();
+  }, []);
+
+  useEffect(() => {
+    // Update apply job count when jobSeeker data changes
+    if (jobSeeker) {
+      setApplyJob(jobSeeker.length);
+      setFavoriteJob(jobSeeker.length);
+    }
+  }, [jobSeeker]);
+
   return (
     <DashboardLayout>
-      {/* <Container>
-        <h2>Applied Jobs (589)</h2>
-        {jobs.map((job, index) => (
+      <Container>
+        <h2>Applied Jobs ({applyJobList.length})</h2>
+        {applyJobList.map((job, index) => (
           <Card key={index} className="mb-2 job-card">
             <Card.Body className="d-flex align-items-center justify-content-between">
               <Row className="w-100">
@@ -115,7 +143,7 @@ const AppliedJobs = () => {
             </Card.Body>
           </Card>
         ))}
-      </Container> */}
+      </Container>
     </DashboardLayout>
   );
 };
